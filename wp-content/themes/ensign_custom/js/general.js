@@ -1,6 +1,6 @@
 $(document).ready(function() {
 
-	var theme_path = "/wp-content/themes/silverskeleton";
+	var theme_path = "/wp-content/themes/ensign_custom";
 
 	$('.mainNav li.menu-item-has-children').hover(function() {
 		$(this).toggleClass('hover_nav');

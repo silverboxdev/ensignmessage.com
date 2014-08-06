@@ -8,7 +8,7 @@
 @import "mixins";
 @import "type";
 @import "columns";
-@import "local";
+//@import "local";
 
 /*-------------------------------------- Global Styles ---------------------------------------*/
 
@@ -34,30 +34,50 @@ body {
 
 
 header {
-	padding: 3em 0;
 	position: relative;
 	@include span-columns(12);
 	@include box-sizing;
 	
 	.logo {
-		@include span-columns(4);
+		@include span-columns(12);
+		@include omega();
 	}
 	
 	.mainNav {
-		@include span-columns(8);
+		@include span-columns(12);
 		@include omega();
 		
 		ul {
 			li {
-			
+				
 				display: inline-block;
+				position: relative;
 				
 				a {
 					display: inline-block;
+					color: $color1;
+					text-decoration: none;
+					margin-right: 1.5em;
 					@include all-transition;
 					
 					&:hover {
 						
+					}
+				}
+				
+				ul {
+					display: none;
+					position: absolute;
+					top: 100%;
+					left: 0;
+					width: 200px;
+										
+					li {
+						a {
+							&:hover {
+								
+							}
+						}
 					}
 				}
 			}

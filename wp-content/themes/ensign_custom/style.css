@@ -309,37 +309,6 @@ h6, h7, h8 {
 
   *[class*='shift'], *[class^=' shift'] {
     margin-left: 0; } }
-/* Local CSS Colors */
-/*-------------------------------------- Header ---------------------------------------*/
-header {
-  padding: 3em 0;
-  background: #d0e3e3;
-  border-bottom: 4px solid #447799; }
-  header .logo a {
-    color: #447799;
-    padding-left: .5em;
-    text-decoration: none;
-    font-size: 24px; }
-  header .mainNav {
-    margin-top: 5px; }
-    header .mainNav ul li {
-      display: inline-block; }
-      header .mainNav ul li a {
-        display: inline-block;
-        color: #447799;
-        text-decoration: none;
-        margin-right: 1.5em;
-        -webkit-transition: all 0.2s ease;
-        -moz-transition: all 0.2s ease;
-        -o-transition: all 0.2s ease;
-        transition: all 0.2s ease; }
-        header .mainNav ul li a:hover {
-          color: #225533; }
-
-/*-------------------------------------- Footer ---------------------------------------*/
-footer {
-  background: #d0e3e3; }
-
 /*-------------------------------------- Global Styles ---------------------------------------*/
 .mobile_only, .mobileNav {
   display: none; }
@@ -367,7 +336,6 @@ body {
 
 /*-------------------------------------- Header ---------------------------------------*/
 header {
-  padding: 3em 0;
   position: relative;
   display: block;
   float: left;
@@ -383,25 +351,36 @@ header {
     display: block;
     float: left;
     margin-right: 2.12766%;
-    width: 31.91489%; }
+    width: 100%;
+    margin-right: 0; }
     header .logo:last-child {
       margin-right: 0; }
   header .mainNav {
     display: block;
     float: left;
     margin-right: 2.12766%;
-    width: 65.95745%;
+    width: 100%;
     margin-right: 0; }
     header .mainNav:last-child {
       margin-right: 0; }
     header .mainNav ul li {
-      display: inline-block; }
+      display: inline-block;
+      position: relative; }
       header .mainNav ul li a {
         display: inline-block;
+        color: #cc0000;
+        text-decoration: none;
+        margin-right: 1.5em;
         -webkit-transition: all 0.2s ease;
         -moz-transition: all 0.2s ease;
         -o-transition: all 0.2s ease;
         transition: all 0.2s ease; }
+      header .mainNav ul li ul {
+        display: none;
+        position: absolute;
+        top: 100%;
+        left: 0;
+        width: 200px; }
 
 /*-------------------------------------- Search DropDown ---------------------------------------*/
 div.searchContain {
