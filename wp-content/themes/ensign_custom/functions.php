@@ -6,6 +6,8 @@
 define('THEMEROOT', get_stylesheet_directory_uri());
 define('SCRIPTS', get_stylesheet_directory_uri()) . "/js";
 define('IMAGES', THEMEROOT . '/images');
+define('FUNC_PATH', $_SERVER['DOCUMENT_ROOT'] . '/wp-content/themes/ensign_custom/functions');
+
 
 /***********************************************************************************/
 /* Menus */
@@ -172,8 +174,8 @@ function change_my_wp_login_image() {
 echo "
 <style>
 body.login #login h1 a {
-background: url('http://silverboxdev.com/images/logo_silverbox-wp.png') 0 0 no-repeat transparent;
-height:88px;
+background: url('http://briandominey.com/images/bdd-wp.png') 0 0 no-repeat transparent;
+height:76px;
 width:325px;
 position: relative;
 left: 0px;
@@ -198,7 +200,7 @@ add_filter( 'login_headertitle', 'my_login_logo_url_title' );
 /* Included Functions */
 /***********************************************************************************/
 
-require_once($_SERVER['DOCUMENT_ROOT'] . "/wp-content/themes/silverskeleton/functions/shortcodes.php");
-require_once($_SERVER['DOCUMENT_ROOT'] . "/wp-content/themes/silverskeleton/functions/metaboxes.php");
+require_once(FUNC_PATH . "/shortcodes.php");
+require_once(FUNC_PATH . "/metaboxes.php");
 
 ?>

@@ -33,7 +33,7 @@
 			<header class="masthead">
 				
 				<div class="logo">
-					<a href="/">Main Logo Goes Here</a>
+					<a href="/">Ensign Message</a>
 				</div>
 				
 				<!-- Main Navigation -->
