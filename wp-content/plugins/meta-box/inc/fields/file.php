@@ -55,7 +55,7 @@ if ( ! class_exists( 'RWMB_File_Field' ) )
 		static function wp_ajax_delete_file()
 		{
 			$post_id       = isset( $_POST['post_id'] ) ? intval( $_POST['post_id'] ) : 0;
-			$field_id      = isset( $_POST['field_id'] ) ? $_POST['field_id'] : 0;
+			$field_id      = isset( $_POST['field_id'] ) ? sanitize_key( $_POST['field_id'] ) : 0;
 			$attachment_id = isset( $_POST['attachment_id'] ) ? intval( $_POST['attachment_id'] ) : 0;
 			$force_delete  = isset( $_POST['force_delete'] ) ? intval( $_POST['force_delete'] ) : 0;
 
@@ -86,7 +86,7 @@ if ( ! class_exists( 'RWMB_File_Field' ) )
 			// Uploaded files
 			$html = self::get_uploaded_files( $meta, $field );
 			$new_file_classes = array( 'new-files' );
-			if ( !empty( $field['max_file_uploads'] ) && count( $meta ) >= (int) $field['max_file_uploads'] )
+			if ( ! empty( $field['max_file_uploads'] ) && count( $meta ) >= (int) $field['max_file_uploads'] )
 				$new_file_classes[] = 'hidden';
 
 			// Show form upload
@@ -150,8 +150,8 @@ if ( ! class_exists( 'RWMB_File_Field' ) )
 			$mime_type = get_post_mime_type( $attachment_id );
 			return sprintf(
 				$li,
-				wp_get_attachment_image( $attachment_id, array(60,60), true ),
-				wp_get_attachment_url($attachment_id),
+				wp_get_attachment_image( $attachment_id, array( 60, 60 ), true ),
+				wp_get_attachment_url( $attachment_id ),
 				get_the_title( $attachment_id ),
 				$mime_type,
 				$i18n_edit,

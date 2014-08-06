@@ -45,9 +45,9 @@ if ( ! class_exists( 'RWMB_Image_Advanced_Field' ) )
 		 */
 		static function wp_ajax_attach_media()
 		{
-			$post_id = is_numeric( $_REQUEST['post_id'] ) ? $_REQUEST['post_id'] : 0;
-			$field_id = isset( $_POST['field_id'] ) ? $_POST['field_id'] : 0;
-			$attachment_ids = isset( $_POST['attachment_ids'] ) ? $_POST['attachment_ids'] : array();
+			$post_id        = isset( $_REQUEST['post_id'] ) ? intval( $_REQUEST['post_id'] ) : 0;
+			$field_id       = isset( $_POST['field_id'] ) ? sanitize_key( $_POST['field_id'] ) : 0;
+			$attachment_ids = isset( $_POST['attachment_ids'] ) ? (array) $_POST['attachment_ids'] : array();
 
 			check_ajax_referer( "rwmb-attach-media_{$field_id}" );
 			foreach ( $attachment_ids as $attachment_id )
@@ -106,7 +106,7 @@ if ( ! class_exists( 'RWMB_Image_Advanced_Field' ) )
 			$i18n_delete = apply_filters( 'rwmb_image_delete_string', _x( 'Delete', 'image upload', 'rwmb' ) );
 			$i18n_edit   = apply_filters( 'rwmb_image_edit_string', _x( 'Edit', 'image upload', 'rwmb' ) );
 			?>
-            <script id="tmpl-rwmb-image-advanced" type="text/html">
+			<script id="tmpl-rwmb-image-advanced" type="text/html">
 				<# _.each( attachments, function( attachment ) { #>
 				<li id="item_{{{ attachment.id }}}">
 					<# if ( attachment.sizes.hasOwnProperty( 'thumbnail' ) ) { #>
@@ -115,13 +115,13 @@ if ( ! class_exists( 'RWMB_Image_Advanced_Field' ) )
 						<img src="{{{ attachment.sizes.full.url }}}">
 					<# } #>
 					<div class="rwmb-image-bar">
-						<a title="<?php echo $i18n_edit; ?>" class="rwmb-edit-file" href="{{{ attachment.editLink }}}" target="_blank"><?php echo $i18n_edit; ?></a> |
-						<a title="<?php echo $i18n_delete; ?>" class="rwmb-delete-file" href="#" data-attachment_id="{{{ attachment.id }}}">×</a>
+						<a title="<?php echo esc_attr( $i18n_edit ); ?>" class="rwmb-edit-file" href="{{{ attachment.editLink }}}" target="_blank"><?php echo esc_html( $i18n_edit ); ?></a> |
+						<a title="<?php echo esc_attr( $i18n_delete ); ?>" class="rwmb-delete-file" href="#" data-attachment_id="{{{ attachment.id }}}">&times;</a>
 					</div>
 				</li>
 				<# } ); #>
 			</script>
-            <?php
+			<?php
 		}
 
 	}

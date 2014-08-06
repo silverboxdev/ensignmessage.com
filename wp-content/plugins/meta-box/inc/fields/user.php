@@ -5,9 +5,9 @@ defined( 'ABSPATH' ) || exit;
 // Make sure "select" field is loaded
 require_once RWMB_FIELDS_DIR . 'select-advanced.php';
 
-if ( ! class_exists( 'RWMB_Post_Field' ) )
+if ( ! class_exists( 'RWMB_User_Field' ) )
 {
-	class RWMB_Post_Field extends RWMB_Field
+	class RWMB_User_Field extends RWMB_Field
 	{
 		/**
 		 * Enqueue scripts and styles
@@ -34,6 +34,7 @@ if ( ! class_exists( 'RWMB_Post_Field' ) )
 			{
 				case 'select':
 					return RWMB_Select_Field::html( $meta, $field );
+					break;
 				case 'select_advanced':
 				default:
 					return RWMB_Select_Advanced_Field::html( $meta, $field );
@@ -49,15 +50,10 @@ if ( ! class_exists( 'RWMB_Post_Field' ) )
 		 */
 		static function normalize_field( $field )
 		{
-			$default_post_type = __( 'Post', 'rwmb' );
-			if ( is_string( $field['post_type'] ) )
-			{
-				$post_type_object = get_post_type_object( $field['post_type'] );
-				$default_post_type = $post_type_object->labels->singular_name;
-			}
-
+			
+			$default_post_type = __( 'User', 'rwmb' );
+			
 			$field = wp_parse_args( $field, array(
-				'post_type'  => 'post',
 				'field_type' => 'select_advanced',
 				'parent'     => false,
 				'query_args' => array(),
@@ -65,16 +61,11 @@ if ( ! class_exists( 'RWMB_Post_Field' ) )
 
 			$field['std'] = empty( $field['std'] ) ? sprintf( __( 'Select a %s', 'rwmb' ), $default_post_type ) : $field['std'];
 
-			if ( $field['parent'] )
-			{
-				$field['multiple'] = false;
-				$field['field_name'] = 'parent_id';
-			}
-
 			$field['query_args'] = wp_parse_args( $field['query_args'], array(
-				'post_type'      => $field['post_type'],
-				'post_status'    => 'publish',
-				'posts_per_page' => -1,
+				'orderby' => 'display_name',
+				'order'   => 'asc',
+				'role'    => '',
+				'fields'  => 'all',
 			) );
 
 			switch ( $field['field_type'] )
@@ -129,7 +120,7 @@ if ( ! class_exists( 'RWMB_Post_Field' ) )
 		}
 
 		/**
-		 * Get posts
+		 * Get users
 		 *
 		 * @param array $field
 		 *
@@ -137,15 +128,11 @@ if ( ! class_exists( 'RWMB_Post_Field' ) )
 		 */
 		static function get_options( $field )
 		{
-			$query = new WP_Query( $field['query_args'] );
-			if ( $query->have_posts() ) {
-				while( $query->have_posts() )
-				{
-					$post = $query->next_post();
-					$options[$post->ID] = $post->post_title;
-				}
-			} else {
-				$options = array();
+			$results = get_users( $field['query_args'] );
+			$options = array();
+			foreach ( $results as $result )
+			{
+				$options[$result->ID] = $result->display_name ;
 			}
 			return $options;
 		}

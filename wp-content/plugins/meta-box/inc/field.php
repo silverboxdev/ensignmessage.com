@@ -1,5 +1,5 @@
 <?php
-if ( !class_exists( 'RWMB_Field ' ) )
+if ( ! class_exists( 'RWMB_Field ' ) )
 {
 	class RWMB_Field
 	{
@@ -19,6 +19,9 @@ if ( !class_exists( 'RWMB_Field ' ) )
 
 		/**
 		 * Show field HTML
+		 * Filters are put inside this method, not inside methods such as "meta", "html", "begin_html", etc.
+		 * That ensures the returned value are always been applied filters
+		 * This method is not meant to be overwritten in specific fields
 		 *
 		 * @param array $field
 		 * @param bool  $saved
@@ -32,7 +35,14 @@ if ( !class_exists( 'RWMB_Field ' ) )
 			$field_class = RW_Meta_Box::get_class_name( $field );
 			$meta = call_user_func( array( $field_class, 'meta' ), $post->ID, $saved, $field );
 
-			$group = '';	// Empty the clone-group field
+			// Apply filter to field meta value
+			// 1st filter applies to all fields
+			// 2nd filter applies to all fields with the same type
+			// 3rd filter applies to current field only
+			$meta = apply_filters( 'rwmb_field_meta', $meta, $field, $saved );
+			$meta = apply_filters( "rwmb_{$field['type']}_meta", $meta, $field, $saved );
+			$meta = apply_filters( "rwmb_{$field['id']}_meta", $meta, $field, $saved );
+
 			$type = $field['type'];
 			$id   = $field['id'];
 
@@ -51,9 +61,6 @@ if ( !class_exists( 'RWMB_Field ' ) )
 			// Cloneable fields
 			if ( $field['clone'] )
 			{
-				if ( isset( $field['clone-group'] ) )
-					$group = " clone-group='{$field['clone-group']}'";
-
 				$meta = (array) $meta;
 
 				$field_html = '';
@@ -62,6 +69,12 @@ if ( !class_exists( 'RWMB_Field ' ) )
 				{
 					$sub_field = $field;
 					$sub_field['field_name'] = $field['field_name'] . "[{$index}]";
+					if ( $index > 0 )
+					{
+						if ( isset( $sub_field['address_field'] ) )
+							$sub_field['address_field'] = $field['address_field'] . "_{$index}";
+						$sub_field['id'] = $field['id'] . "_{$index}";
+					}
 					if ( $field['multiple'] )
 						$sub_field['field_name'] .= '[]';
 
@@ -77,8 +90,8 @@ if ( !class_exists( 'RWMB_Field ' ) )
 					$input_html = apply_filters( "rwmb_{$type}_html", $input_html, $field, $sub_meta );
 					$input_html = apply_filters( "rwmb_{$id}_html", $input_html, $field, $sub_meta );
 
-					// Add clone button
-					$input_html .= self::clone_button();
+					// Remove clone button
+					$input_html .= call_user_func( array( $field_class, 'remove_clone_button' ), $sub_meta, $sub_field );
 
 					$input_html .= '</div>';
 
@@ -110,26 +123,37 @@ if ( !class_exists( 'RWMB_Field ' ) )
 
 			// Apply filter to field wrapper
 			// This allow users to change whole HTML markup of the field wrapper (i.e. table row)
+			// 1st filter applies to all fields
 			// 1st filter applies to all fields with the same type
 			// 2nd filter applies to current field only
-			$html = apply_filters( "rwmb_{$type}_wrapper_html", "{$begin}{$field_html}{$end}", $field, $meta );
+			$html = apply_filters( 'rwmb_wrapper_html', "{$begin}{$field_html}{$end}", $field, $meta );
+			$html = apply_filters( "rwmb_{$type}_wrapper_html", $html, $field, $meta );
 			$html = apply_filters( "rwmb_{$id}_wrapper_html", $html, $field, $meta );
 
 			// Display label and input in DIV and allow user-defined classes to be appended
 			$classes = array( 'rwmb-field', "rwmb-{$type}-wrapper" );
 			if ( 'hidden' === $field['type'] )
 				$classes[] = 'hidden';
-			if ( !empty( $field['required'] ) )
+			if ( ! empty( $field['required'] ) )
 				$classes[] = 'required';
-			if ( !empty( $field['class'] ) )
+			if ( ! empty( $field['class'] ) )
 				$classes[] = $field['class'];
 
-			printf(
-				$field['before'] . '<div class="%s"%s>%s</div>' . $field['after'],
+			$outer_html = sprintf(
+				$field['before'] . '<div class="%s">%s</div>' . $field['after'],
 				implode( ' ', $classes ),
-				$group,
 				$html
 			);
+
+			// Allow to change output of outer div
+			// 1st filter applies to all fields
+			// 1st filter applies to all fields with the same type
+			// 2nd filter applies to current field only
+			$outer_html = apply_filters( 'rwmb_outer_html', $outer_html, $field, $meta );
+			$outer_html = apply_filters( "rwmb_{$type}_outer_html", $outer_html, $field, $meta );
+			$outer_html = apply_filters( "rwmb_{$id}_outer_html", $outer_html, $field, $meta );
+
+			echo $outer_html;
 		}
 
 		/**
@@ -178,13 +202,8 @@ if ( !class_exists( 'RWMB_Field ' ) )
 		 */
 		static function end_html( $meta, $field )
 		{
-			$id = $field['id'];
-
-			$button = '';
-			if ( $field['clone'] )
-				$button = '<a href="#" class="rwmb-button button-primary add-clone">' . __( '+', 'rwmb' ) . '</a>';
-
-			$desc = !empty( $field['desc'] ) ? "<p id='{$id}_description' class='description'>{$field['desc']}</p>" : '';
+			$button = $field['clone'] ? call_user_func( array( RW_Meta_Box::get_class_name( $field ), 'add_clone_button' ) ) : '';
+			$desc = $field['desc'] ? "<p id='{$field['id']}_description' class='description'>{$field['desc']}</p>" : '';
 
 			// Closes the container
 			$html = "{$button}{$desc}</div>";
@@ -197,7 +216,17 @@ if ( !class_exists( 'RWMB_Field ' ) )
 		 *
 		 * @return string $html
 		 */
-		static function clone_button()
+		static function add_clone_button()
+		{
+			return '<a href="#" class="rwmb-button button-primary add-clone">' . __( '+', 'rwmb' ) . '</a>';
+		}
+
+		/**
+		 * Remove clone button
+		 *
+		 * @return string $html
+		 */
+		static function remove_clone_button()
 		{
 			return '<a href="#" class="rwmb-button button remove-clone">' . __( '&#8211;', 'rwmb' ) . '</a>';
 		}
@@ -213,17 +242,14 @@ if ( !class_exists( 'RWMB_Field ' ) )
 		 */
 		static function meta( $post_id, $saved, $field )
 		{
-			$meta = get_post_meta( $post_id, $field['id'], !$field['multiple'] );
+			$meta = get_post_meta( $post_id, $field['id'], ! $field['multiple'] );
 
 			// Use $field['std'] only when the meta box hasn't been saved (i.e. the first time we run)
-			$meta = ( !$saved && '' === $meta || array() === $meta ) ? $field['std'] : $meta;
+			$meta = ( ! $saved && '' === $meta || array() === $meta ) ? $field['std'] : $meta;
 
 			// Escape attributes for non-wysiwyg fields
 			if ( 'wysiwyg' !== $field['type'] )
 				$meta = is_array( $meta ) ? array_map( 'esc_attr', $meta ) : esc_attr( $meta );
-
-			$meta = apply_filters( "rwmb_{$field['type']}_meta", $meta );
-			$meta = apply_filters( "rwmb_{$field['id']}_meta", $meta );
 
 			return $meta;
 		}
@@ -265,12 +291,12 @@ if ( !class_exists( 'RWMB_Field ' ) )
 			{
 				foreach ( $new as $new_value )
 				{
-					if ( !in_array( $new_value, $old ) )
+					if ( ! in_array( $new_value, $old ) )
 						add_post_meta( $post_id, $name, $new_value, false );
 				}
 				foreach ( $old as $old_value )
 				{
-					if ( !in_array( $old_value, $new ) )
+					if ( ! in_array( $old_value, $new ) )
 						delete_post_meta( $post_id, $name, $old_value );
 				}
 			}

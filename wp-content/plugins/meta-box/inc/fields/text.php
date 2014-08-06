@@ -9,8 +9,8 @@ if ( ! class_exists( 'RWMB_Text_Field' ) )
 		/**
 		 * Get field HTML
 		 *
-		 * @param mixed  $meta
-		 * @param array  $field
+		 * @param mixed $meta
+		 * @param array $field
 		 *
 		 * @return string
 		 */
@@ -23,8 +23,8 @@ if ( ! class_exists( 'RWMB_Text_Field' ) )
 				$meta,
 				$field['placeholder'],
 				$field['size'],
-				!$field['datalist'] ?  '' : "list='{$field['datalist']['id']}'",
-				self::datalist_html($field)
+				$field['datalist'] ? "list='{$field['datalist']['id']}'" : '',
+				self::datalist_html( $field )
 			);
 		}
 
@@ -42,6 +42,7 @@ if ( ! class_exists( 'RWMB_Text_Field' ) )
 				'datalist'    => false,
 				'placeholder' => '',
 			) );
+
 			return $field;
 		}
 
@@ -54,16 +55,18 @@ if ( ! class_exists( 'RWMB_Text_Field' ) )
 		 */
 		static function datalist_html( $field )
 		{
-			if( !$field['datalist'] )
+			if ( ! $field['datalist'] )
 				return '';
+
 			$datalist = $field['datalist'];
-			$html = sprintf(
+			$html     = sprintf(
 				'<datalist id="%s">',
 				$datalist['id']
 			);
 
-			foreach( $datalist['options'] as $option ) {
-				$html.= sprintf('<option value="%s"></option>', $option);
+			foreach ( $datalist['options'] as $option )
+			{
+				$html .= sprintf( '<option value="%s"></option>', $option );
 			}
 
 			$html .= '</datalist>';
