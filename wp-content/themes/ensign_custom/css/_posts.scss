@@ -1,0 +1,117 @@
+/***********************************************************************************/
+/* Wordpress Blog Posts */
+/***********************************************************************************/
+
+.wp_content .post_body {
+
+	margin-bottom: 1em;
+	@include clearfix;
+
+	.f_image {
+		@include span-columns(4 of 8);
+	}
+	
+	.f_copy {
+		@include span-columns(4 of 8);
+		@include omega();
+		padding-left: 1.15em;
+	}
+	
+	.post_meta {
+		font-size: 16px;
+		color: $grey;
+	}
+	
+	h1 a {
+		color: red;
+		font-size: 40px;
+		text-decoration: none;
+		font-weight: 400;
+		
+		&:hover {
+			color: darken(red, 12%);
+			text-decoration: none !important;
+			border-bottom: none;
+		}
+	}
+	
+	h1 {
+		font-weight: 400;
+	}
+}
+
+// Sidebar
+aside.sidebar {
+
+	padding-left: 1em;
+	padding-top: 1em;
+	
+	@media screen and (max-width: 640px) {
+		padding-left: 0;
+	}
+
+	a {
+		color: $blue;
+		text-decoration: none;
+		
+		&:hover {
+			text-decoration: underline;
+		}
+	}
+	
+	h4 {
+		margin-left: 20px;
+	}
+
+	ul {
+		margin: 0 0 1em 1.15em;
+		li {
+			list-style: disc;
+			padding: .25em .25em .25em 0;
+			margin-left: 22px;
+		}
+	}
+	
+	@media screen and (max-width: 640px) {
+		h4, ul {
+			margin-left: .5em;
+		}
+	}
+}
+
+aside.left_sidebar {
+	
+	h4, ul {
+		margin-left: 0;
+	}
+
+}
+
+// Wp Page Navigation
+
+.wp_content div.wp-pagenavi {
+
+	padding-bottom: 1.5em;
+	margin-left: .25em;
+
+	.pages {
+		display: none;
+	}
+	
+	a, span {
+		border: 1px solid lighten(blue, 10%);
+		
+		&:hover {
+			text-decoration: none;
+			border-color: $grey;
+		}
+	}
+}
+
+// Single Posts
+
+article.single-post {
+	padding-left: 2em;
+	padding-right: 2em;
+}
+	

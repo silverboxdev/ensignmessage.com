@@ -1,0 +1,104 @@
+/***********************************************************************************/
+/* Column Code */
+/***********************************************************************************/
+
+// Columns
+
+.span_12 {
+	@include span-columns(12);
+}
+.span_11 {
+	@include span-columns(11);
+}
+.span_10 {
+	@include span-columns(10);
+}
+.span_9 {
+	@include span-columns(9);
+}
+.span_8 {
+	@include span-columns(8);
+}
+.span_7 {
+	@include span-columns(7);
+}
+.span_6 {
+	@include span-columns(6);
+}
+.span_5 {
+	@include span-columns(5);
+}
+.span_4 {
+	@include span-columns(4);
+}
+.span_3 {
+	@include span-columns(3);
+}
+.span_2 {
+	@include span-columns(2);
+}
+.span_1 {
+	@include span-columns(1);
+}
+
+
+// Shifters
+
+.shift_1 {
+	@include shift(1);
+}
+.shift_2 {
+	@include shift(2);
+}
+.shift_3 {
+	@include shift(3);
+}
+.shift_4 {
+	@include shift(4);
+}
+.shift_5 {
+	@include shift(5);
+}
+.shift_6 {
+	@include shift(6);
+}
+.shift_7 {
+	@include shift(47);
+}
+.shift_8 {
+	@include shift(8);
+}
+.shift_9 {
+	@include shift(9);
+}
+.shift_10 {
+	@include shift(10);
+}
+.shift_11 {
+	@include shift(11);
+}
+.shift_12 {
+	@include shift(12);
+}
+
+// Omega / Last
+
+.omega, .last {
+	@include omega;
+}
+
+/***********************************************************************************/
+/* Mobile Columns */
+/***********************************************************************************/
+
+@media screen and (max-width: 640px) {
+	
+	*[class*='span'], *[class^=' span'] {
+		@include span-columns(12);
+		@include omega();
+	}
+	
+	*[class*='shift'], *[class^=' shift'] {
+		margin-left: 0;
+	}
+}

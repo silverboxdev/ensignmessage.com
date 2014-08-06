@@ -1,0 +1,16 @@
+Columns - this adds a columns to the page. The span tells it how many columns it takes up. The last is if it's the last column in the set of columns.
+
+[column span="" last=""]Some Content Goes Here [/column]
+
+DIV - build a div to surround the content inside it.
+
+[div class=""]Some Content Goes here[/div]
+
+Accordion - builds an accordion that wraps around the questions. Styles to come.
+
+[accordion]
+[question title="The Question Text Goes here"]The answer to the question goes here[/question];
+[question title="The Question Text Goes here"]The answer to the question goes here[/question];
+[question title="The Question Text Goes here"]The answer to the question goes here[/question];
+[question title="The Question Text Goes here"]The answer to the question goes here[/question];
+[/accordion]

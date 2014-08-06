@@ -1,0 +1,78 @@
+/***********************************************************************************/
+/* Mixins */
+/***********************************************************************************/
+
+// Generic Font
+
+@mixin font_family {
+	font-family: 'Font Family Name', sans-serif;
+	font-style: normal;
+	font-weight: 400;
+}
+
+@mixin font_family_bold {
+	font-family: 'Font Family Name', sans-serif;
+	font-style: normal;
+	font-weight: 700;	
+}
+
+@mixin box-sizing {
+	-webkit-box-sizing: border-box;
+	-o-box-sizing: border-box;
+	-moz-box-sizing: border-box;
+	box-sizing: border-box;
+}
+@mixin clearfix {
+    zoom:1;
+    &:before, &:after {
+        content: "\0020"; 
+        display: block; 
+        height: 0; 
+        overflow: hidden; 
+    }
+    &:after {
+        clear: both;
+    }
+}
+@mixin color-transition {
+	-webkit-transition: color 0.2s ease;
+	-moz-transition: color 0.2s ease;
+	-o-transition: color 0.2s ease;
+	transition: color 0.2s ease;
+}
+
+@mixin all-transition {
+	-webkit-transition: all 0.2s ease;
+	-moz-transition: all 0.2s ease;
+	-o-transition: all 0.2s ease;
+	transition: all 0.2s ease;
+}
+
+// Round all corners by amount
+@mixin round-corners($amount: 5px) {
+  border-radius: $amount;
+  -moz-border-radius: $amount;
+  -webkit-border-radius: $amount;
+}
+
+// Round Bottom corners by amounts
+@mixin round-corners-bottom($amount1: 5px) {
+	-moz-border-bottom-right-radius: $amount1;
+	-webkit-border-bottom-right-radius: $amount1;
+	border-bottom-right-radius: $amount1;
+	-moz-border-bottom-left-radius: $amount1;
+	-webkit-border-bottom-left-radius: $amount1;
+	border-bottom-right-radius: $amount1;
+}
+
+@mixin boxy-shadow($left, $distance, $blur, $color) {
+	-webkit-box-shadow: $left, $distance, $blur, $color;
+	-moz-box-shadow: $left, $distance, $blur, $color;
+	box-shadow: $left, $distance, $blur, $color;
+}
+
+@mixin bottom-shadow {
+	-webkit-box-shadow: 0px 5px 5px 0px rgba(50, 50, 50, 0.2);
+	-moz-box-shadow:    0px 5px 5px 0px rgba(50, 50, 50, 0.2);
+	box-shadow:         0px 5px 5px 0px rgba(50, 50, 50, 0.2);
+}

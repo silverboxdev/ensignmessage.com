@@ -1,0 +1,128 @@
+/*-------------------------------------- Import Files ---------------------------------------*/
+
+@import "bourbon";
+@import "grid-settings";
+@import "neat/neat";
+@import "reset";
+@import "variables";
+@import "mixins";
+@import "type";
+@import "columns";
+@import "local";
+
+/*-------------------------------------- Global Styles ---------------------------------------*/
+
+.mobile_only, .mobileNav {
+	display: none;
+}
+
+/*-------------------------------------- Structure ---------------------------------------*/
+
+body {
+	line-height: 1.2em;
+	font: 16px Arial, Verdana, sans-serif;
+	color: #333;
+	background: #e2e2e2;
+}
+
+.body_wrapper {
+	@include outer-container();
+	background: #FFF;
+}
+
+/*-------------------------------------- Header ---------------------------------------*/
+
+
+header {
+	padding: 3em 0;
+	position: relative;
+	@include span-columns(12);
+	@include box-sizing;
+	
+	.logo {
+		@include span-columns(4);
+	}
+	
+	.mainNav {
+		@include span-columns(8);
+		@include omega();
+		
+		ul {
+			li {
+			
+				display: inline-block;
+				
+				a {
+					display: inline-block;
+					@include all-transition;
+					
+					&:hover {
+						
+					}
+				}
+			}
+		}
+	}
+}
+
+/*-------------------------------------- Search DropDown ---------------------------------------*/
+
+div.searchContain {
+	width: 940px;
+	clear: left;
+	background: #eee;
+	padding: 2em 1em 2em;
+	@include bottom-shadow;
+	position: absolute;
+	z-index: 9999;
+	top: 160px;
+	display: none;
+	
+	.searchButton {
+		display: inline-block;
+		position: relative;
+		top: 8px;
+	}
+	
+	input[type="text"] {
+		padding: .5em 1em;
+		font-size: 22px;
+		border: none;
+		background: transparent;
+		color: #999;
+	}
+}
+
+/*-------------------------------------- Body Content ---------------------------------------*/
+
+.default_page {
+	margin: 0;
+	@include clearfix;
+	padding: 1em;
+}
+
+
+/*-------------------------------------- Footer ---------------------------------------*/
+
+footer {
+	clear: left;
+	padding: 1em;
+	
+	.footer_widgets {
+		@include clearfix;
+	}
+	
+	.copyright {
+		clear: both;
+		margin: 2em 0;
+	}
+}
+
+/*-------------------------------------- Imports ---------------------------------------*/
+
+@import "editor";
+@import "buttons";
+@import "forms";
+@import "pages/home";
+@import "pages/faq";
+@import "posts";

@@ -1,0 +1,58 @@
+/***********************************************************************************/
+/* Accordion Code */
+/***********************************************************************************/
+
+dl.accordion {
+	
+	.accord_row {
+		margin-bottom: 1em;
+		border: 1px solid transparent;
+	}
+	
+	br {
+		display: none !important;
+	}
+
+	dt {
+		clear: left;
+	}
+	
+	.faq_title {
+		margin-left: 75px;
+		margin-bottom: 1em;
+		display: block;
+		text-decoration: none;
+		&:hover {
+			cursor: pointer;
+		}
+	}
+	
+	dd {
+		display: none;
+		margin-left: 75px;
+	}
+	
+	
+}
+
+.wp_content a.faq_icon {
+	display: block;
+	background: url('images/btn-plus-minus.png') 0 0 no-repeat;
+	height: 50px;
+	width: 50px;
+	float: left;
+	text-indent: -999em;
+	position: relative;
+	top: -10px;
+    -moz-transition: none;
+    -webkit-transition: none;
+    -o-transition: color 0 ease-in;
+    transition: none;
+}
+
+.wp_content a.active_question {
+	background-position: 0 -50px;
+	&:hover {
+		background-position: 0 -50px;
+	}
+}

@@ -1,0 +1,788 @@
+/******************************************************************************
+Theme Name: Silverbox Skeleton
+Theme URI: http://silverboxdev.com
+Description: Silverbox Development Framework
+Version: 1.0
+Author: Adam Silverman
+Author URI: http://silverboxdev.com
+License: GNU General Plug License version 3.0
+Tags: Wordpress Framework, Custom Framework, Wordpress Custom Theme
+******************************************************************************/
+/*-------------------------------------- Import Files ---------------------------------------*/
+* {
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box; }
+
+/* ---------- RESET ---------- */
+/* http://meyerweb.com/eric/tools/css/reset/ 
+   v2.0 | 20110126
+   License: none (public domain)
+*/
+html, body, div, span, applet, object, iframe,
+h1, h2, h3, h4, h5, h6, p, blockquote, pre,
+a, abbr, acronym, address, big, cite, code,
+del, dfn, em, img, ins, kbd, q, s, samp,
+small, strike, strong, sub, sup, tt, var,
+b, u, i, center,
+dl, dt, dd, ol, ul, li,
+fieldset, form, label, legend,
+table, caption, tbody, tfoot, thead, tr, th, td,
+article, aside, canvas, details, embed,
+figure, figcaption, footer, header, hgroup,
+menu, nav, output, ruby, section, summary,
+time, mark, audio, video {
+  margin: 0;
+  padding: 0;
+  border: 0;
+  font-size: 100%;
+  font: inherit;
+  vertical-align: baseline; }
+
+input {
+  margin: 0;
+  padding: 0; }
+
+/* HTML5 display-role reset for older browsers */
+article,
+aside,
+details,
+figcaption,
+figure,
+footer,
+header,
+hgroup,
+menu,
+nav,
+section {
+  display: block; }
+
+body {
+  line-height: 100%; }
+
+blockquote,
+q {
+  quotes: none; }
+
+blockquote:before,
+blockquote:after,
+q:before,
+q:after {
+  content: '';
+  content: none; }
+
+table {
+  border-collapse: collapse;
+  border-spacing: 0; }
+
+* {
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box; }
+
+ul,
+ol,
+li {
+  list-style-type: none; }
+
+input,
+textarea {
+  outline: none; }
+
+strong {
+  font-weight: bold; }
+
+.fr {
+  float: right; }
+
+.fl {
+  float: left; }
+
+.cb {
+  clear: both; }
+
+.clearfix {
+  *zoom: 1; }
+
+.clearfix:before,
+.clearfix:after {
+  display: table;
+  content: "";
+  line-height: 0; }
+
+.clearfix:after {
+  clear: both; }
+
+.fr {
+  float: right; }
+
+.fl {
+  float: left; }
+
+.cb {
+  clear: both; }
+
+/***********************************************************************************/
+/* CSS Variables */
+/***********************************************************************************/
+/***********************************************************************************/
+/* Mixins */
+/***********************************************************************************/
+/***********************************************************************************/
+/* All Typeography */
+/***********************************************************************************/
+body {
+  font-size: 16px;
+  line-height: 1.25em; }
+
+h1, h2, h3, h4, h5, h6 {
+  margin-bottom: .5em; }
+
+h1 {
+  font-size: 2.25em; }
+
+h2 {
+  font-size: 1.5em; }
+
+h3 {
+  font-size: 1.25em; }
+
+h4 {
+  font-size: 1.125em; }
+
+h5 {
+  font-size: 1em; }
+
+h6, h7, h8 {
+  font-size: .85em; }
+
+/***********************************************************************************/
+/* Column Code */
+/***********************************************************************************/
+.span_12 {
+  display: block;
+  float: left;
+  margin-right: 2.12766%;
+  width: 100%; }
+  .span_12:last-child {
+    margin-right: 0; }
+
+.span_11 {
+  display: block;
+  float: left;
+  margin-right: 2.12766%;
+  width: 91.48936%; }
+  .span_11:last-child {
+    margin-right: 0; }
+
+.span_10 {
+  display: block;
+  float: left;
+  margin-right: 2.12766%;
+  width: 82.97872%; }
+  .span_10:last-child {
+    margin-right: 0; }
+
+.span_9 {
+  display: block;
+  float: left;
+  margin-right: 2.12766%;
+  width: 74.46809%; }
+  .span_9:last-child {
+    margin-right: 0; }
+
+.span_8 {
+  display: block;
+  float: left;
+  margin-right: 2.12766%;
+  width: 65.95745%; }
+  .span_8:last-child {
+    margin-right: 0; }
+
+.span_7 {
+  display: block;
+  float: left;
+  margin-right: 2.12766%;
+  width: 57.44681%; }
+  .span_7:last-child {
+    margin-right: 0; }
+
+.span_6 {
+  display: block;
+  float: left;
+  margin-right: 2.12766%;
+  width: 48.93617%; }
+  .span_6:last-child {
+    margin-right: 0; }
+
+.span_5 {
+  display: block;
+  float: left;
+  margin-right: 2.12766%;
+  width: 40.42553%; }
+  .span_5:last-child {
+    margin-right: 0; }
+
+.span_4 {
+  display: block;
+  float: left;
+  margin-right: 2.12766%;
+  width: 31.91489%; }
+  .span_4:last-child {
+    margin-right: 0; }
+
+.span_3 {
+  display: block;
+  float: left;
+  margin-right: 2.12766%;
+  width: 23.40426%; }
+  .span_3:last-child {
+    margin-right: 0; }
+
+.span_2 {
+  display: block;
+  float: left;
+  margin-right: 2.12766%;
+  width: 14.89362%; }
+  .span_2:last-child {
+    margin-right: 0; }
+
+.span_1 {
+  display: block;
+  float: left;
+  margin-right: 2.12766%;
+  width: 6.38298%; }
+  .span_1:last-child {
+    margin-right: 0; }
+
+.shift_1 {
+  margin-left: 8.51064%; }
+
+.shift_2 {
+  margin-left: 17.02128%; }
+
+.shift_3 {
+  margin-left: 25.53191%; }
+
+.shift_4 {
+  margin-left: 34.04255%; }
+
+.shift_5 {
+  margin-left: 42.55319%; }
+
+.shift_6 {
+  margin-left: 51.06383%; }
+
+.shift_7 {
+  margin-left: 400%; }
+
+.shift_8 {
+  margin-left: 68.08511%; }
+
+.shift_9 {
+  margin-left: 76.59574%; }
+
+.shift_10 {
+  margin-left: 85.10638%; }
+
+.shift_11 {
+  margin-left: 93.61702%; }
+
+.shift_12 {
+  margin-left: 102.12766%; }
+
+.omega, .last {
+  margin-right: 0; }
+
+/***********************************************************************************/
+/* Mobile Columns */
+/***********************************************************************************/
+@media screen and (max-width: 640px) {
+  *[class*='span'], *[class^=' span'] {
+    display: block;
+    float: left;
+    margin-right: 2.12766%;
+    width: 100%;
+    margin-right: 0; }
+    *[class*='span']:last-child, *[class^=' span']:last-child {
+      margin-right: 0; }
+
+  *[class*='shift'], *[class^=' shift'] {
+    margin-left: 0; } }
+/* Local CSS Colors */
+/*-------------------------------------- Header ---------------------------------------*/
+header {
+  padding: 3em 0;
+  background: #d0e3e3;
+  border-bottom: 4px solid #447799; }
+  header .logo a {
+    color: #447799;
+    padding-left: .5em;
+    text-decoration: none;
+    font-size: 24px; }
+  header .mainNav {
+    margin-top: 5px; }
+    header .mainNav ul li {
+      display: inline-block; }
+      header .mainNav ul li a {
+        display: inline-block;
+        color: #447799;
+        text-decoration: none;
+        margin-right: 1.5em;
+        -webkit-transition: all 0.2s ease;
+        -moz-transition: all 0.2s ease;
+        -o-transition: all 0.2s ease;
+        transition: all 0.2s ease; }
+        header .mainNav ul li a:hover {
+          color: #225533; }
+
+/*-------------------------------------- Footer ---------------------------------------*/
+footer {
+  background: #d0e3e3; }
+
+/*-------------------------------------- Global Styles ---------------------------------------*/
+.mobile_only, .mobileNav {
+  display: none; }
+
+/*-------------------------------------- Structure ---------------------------------------*/
+body {
+  line-height: 1.2em;
+  font: 16px Arial, Verdana, sans-serif;
+  color: #333;
+  background: #e2e2e2; }
+
+.body_wrapper {
+  zoom: 1;
+  max-width: 940px;
+  margin-left: auto;
+  margin-right: auto;
+  background: #FFF; }
+  .body_wrapper:before, .body_wrapper:after {
+    content: "\0020";
+    display: block;
+    height: 0;
+    overflow: hidden; }
+  .body_wrapper:after {
+    clear: both; }
+
+/*-------------------------------------- Header ---------------------------------------*/
+header {
+  padding: 3em 0;
+  position: relative;
+  display: block;
+  float: left;
+  margin-right: 2.12766%;
+  width: 100%;
+  -webkit-box-sizing: border-box;
+  -o-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box; }
+  header:last-child {
+    margin-right: 0; }
+  header .logo {
+    display: block;
+    float: left;
+    margin-right: 2.12766%;
+    width: 31.91489%; }
+    header .logo:last-child {
+      margin-right: 0; }
+  header .mainNav {
+    display: block;
+    float: left;
+    margin-right: 2.12766%;
+    width: 65.95745%;
+    margin-right: 0; }
+    header .mainNav:last-child {
+      margin-right: 0; }
+    header .mainNav ul li {
+      display: inline-block; }
+      header .mainNav ul li a {
+        display: inline-block;
+        -webkit-transition: all 0.2s ease;
+        -moz-transition: all 0.2s ease;
+        -o-transition: all 0.2s ease;
+        transition: all 0.2s ease; }
+
+/*-------------------------------------- Search DropDown ---------------------------------------*/
+div.searchContain {
+  width: 940px;
+  clear: left;
+  background: #eee;
+  padding: 2em 1em 2em;
+  -webkit-box-shadow: 0px 5px 5px 0px rgba(50, 50, 50, 0.2);
+  -moz-box-shadow: 0px 5px 5px 0px rgba(50, 50, 50, 0.2);
+  box-shadow: 0px 5px 5px 0px rgba(50, 50, 50, 0.2);
+  position: absolute;
+  z-index: 9999;
+  top: 160px;
+  display: none; }
+  div.searchContain .searchButton {
+    display: inline-block;
+    position: relative;
+    top: 8px; }
+  div.searchContain input[type="text"] {
+    padding: .5em 1em;
+    font-size: 22px;
+    border: none;
+    background: transparent;
+    color: #999; }
+
+/*-------------------------------------- Body Content ---------------------------------------*/
+.default_page {
+  margin: 0;
+  zoom: 1;
+  padding: 1em; }
+  .default_page:before, .default_page:after {
+    content: "\0020";
+    display: block;
+    height: 0;
+    overflow: hidden; }
+  .default_page:after {
+    clear: both; }
+
+/*-------------------------------------- Footer ---------------------------------------*/
+footer {
+  clear: left;
+  padding: 1em; }
+  footer .footer_widgets {
+    zoom: 1; }
+    footer .footer_widgets:before, footer .footer_widgets:after {
+      content: "\0020";
+      display: block;
+      height: 0;
+      overflow: hidden; }
+    footer .footer_widgets:after {
+      clear: both; }
+  footer .copyright {
+    clear: both;
+    margin: 2em 0; }
+
+/*-------------------------------------- Imports ---------------------------------------*/
+/***********************************************************************************/
+/* Editor Content - Anything that goes into Wordpress */
+/***********************************************************************************/
+.wp_content {
+  padding: 1em 0; }
+  .wp_content div, .wp_content p, .wp_content ol, .wp_content ul, .wp_content dl, .wp_content dd, .wp_content table {
+    line-height: 1.25em; }
+  .wp_content p {
+    margin: 1em 0; }
+  .wp_content a {
+    color: blue;
+    text-decoration: underline;
+    -webkit-transition: color 0.2s ease;
+    -moz-transition: color 0.2s ease;
+    -o-transition: color 0.2s ease;
+    transition: color 0.2s ease; }
+    .wp_content a:hover {
+      color: pink; }
+  .wp_content ol {
+    margin: 1em 0 1em 1.15em; }
+    .wp_content ol li {
+      list-style: decimal;
+      padding: .25em 0; }
+  .wp_content ul {
+    margin: 1em 0 1em 1.15em; }
+    .wp_content ul li {
+      list-style: disc;
+      padding: .25em; }
+  .wp_content dl {
+    margin: 1em 0 1em 0; }
+    .wp_content dl dt, .wp_content dl dd {
+      padding: .25em 0; }
+    .wp_content dl dt {
+      font-weight: bold; }
+  .wp_content p {
+    margin: 1em 0;
+    line-height: 1.5em; }
+  .wp_content b, .wp_content strong {
+    font-weight: bold; }
+  .wp_content i, .wp_content em {
+    font-style: italic; }
+  .wp_content blockquote {
+    margin: 1em 3em;
+    color: #666;
+    border-left: 2px solid #666;
+    padding-left: 1em; }
+  .wp_content #wpcf7-f44-p14-o1 br {
+    display: none; }
+  .wp_content #wpcf7-f44-p14-o1 p {
+    margin: .25em 0; }
+  .wp_content .aligncenter,
+  .wp_content .alignleft,
+  .wp_content .alighnright,
+  .wp_content .alignnone {
+    padding: 3px;
+    z-index: 1; }
+  .wp_content .alignleft {
+    float: left;
+    margin: 0 2em 1.5em 0; }
+  .wp_content .alignright {
+    float: right;
+    margin: 0 0 1.5em 2em; }
+  .wp_content .aligncenter,
+  .wp_content img.centered {
+    display: block;
+    margin: 0 auto 1em; }
+  .wp_content .wp-caption {
+    text-align: center; }
+  .wp_content .wp-caption .wp-caption-text {
+    margin-bottom: 0;
+    font-size: 12px;
+    font-style: italic;
+    line-height: 34px; }
+  .wp_content .video-container + p {
+    margin-top: 1.5em; }
+  .wp_content .tag-container {
+    border: 1px solid #e4e4e4;
+    border-width: 1px 0;
+    font-style: italic;
+    font-size: 12px;
+    color: #c9c9c9;
+    line-height: 42px;
+    margin-top: 3em; }
+  .wp_content .post-navigation {
+    text-align: center;
+    font-size: 12px;
+    line-height: 42px; }
+  .wp_content .article-author {
+    background: #fafafa;
+    border-top: 1px solid #d7d7d7;
+    padding: 3em;
+    -webkit-box-shadow: inset 5px 0 0 #ededed, inset -5px -5px 0 #ededed; }
+  .wp_content .article-author p {
+    margin-bottom: 0; }
+
+/***********************************************************************************/
+/* CSS Buttons */
+/***********************************************************************************/
+body .button, .wp_content .button {
+  font-size: 18px;
+  display: inline-block;
+  padding: .35em 1.25em;
+  border: 1px solid transparent;
+  border-radius: 5px;
+  -moz-border-radius: 5px;
+  -webkit-border-radius: 5px;
+  text-decoration: none; }
+body .button1, .wp_content .button1 {
+  color: #FFF;
+  background: #cc0000;
+  -webkit-transition: all 0.2s ease;
+  -moz-transition: all 0.2s ease;
+  -o-transition: all 0.2s ease;
+  transition: all 0.2s ease; }
+  body .button1:hover, .wp_content .button1:hover {
+    color: #FFF;
+    background: #8f0000;
+    text-decoration: none;
+    cursor: pointer; }
+body .button2, .wp_content .button2 {
+  color: #FFF;
+  background: #ff6600;
+  -webkit-transition: all 0.2s ease;
+  -moz-transition: all 0.2s ease;
+  -o-transition: all 0.2s ease;
+  transition: all 0.2s ease; }
+  body .button2:hover, .wp_content .button2:hover {
+    color: #FFF;
+    background: #c24e00;
+    text-decoration: none;
+    cursor: pointer; }
+body .button3, .wp_content .button3 {
+  color: #cc0000;
+  background: #cccccc;
+  -webkit-transition: all 0.2s ease;
+  -moz-transition: all 0.2s ease;
+  -o-transition: all 0.2s ease;
+  transition: all 0.2s ease; }
+  body .button3:hover, .wp_content .button3:hover {
+    color: #cc0000;
+    background: #adadad;
+    text-decoration: none;
+    cursor: pointer; }
+
+/***********************************************************************************/
+/* Form Fields, Inputs, Textareas (NOT IN THE WP Editor) */
+/***********************************************************************************/
+/*-------------------------------------- Form Elements ---------------------------------------*/
+/* Main Pages */
+.wp_content input[type="text"], .wp_content textarea, .wp_content input[type="email"], .wp_content input[type="tel"] {
+  background: #FFF;
+  display: block;
+  border-radius: 7px;
+  -moz-border-radius: 7px;
+  -webkit-border-radius: 7px;
+  color: #666;
+  width: 100%;
+  padding: .4em 1em;
+  font-size: 16px;
+  margin: 0 0 .5em 0;
+  border: 1px solid #666666; }
+.wp_content span.wpcf7-not-valid-tip {
+  color: #cc0000; }
+.wp_content div.wpcf7-validation-errors {
+  border-color: #cc0000;
+  font-size: 16px;
+  margin-left: 0;
+  width: 100%; }
+.wp_content div.wpcf7-mail-sent-ok {
+  border-color: #ff6600;
+  margin-left: 0;
+  width: 100%; }
+
+/* Footer */
+.f_form .input_contain {
+  position: relative;
+  height: 35px;
+  width: 100%; }
+  .f_form .input_contain input[type="email"] {
+    width: 100%;
+    height: 100%;
+    background: #FFF;
+    color: #0d0d0d;
+    border: 1px solid #FFF;
+    font-size: 12px;
+    padding: 0 1em; }
+  .f_form .input_contain input#mc-embedded-subscribe {
+    position: absolute;
+    top: 3px;
+    right: 10px; }
+  .f_form .input_contain input[type="text"], .f_form .input_contain textarea, .f_form .input_contain input[type="email"], .f_form .input_contain input[type="tel"] {
+    background: #FFF;
+    display: block;
+    border-radius: 7px;
+    -moz-border-radius: 7px;
+    -webkit-border-radius: 7px;
+    color: #666;
+    width: 100%;
+    padding: .4em 1em;
+    font-size: 12px;
+    margin: 0 0 1em 0;
+    border: 1px solid #FFF; }
+
+/*-------------------------------------- Homepage Only ---------------------------------------*/
+/***********************************************************************************/
+/* Accordion Code */
+/***********************************************************************************/
+dl.accordion .accord_row {
+  margin-bottom: 1em;
+  border: 1px solid transparent; }
+dl.accordion br {
+  display: none !important; }
+dl.accordion dt {
+  clear: left; }
+dl.accordion .faq_title {
+  margin-left: 75px;
+  margin-bottom: 1em;
+  display: block;
+  text-decoration: none; }
+  dl.accordion .faq_title:hover {
+    cursor: pointer; }
+dl.accordion dd {
+  display: none;
+  margin-left: 75px; }
+
+.wp_content a.faq_icon {
+  display: block;
+  background: url("images/btn-plus-minus.png") 0 0 no-repeat;
+  height: 50px;
+  width: 50px;
+  float: left;
+  text-indent: -999em;
+  position: relative;
+  top: -10px;
+  -moz-transition: none;
+  -webkit-transition: none;
+  -o-transition: color 0 ease-in;
+  transition: none; }
+
+.wp_content a.active_question {
+  background-position: 0 -50px; }
+  .wp_content a.active_question:hover {
+    background-position: 0 -50px; }
+
+/***********************************************************************************/
+/* Wordpress Blog Posts */
+/***********************************************************************************/
+.wp_content .post_body {
+  margin-bottom: 1em;
+  zoom: 1; }
+  .wp_content .post_body:before, .wp_content .post_body:after {
+    content: "\0020";
+    display: block;
+    height: 0;
+    overflow: hidden; }
+  .wp_content .post_body:after {
+    clear: both; }
+  .wp_content .post_body .f_image {
+    display: block;
+    float: left;
+    margin-right: 3.22581%;
+    width: 48.3871%; }
+    .wp_content .post_body .f_image:last-child {
+      margin-right: 0; }
+  .wp_content .post_body .f_copy {
+    display: block;
+    float: left;
+    margin-right: 3.22581%;
+    width: 48.3871%;
+    margin-right: 0;
+    padding-left: 1.15em; }
+    .wp_content .post_body .f_copy:last-child {
+      margin-right: 0; }
+  .wp_content .post_body .post_meta {
+    font-size: 16px;
+    color: #666666; }
+  .wp_content .post_body h1 a {
+    color: red;
+    font-size: 40px;
+    text-decoration: none;
+    font-weight: 400; }
+    .wp_content .post_body h1 a:hover {
+      color: #c20000;
+      text-decoration: none !important;
+      border-bottom: none; }
+  .wp_content .post_body h1 {
+    font-weight: 400; }
+
+aside.sidebar {
+  padding-left: 1em;
+  padding-top: 1em; }
+  @media screen and (max-width: 640px) {
+    aside.sidebar {
+      padding-left: 0; } }
+  aside.sidebar a {
+    color: #6699aa;
+    text-decoration: none; }
+    aside.sidebar a:hover {
+      text-decoration: underline; }
+  aside.sidebar h4 {
+    margin-left: 20px; }
+  aside.sidebar ul {
+    margin: 0 0 1em 1.15em; }
+    aside.sidebar ul li {
+      list-style: disc;
+      padding: .25em .25em .25em 0;
+      margin-left: 22px; }
+  @media screen and (max-width: 640px) {
+    aside.sidebar h4, aside.sidebar ul {
+      margin-left: .5em; } }
+
+aside.left_sidebar h4, aside.left_sidebar ul {
+  margin-left: 0; }
+
+.wp_content div.wp-pagenavi {
+  padding-bottom: 1.5em;
+  margin-left: .25em; }
+  .wp_content div.wp-pagenavi .pages {
+    display: none; }
+  .wp_content div.wp-pagenavi a, .wp_content div.wp-pagenavi span {
+    border: 1px solid #3333ff; }
+    .wp_content div.wp-pagenavi a:hover, .wp_content div.wp-pagenavi span:hover {
+      text-decoration: none;
+      border-color: #666666; }
+
+article.single-post {
+  padding-left: 2em;
+  padding-right: 2em; }

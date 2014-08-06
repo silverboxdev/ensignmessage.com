@@ -1,0 +1,56 @@
+/* Local CSS Colors */
+
+$green: #225533;
+$blue: #6699aa;
+$blue-grey: #88aaaa;
+$light_blue: #aacccc;
+$dark_blue: #447799;
+
+
+/*-------------------------------------- Header ---------------------------------------*/
+
+
+header {
+	padding: 3em 0;
+	background: lighten($light_blue, 12%);
+	border-bottom: 4px solid $dark_blue;
+	.logo {
+		
+		a {
+			color: $dark_blue;
+			padding-left: .5em;
+			text-decoration: none;
+			font-size: 24px;
+		}
+	}
+	
+	.mainNav {
+
+		margin-top: 5px;
+		
+		ul {
+			li {
+			
+				display: inline-block;
+				
+				a {
+					display: inline-block;
+					color: $dark_blue;
+					text-decoration: none;
+					margin-right: 1.5em;
+					@include all-transition;
+					
+					&:hover {
+						color: $green;
+					}
+				}
+			}
+		}
+	}
+}
+
+/*-------------------------------------- Footer ---------------------------------------*/
+
+footer {
+	background: lighten($light_blue, 12%);
+}
