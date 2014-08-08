@@ -11,14 +11,17 @@
 	
 	if($sidebar_position == "no_sidebar" || $sidebar_position == "") {
 		$sidebar_class = "span_12 last";
+		$page_class = "no_sidebar";
 	}
 	
 	elseif($sidebar_position == "left_sidebar") {
 		$sidebar_class = "span_8 last";
+		$page_class = "left_sidebar";
 	}
 	
 	else {
 		$sidebar_class = "span_8";
+		$page_class = "right_sidebar";
 	}
 	
 	// Page Title
@@ -28,7 +31,9 @@
 
 <!-- Start Main Content -->
 
-<section <?php post_class('default_page'); ?> id="post-<?php the_ID(); ?>">
+<div class="inside">
+
+<section <?php post_class('default_page ' . $page_class); ?> id="post-<?php the_ID(); ?>">
 		
 	<?php if(have_posts()) : while(have_posts()) : the_post(); ?>
 
@@ -72,6 +77,8 @@
 	<?php endwhile; endif; ?>
 		
 </section>
+
+</div>
 
 <?php
 

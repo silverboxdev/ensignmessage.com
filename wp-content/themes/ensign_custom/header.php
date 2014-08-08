@@ -31,25 +31,34 @@
 			<!-- Header -->
 				
 			<header class="masthead">
+			
+				<div class="inside">
 				
-				<div class="logo">
-					<a href="/">Ensign Message</a>
+					<div class="logo">
+						<h1><a href="/"><?= get_bloginfo('name'); ?></a></h1>
+					</div>
+					
+					<div class="tagline">
+						<h2><?= get_bloginfo('description'); ?></h2>
+					</div>
+				
+					<a href="#" class="navTrigger mobile_only">Trigger</a>
+				
 				</div>
 				
-				<!-- Main Navigation -->
-				<nav class="mainNav">
-					<ul>
-						<?php 
-							wp_nav_menu(array(
-								'theme_location' => 'top-menu'
-							)); 
-						?>	
-					</ul>
-				</nav>
-				
-				<a href="#" class="navTrigger mobile_only">Trigger</a>
-				
 			</header>
+			
+			<!-- Main Navigation -->
+			<nav class="mainNav">
+				<div class="inside">
+				<?php 
+					wp_nav_menu(array(
+						'theme_location' => 'top-menu'
+					)); 
+				?>	
+				</div>
+
+			</nav>
 			
 			<div class="searchContain">
 				<div class="inside">

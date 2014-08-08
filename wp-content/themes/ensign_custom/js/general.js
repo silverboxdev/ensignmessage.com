@@ -40,7 +40,7 @@ $(document).ready(function() {
 	 
 	 // Adds Search Button to Header
 	 
-	 $('.mainNav #menu-main-menu').append('<li><a href="#" class="searchTrigger"><img src="' + theme_path + '/images/btn-search.png" alt="Search Button" /></a></li>');
+	 $('.mainNav #menu-main-menu').append('<li><a href="#" class="searchTrigger">Search Me</a></li>');
 	 
 	 // Search Trigger Functions 
 	 

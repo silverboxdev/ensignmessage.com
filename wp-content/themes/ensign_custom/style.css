@@ -347,82 +347,155 @@ h6, h7, h8 {
 body {
   line-height: 1.2em;
   color: #333;
-  background: #e2e2e2; }
+  background: #e2e2e2 url("images/bg.jpg") 0 0 repeat; }
 
 .body_wrapper {
+  width: 1024px;
+  margin: 0 auto;
+  background: #9bb8d9; }
+
+div.inside {
   zoom: 1;
   max-width: 940px;
   margin-left: auto;
-  margin-right: auto;
-  background: #FFF; }
-  .body_wrapper:before, .body_wrapper:after {
+  margin-right: auto; }
+  div.inside:before, div.inside:after {
     content: "\0020";
     display: block;
     height: 0;
     overflow: hidden; }
-  .body_wrapper:after {
+  div.inside:after {
     clear: both; }
+
+.default_page {
+  background: #FFF; }
 
 /*-------------------------------------- Header ---------------------------------------*/
 header {
   position: relative;
-  display: block;
-  float: left;
-  margin-right: 2.12766%;
   width: 100%;
   -webkit-box-sizing: border-box;
   -o-box-sizing: border-box;
   -moz-box-sizing: border-box;
-  box-sizing: border-box; }
-  header:last-child {
-    margin-right: 0; }
+  box-sizing: border-box;
+  background: #588ac0;
+  height: 75px; }
   header .logo {
     display: block;
     float: left;
     margin-right: 2.12766%;
-    width: 100%;
+    width: 48.93617%;
     margin-right: 0; }
     header .logo:last-child {
       margin-right: 0; }
-  header .mainNav {
+    header .logo h1, header .logo a {
+      color: #FFF;
+      font-size: 42px;
+      text-transform: uppercase;
+      text-decoration: none;
+      margin-top: 25px;
+      -webkit-transition: all 0.2s ease;
+      -moz-transition: all 0.2s ease;
+      -o-transition: all 0.2s ease;
+      transition: all 0.2s ease; }
+      header .logo h1:hover, header .logo a:hover {
+        color: #0b2444; }
+  header .tagline {
     display: block;
     float: left;
     margin-right: 2.12766%;
-    width: 100%;
+    width: 48.93617%;
     margin-right: 0; }
-    header .mainNav:last-child {
+    header .tagline:last-child {
       margin-right: 0; }
-    header .mainNav ul li {
+    header .tagline h2 {
+      font-family: 'museo-sans', sans-serif;
+      font-style: italic;
+      font-weight: 700;
+      color: #9bb8d9;
+      font-size: 18px;
+      text-align: right;
+      font-weight: normal;
+      margin-top: 30px; }
+
+.mainNav {
+  width: 100%;
+  zoom: 1;
+  background: #0b2444; }
+  .mainNav:before, .mainNav:after {
+    content: "\0020";
+    display: block;
+    height: 0;
+    overflow: hidden; }
+  .mainNav:after {
+    clear: both; }
+  .mainNav ul li {
+    display: inline-block;
+    position: relative;
+    font-family: "museo-sans",sans-serif;
+    font-style: normal;
+    font-weight: 900;
+    font-size: 18px; }
+    .mainNav ul li a {
       display: inline-block;
-      position: relative; }
-      header .mainNav ul li a {
-        display: inline-block;
-        color: pink;
-        text-decoration: none;
-        margin-right: 1.5em;
+      color: #588ac0;
+      text-decoration: none;
+      margin-right: 2.5em;
+      -webkit-transition: all 0.2s ease;
+      -moz-transition: all 0.2s ease;
+      -o-transition: all 0.2s ease;
+      transition: all 0.2s ease;
+      padding: .7em 0; }
+      .mainNav ul li a:hover {
+        color: #9bb8d9; }
+    .mainNav ul li a.searchTrigger {
+      width: 44px;
+      height: 44px;
+      text-indent: -999em;
+      background: url("images/icon_search.png") 0 0 no-repeat;
+      -webkit-transition: none 0;
+      -moz-transition: none 0;
+      -o-transition: none 0;
+      transition: none 0;
+      margin-right: 0; }
+      .mainNav ul li a.searchTrigger:hover {
+        background-position: 0 -44px; }
+    .mainNav ul li ul {
+      display: none;
+      position: absolute;
+      top: 100%;
+      left: 0;
+      width: 250px; }
+      .mainNav ul li ul li a {
+        font-size: 16px;
+        width: 250px;
+        color: #dee8f2;
+        background: #588ac0;
         -webkit-transition: all 0.2s ease;
         -moz-transition: all 0.2s ease;
         -o-transition: all 0.2s ease;
-        transition: all 0.2s ease; }
-      header .mainNav ul li ul {
-        display: none;
-        position: absolute;
-        top: 100%;
-        left: 0;
-        width: 200px; }
+        transition: all 0.2s ease;
+        padding-left: .5em;
+        padding-right: .5em;
+        text-transform: uppercase; }
+        .mainNav ul li ul li a:hover {
+          color: #FFF;
+          background: #9bb8d9; }
+  .mainNav ul li.hover_nav a {
+    color: #9bb8d9; }
 
 /*-------------------------------------- Search DropDown ---------------------------------------*/
 div.searchContain {
-  width: 940px;
+  width: 1024px;
   clear: left;
-  background: #eee;
+  background: #dee8f2;
   padding: 2em 1em 2em;
   -webkit-box-shadow: 0px 5px 5px 0px rgba(50, 50, 50, 0.2);
   -moz-box-shadow: 0px 5px 5px 0px rgba(50, 50, 50, 0.2);
   box-shadow: 0px 5px 5px 0px rgba(50, 50, 50, 0.2);
   position: absolute;
   z-index: 9999;
-  top: 160px;
+  top: 150px;
   display: none; }
   div.searchContain .searchButton {
     display: inline-block;
@@ -433,13 +506,13 @@ div.searchContain {
     font-size: 22px;
     border: none;
     background: transparent;
-    color: #999; }
+    color: #588ac0; }
 
-/*-------------------------------------- Body Content ---------------------------------------*/
+/*-------------------------------------- Page Layouts ---------------------------------------*/
 .default_page {
   margin: 0;
   zoom: 1;
-  padding: 1em; }
+  padding: 1.25em; }
   .default_page:before, .default_page:after {
     content: "\0020";
     display: block;
@@ -448,10 +521,21 @@ div.searchContain {
   .default_page:after {
     clear: both; }
 
+.no_sidebar {
+  background: #FFF; }
+
+.left_sidebar {
+  background: url("images/bg_page-left.jpg") 0 0 repeat-y; }
+
+.right_sidebar {
+  background: url("images/bg_page-right.jpg") 0 0 repeat-y; }
+
 /*-------------------------------------- Footer ---------------------------------------*/
 footer {
   clear: left;
-  padding: 1em; }
+  padding: 1em;
+  background: #0b2444;
+  color: #588ac0; }
   footer .footer_widgets {
     zoom: 1; }
     footer .footer_widgets:before, footer .footer_widgets:after {

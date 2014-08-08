@@ -72,6 +72,13 @@
 	transition: all 0.2s ease;
 }
 
+@mixin no-transition {
+	-webkit-transition: none 0;
+	-moz-transition: none 0;
+	-o-transition: none 0;
+	transition: none 0;
+}
+
 // Round all corners by amount
 @mixin round-corners($amount: 5px) {
   border-radius: $amount;

@@ -21,11 +21,20 @@
 body {
 	line-height: 1.2em;
 	color: #333;
-	background: #e2e2e2;
+	background: #e2e2e2 url('images/bg.jpg') 0 0 repeat;
 }
 
 .body_wrapper {
+	width: 1024px;
+	margin: 0 auto;
+	background: $light_blue;
+}
+
+div.inside {
 	@include outer-container();
+}
+
+.default_page {
 	background: #FFF;
 }
 
@@ -34,52 +43,112 @@ body {
 
 header {
 	position: relative;
-	@include span-columns(12);
+	width: 100%;
 	@include box-sizing;
+	background: $blue;
+	height: 75px;
 	
 	.logo {
-		@include span-columns(12);
+		@include span-columns(6 of 12);
+		h1, a {
+			color: #FFF;
+			font-size: 42px;
+			text-transform: uppercase;
+			text-decoration: none;
+			margin-top: 25px;
+			@include all-transition;
+			
+			&:hover {
+				color: $dark_blue;
+			}
+		}
 		@include omega();
 	}
 	
-	.mainNav {
-		@include span-columns(12);
+	.tagline {
+	
+		@include span-columns(6 of 12);
 		@include omega();
 		
-		ul {
-			li {
-				
+		h2 {
+			@include museo_700_italic;
+			color: $light_blue;
+			font-size: 18px;
+			text-align: right;
+			font-weight: normal;
+			margin-top: 30px;
+		}
+	}
+}
+
+.mainNav {
+	width: 100%;
+	@include clearfix;
+	background: $dark_blue;
+	
+	ul {
+	
+		li {
+			
+			display: inline-block;
+			position: relative;
+			@include museo_900;
+			font-size: 18px;
+			
+			a {
 				display: inline-block;
-				position: relative;
+				color: $nav_color;
+				text-decoration: none;
+				margin-right: 2.5em;
+				@include all-transition;
+				padding: .7em 0;
 				
-				a {
-					display: inline-block;
-					color: pink;
-					text-decoration: none;
-					margin-right: 1.5em;
-					@include all-transition;
-					
-					&:hover {
-						
-					}
+				&:hover {
+					color: $nav_hover;
 				}
-				
-				ul {
-					display: none;
-					position: absolute;
-					top: 100%;
-					left: 0;
-					width: 200px;
-										
-					li {
-						a {
-							&:hover {
-								
-							}
+			}
+			
+			a.searchTrigger {
+				width: 44px;
+				height: 44px;
+				text-indent: -999em;
+				background: url('images/icon_search.png') 0 0 no-repeat;
+				@include no-transition;
+				margin-right: 0;
+				&:hover {
+					background-position: 0 -44px;
+				}
+			}
+			
+			ul {
+				display: none;
+				position: absolute;
+				top: 100%;
+				left: 0;
+				width: 250px;
+									
+				li {
+					a {
+						font-size: 16px;
+						width: 250px;
+						color: $grey;
+						background: $blue;
+						@include all-transition;
+						padding-left: .5em;
+						padding-right: .5em;
+						text-transform: uppercase;
+						
+						&:hover {
+							color: #FFF;
+							background: $light_blue;	
 						}
 					}
 				}
 			}
+		}
+		
+		li.hover_nav a {
+			color: $light_blue;
 		}
 	}
 }
@@ -87,14 +156,14 @@ header {
 /*-------------------------------------- Search DropDown ---------------------------------------*/
 
 div.searchContain {
-	width: 940px;
+	width: 1024px;
 	clear: left;
-	background: #eee;
+	background: $grey;
 	padding: 2em 1em 2em;
 	@include bottom-shadow;
 	position: absolute;
 	z-index: 9999;
-	top: 160px;
+	top: 150px;
 	display: none;
 	
 	.searchButton {
@@ -108,16 +177,28 @@ div.searchContain {
 		font-size: 22px;
 		border: none;
 		background: transparent;
-		color: #999;
+		color: $blue;
 	}
 }
 
-/*-------------------------------------- Body Content ---------------------------------------*/
+/*-------------------------------------- Page Layouts ---------------------------------------*/
 
 .default_page {
 	margin: 0;
 	@include clearfix;
-	padding: 1em;
+	padding: 1.25em;
+}
+
+.no_sidebar {
+	background: #FFF;
+}
+
+.left_sidebar {
+	background: url('images/bg_page-left.jpg') 0 0 repeat-y;
+}
+
+.right_sidebar {
+	background: url('images/bg_page-right.jpg') 0 0 repeat-y;
 }
 
 
@@ -126,6 +207,8 @@ div.searchContain {
 footer {
 	clear: left;
 	padding: 1em;
+	background: $dark_blue;
+	color: $blue;
 	
 	.footer_widgets {
 		@include clearfix;
