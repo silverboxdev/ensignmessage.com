@@ -8,16 +8,13 @@
 
 <!-- Start Main Content -->
 
+<div class="feature">
+	<?php echo do_shortcode('[layerslider id="2"]'); ?>
+</div>
+
 <div class="inside">
 
-
 	<section <?php post_class('default_page left_sidebar'); ?> id="post-<?php the_ID(); ?>">
-				
-			
-		<div class="feature">
-			<?php //echo do_shortcode('[layerslider id="6"]'); ?>
-		</div>
-		
 			
 		<aside class="sidebar span_4">
 			<?php if (is_active_sidebar('blog-sidebar')) : ?>
@@ -25,7 +22,7 @@
 			<?php endif;?>
 		</aside>
 						
-		<article class="wp_content span_8 omege" id="wp_content_<?php the_ID(); ?>">
+		<article class="wp_content span_8 omega" id="wp_content_<?php the_ID(); ?>">
 	
 			<?php if(have_posts()) : while(have_posts()) : the_post(); ?>
 			
@@ -33,12 +30,16 @@
 		
 			<?php endwhile; endif; ?>
 			
-			<?php //wp_pagenavi(); ?>
+			<?php wp_pagenavi(); ?>
 				
-		</article>	
+		</article>
+		
+		<div class="sidebar_bottom">
+			<a href="<?= get_page_link('21'); ?>" class="button dark_blue_button">Archives</a>
+		</div>
 						
 	</section>
-
+	
 </div> <!-- / inside -->
 
 <?php

@@ -44,6 +44,7 @@ div.inside {
 
 .default_page {
 	background: #FFF;
+	position: relative;
 }
 
 /*-------------------------------------- Header ---------------------------------------*/
@@ -214,6 +215,30 @@ div.searchContain {
 	padding-top: 6em;
 }
 
+/*-------------------------------------- Sidebar Bottom ---------------------------------------*/
+
+.sidebar_bottom {
+	position: absolute;
+	bottom: 0;
+	left: 0;
+	@include span-columns(4 of 12);
+	width: 312px;
+	background: $blue;
+	@include omega();
+	padding: 1em 0;
+	text-align: center;
+	
+	.button {
+		width: 240px;
+		text-transform: uppercase;
+		padding-top: .5em;
+		padding-bottom: .5em;
+	}
+	
+	.dark_blue_button:hover {
+		background: darken($dark_blue, 4%);
+	}
+}
 
 /*-------------------------------------- Footer ---------------------------------------*/
 

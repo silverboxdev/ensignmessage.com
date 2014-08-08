@@ -3,7 +3,7 @@
 /***********************************************************************************/
 
 .wp_content .post_body {
-	margin: 1em 0;
+	margin: 0 0 1em 0;
 	padding-bottom: 1em;
 	border-bottom: 2px solid $light_blue;	
 	@include clearfix;
@@ -38,13 +38,6 @@
 		font-weight: 400;
 	}
 	
-	p.author_meta {
-		color: $light_blue;
-		a {
-			text-decoration: none;
-		}
-	}
-	
 	p.read_more {
 		text-align: right;
 	}
@@ -52,6 +45,29 @@
 	&:last-child {
 		border-bottom: none;
 	}
+}
+
+// Shared Single and List
+
+h1.archive-title {
+	margin-left: .5em;
+	margin-bottom: 1.5em;
+}
+
+p.author_meta {
+	color: $light_blue;
+	font-size: 18px;
+	a {
+		text-decoration: none;
+	}
+}
+
+// Single Posts
+
+h1.pg_title {
+	text-transform: uppercase;
+	line-height: 1.15em;
+	margin-top: -8px;
 }
 
 // Wp Page Navigation

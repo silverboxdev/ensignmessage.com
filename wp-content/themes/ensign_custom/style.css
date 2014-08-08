@@ -375,7 +375,8 @@ div.inside {
     clear: both; }
 
 .default_page {
-  background: #FFF; }
+  background: #FFF;
+  position: relative; }
 
 /*-------------------------------------- Header ---------------------------------------*/
 header {
@@ -540,6 +541,30 @@ div.searchContain {
 .landing_page {
   background: #0b2444;
   padding-top: 6em; }
+
+/*-------------------------------------- Sidebar Bottom ---------------------------------------*/
+.sidebar_bottom {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  display: block;
+  float: left;
+  margin-right: 2.12766%;
+  width: 31.91489%;
+  width: 312px;
+  background: #588ac0;
+  margin-right: 0;
+  padding: 1em 0;
+  text-align: center; }
+  .sidebar_bottom:last-child {
+    margin-right: 0; }
+  .sidebar_bottom .button {
+    width: 240px;
+    text-transform: uppercase;
+    padding-top: .5em;
+    padding-bottom: .5em; }
+  .sidebar_bottom .dark_blue_button:hover {
+    background: #081b32; }
 
 /*-------------------------------------- Footer ---------------------------------------*/
 footer {
@@ -812,7 +837,7 @@ dl.accordion dd {
 /* Wordpress Blog Posts */
 /***********************************************************************************/
 .wp_content .post_body {
-  margin: 1em 0;
+  margin: 0 0 1em 0;
   padding-bottom: 1em;
   border-bottom: 2px solid #9bb8d9;
   zoom: 1; }
@@ -848,14 +873,25 @@ dl.accordion dd {
       border-bottom: none; }
   .wp_content .post_body h1 {
     font-weight: 400; }
-  .wp_content .post_body p.author_meta {
-    color: #9bb8d9; }
-    .wp_content .post_body p.author_meta a {
-      text-decoration: none; }
   .wp_content .post_body p.read_more {
     text-align: right; }
   .wp_content .post_body:last-child {
     border-bottom: none; }
+
+h1.archive-title {
+  margin-left: .5em;
+  margin-bottom: 1.5em; }
+
+p.author_meta {
+  color: #9bb8d9;
+  font-size: 18px; }
+  p.author_meta a {
+    text-decoration: none; }
+
+h1.pg_title {
+  text-transform: uppercase;
+  line-height: 1.15em;
+  margin-top: -8px; }
 
 .wp_content div.wp-pagenavi {
   padding-bottom: 1.5em;
