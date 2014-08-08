@@ -81,7 +81,7 @@ header {
 	}
 }
 
-.mainNav {
+.mainNav, .footerNav {
 	width: 100%;
 	@include clearfix;
 	background: $dark_blue;
@@ -186,7 +186,7 @@ div.searchContain {
 .default_page {
 	margin: 0;
 	@include clearfix;
-	padding: 1.25em;
+	padding: 0 1.25em;
 }
 
 .no_sidebar {
@@ -199,6 +199,11 @@ div.searchContain {
 
 .right_sidebar {
 	background: url('images/bg_page-right.jpg') 0 0 repeat-y;
+}
+
+.landing_page {
+	background: $dark_blue;
+	padding-top: 6em;
 }
 
 
@@ -216,7 +221,8 @@ footer {
 	
 	.copyright {
 		clear: both;
-		margin: 2em 0;
+		margin: 2em 0 1em 0;
+		font-size: 12px;
 	}
 }
 

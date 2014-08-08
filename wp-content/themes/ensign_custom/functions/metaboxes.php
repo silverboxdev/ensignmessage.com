@@ -83,6 +83,20 @@ function silverbox_register_meta_boxes( $meta_boxes )
 				'std'         => '',
 				'placeholder' => __( 'Select an Item', 'rwmb' ),
 			),
+			// Layer slider
+			array(
+				// Field name - Will be used as label
+				'name'  => __( 'Layer Slider ID', 'rwmb' ),
+				// Field ID, i.e. the meta key
+				'id'    => "{$prefix}slider",
+				// Field description (optional)
+				'desc'  => __( 'The number found in the layer slider embed code', 'rwmb' ),
+				'type'  => 'text',
+				// Default value (optional)
+				'std'   => __( '', 'rwmb' ),
+				// CLONES: Add to make the field cloneable (i.e. have multiple value)
+				'clone' => false,
+			),
 			// SELECT BOX
 			array(
 				'name'     => __( 'Title Display', 'rwmb' ),
@@ -98,6 +112,8 @@ function silverbox_register_meta_boxes( $meta_boxes )
 				'std'         => '',
 				'placeholder' => __( 'Select an Item', 'rwmb' ),
 			),
+			
+			
 		),
 	);
 

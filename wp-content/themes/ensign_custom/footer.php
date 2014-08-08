@@ -1,10 +1,23 @@
 
 <footer class="footer">
 	
+	<?php if(!is_front_page()) { ?>
+	
 	<div class="footer_widgets">
 		<?php get_sidebar('footer'); ?>
 	</div>
 	
+	<nav class="footerNav">
+		<div class="inside">
+		<?php 
+			wp_nav_menu(array(
+				'theme_location' => 'footer-menu'
+			)); 
+		?>	
+		</div>
+	</nav>
+	
+	<? } ?>
 	
 	<div class="copyright">
 	

@@ -28,6 +28,8 @@
 		
 		<div class="body_wrapper">
 		
+		<?php if(!is_front_page()) { ?>
+		
 			<!-- Header -->
 				
 			<header class="masthead">
@@ -80,6 +82,8 @@
 					?>	
 				</ul>
 			</nav>
+			
+			<? } ?>
 			
 			
 	

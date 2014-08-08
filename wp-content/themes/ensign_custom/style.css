@@ -418,25 +418,25 @@ header {
       font-weight: normal;
       margin-top: 30px; }
 
-.mainNav {
+.mainNav, .footerNav {
   width: 100%;
   zoom: 1;
   background: #0b2444; }
-  .mainNav:before, .mainNav:after {
+  .mainNav:before, .mainNav:after, .footerNav:before, .footerNav:after {
     content: "\0020";
     display: block;
     height: 0;
     overflow: hidden; }
-  .mainNav:after {
+  .mainNav:after, .footerNav:after {
     clear: both; }
-  .mainNav ul li {
+  .mainNav ul li, .footerNav ul li {
     display: inline-block;
     position: relative;
     font-family: "museo-sans",sans-serif;
     font-style: normal;
     font-weight: 900;
     font-size: 18px; }
-    .mainNav ul li a {
+    .mainNav ul li a, .footerNav ul li a {
       display: inline-block;
       color: #588ac0;
       text-decoration: none;
@@ -446,9 +446,9 @@ header {
       -o-transition: all 0.2s ease;
       transition: all 0.2s ease;
       padding: .7em 0; }
-      .mainNav ul li a:hover {
+      .mainNav ul li a:hover, .footerNav ul li a:hover {
         color: #9bb8d9; }
-    .mainNav ul li a.searchTrigger {
+    .mainNav ul li a.searchTrigger, .footerNav ul li a.searchTrigger {
       width: 44px;
       height: 44px;
       text-indent: -999em;
@@ -458,15 +458,15 @@ header {
       -o-transition: none 0;
       transition: none 0;
       margin-right: 0; }
-      .mainNav ul li a.searchTrigger:hover {
+      .mainNav ul li a.searchTrigger:hover, .footerNav ul li a.searchTrigger:hover {
         background-position: 0 -44px; }
-    .mainNav ul li ul {
+    .mainNav ul li ul, .footerNav ul li ul {
       display: none;
       position: absolute;
       top: 100%;
       left: 0;
       width: 250px; }
-      .mainNav ul li ul li a {
+      .mainNav ul li ul li a, .footerNav ul li ul li a {
         font-size: 16px;
         width: 250px;
         color: #dee8f2;
@@ -478,10 +478,10 @@ header {
         padding-left: .5em;
         padding-right: .5em;
         text-transform: uppercase; }
-        .mainNav ul li ul li a:hover {
+        .mainNav ul li ul li a:hover, .footerNav ul li ul li a:hover {
           color: #FFF;
           background: #9bb8d9; }
-  .mainNav ul li.hover_nav a {
+  .mainNav ul li.hover_nav a, .footerNav ul li.hover_nav a {
     color: #9bb8d9; }
 
 /*-------------------------------------- Search DropDown ---------------------------------------*/
@@ -512,7 +512,7 @@ div.searchContain {
 .default_page {
   margin: 0;
   zoom: 1;
-  padding: 1.25em; }
+  padding: 0 1.25em; }
   .default_page:before, .default_page:after {
     content: "\0020";
     display: block;
@@ -529,6 +529,10 @@ div.searchContain {
 
 .right_sidebar {
   background: url("images/bg_page-right.jpg") 0 0 repeat-y; }
+
+.landing_page {
+  background: #0b2444;
+  padding-top: 6em; }
 
 /*-------------------------------------- Footer ---------------------------------------*/
 footer {
@@ -547,14 +551,15 @@ footer {
       clear: both; }
   footer .copyright {
     clear: both;
-    margin: 2em 0; }
+    margin: 2em 0 1em 0;
+    font-size: 12px; }
 
 /*-------------------------------------- Imports ---------------------------------------*/
 /***********************************************************************************/
 /* Editor Content - Anything that goes into Wordpress */
 /***********************************************************************************/
 .wp_content {
-  padding: 1em 0; }
+  padding: 2em 0; }
   .wp_content div, .wp_content p, .wp_content ol, .wp_content ul, .wp_content dl, .wp_content dd, .wp_content table {
     line-height: 1.25em; }
   .wp_content p {
@@ -592,12 +597,12 @@ footer {
     font-weight: bold; }
   .wp_content i, .wp_content em {
     font-style: italic; }
-  .wp_content blockquote {
+  .wp_content blockquote, .wp_content .blue_wrapper {
     margin: 1em 0;
     color: #666;
     background: #dee8f2;
     color: #0b2444;
-    padding: .5em 1.25em; }
+    padding: 1em 1.25em; }
   .wp_content #wpcf7-f44-p14-o1 br {
     display: none; }
   .wp_content #wpcf7-f44-p14-o1 p {
@@ -800,7 +805,6 @@ dl.accordion dd {
 /* Wordpress Blog Posts */
 /***********************************************************************************/
 .wp_content .post_body {
-  margin-bottom: 1em;
   zoom: 1; }
   .wp_content .post_body:before, .wp_content .post_body:after {
     content: "\0020";
@@ -841,27 +845,28 @@ dl.accordion dd {
     font-weight: 400; }
 
 aside.sidebar {
-  padding-left: 1em;
-  padding-top: 1em; }
-  @media screen and (max-width: 640px) {
-    aside.sidebar {
-      padding-left: 0; } }
+  padding-top: 2em;
+  padding-bottom: 2em; }
   aside.sidebar a {
-    color: blue;
-    text-decoration: none; }
+    color: #588ac0;
+    text-decoration: none;
+    -webkit-transition: color 0.2s ease;
+    -moz-transition: color 0.2s ease;
+    -o-transition: color 0.2s ease;
+    transition: color 0.2s ease; }
     aside.sidebar a:hover {
+      color: #3c6b9f;
       text-decoration: underline; }
   aside.sidebar h4 {
-    margin-left: 20px; }
+    color: #588ac0;
+    text-transform: uppercase;
+    font-size: 22px; }
   aside.sidebar ul {
-    margin: 0 0 1em 1.15em; }
+    margin: 0 0 1em 0; }
     aside.sidebar ul li {
-      list-style: disc;
+      list-style: none;
       padding: .25em .25em .25em 0;
-      margin-left: 22px; }
-  @media screen and (max-width: 640px) {
-    aside.sidebar h4, aside.sidebar ul {
-      margin-left: .5em; } }
+      margin-left: 0; }
 
 aside.left_sidebar h4, aside.left_sidebar ul {
   margin-left: 0; }

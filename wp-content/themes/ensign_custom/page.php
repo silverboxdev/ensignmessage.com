@@ -27,58 +27,74 @@
 	// Page Title
 	$title_display = rwmb_meta('silverbox_title');
 	
+	// Layer Slider
+	$layer_slide_id = rwmb_meta('silverbox_slider');
+	
 ?>
 
-<!-- Start Main Content -->
+<?php if(have_posts()) : while(have_posts()) : the_post(); ?>
 
-<div class="inside">
 
-<section <?php post_class('default_page ' . $page_class); ?> id="post-<?php the_ID(); ?>">
+	<?php if($layer_slide_id != "" && (isset($layer_slide_id))) { ?>
+	
+	<div class="feature">
+	
+		<?php layerslider($layer_slide_id); ?>
 		
-	<?php if(have_posts()) : while(have_posts()) : the_post(); ?>
-
-	<!-- WP Content -->
+	</div>
 	
-	
-	<!-- If Left Sidebar -->
-	<?php if($sidebar_position == "left_sidebar") { ?>
-	
-		<aside class="sidebar span_4">
-			
-			<?php if (is_active_sidebar($sidebar_selection)) : ?>
-				<?php dynamic_sidebar($sidebar_selection); ?>
-			<?php endif;?>
-			
-		</aside>
-	<? } ?>
-					
-	<article class="wp_content <?= $sidebar_class; ?>" id="wp_content_<?php the_ID(); ?>">
-		<?php 
-			if(!empty($title_display) && $title_display != "off") { ?>
-				<h1 class="pg_title"><?= the_title(); ?></h1>
-		<?php } ?>		
-		
-		<?php
-			the_content();
-		?>
-			
-	</article>
-	
-	<!-- If Right Sidebar -->
-	<?php if($sidebar_position == "right_sidebar") { ?>
-		<aside class="sidebar span_4 last">
-			<?php if (is_active_sidebar($sidebar_selection)) : ?>
-				<?php dynamic_sidebar($sidebar_selection); ?>
-			<?php endif;?>
-		</aside>
 	<? } ?>
 	
 	
-	<?php endwhile; endif; ?>
+	<!-- Start Main Content -->
+	
+	<div class="inside">
+	
+	<section <?php post_class('default_page ' . $page_class); ?> id="post-<?php the_ID(); ?>">
+	
+		<!-- WP Content -->
 		
-</section>
-
-</div>
+		
+		<!-- If Left Sidebar -->
+		<?php if($sidebar_position == "left_sidebar") { ?>
+		
+			<aside class="sidebar span_4">
+				
+				<?php if (is_active_sidebar($sidebar_selection)) : ?>
+					<?php dynamic_sidebar($sidebar_selection); ?>
+				<?php endif;?>
+				
+			</aside>
+		<? } ?>
+						
+		<article class="wp_content <?= $sidebar_class; ?>" id="wp_content_<?php the_ID(); ?>">
+			<?php 
+				if(!empty($title_display) && $title_display != "off") { ?>
+					<h1 class="pg_title"><?= the_title(); ?></h1>
+			<?php } ?>		
+			
+			<?php
+				the_content();
+			?>
+				
+		</article>
+		
+		<!-- If Right Sidebar -->
+		<?php if($sidebar_position == "right_sidebar") { ?>
+			<aside class="sidebar span_4 last">
+				<?php if (is_active_sidebar($sidebar_selection)) : ?>
+					<?php dynamic_sidebar($sidebar_selection); ?>
+				<?php endif;?>
+			</aside>
+		<? } ?>
+		
+		
+			
+	</section>
+	
+	</div>
+	
+<?php endwhile; endif; ?>
 
 <?php
 
