@@ -16,6 +16,14 @@
 	display: none;
 }
 
+hr {
+	height: 2px;
+	padding: 0;
+	margin: 1em 0;
+	border: none;
+	background: $light_blue;
+}
+
 /*-------------------------------------- Structure ---------------------------------------*/
 
 body {
@@ -234,3 +242,4 @@ footer {
 @import "pages/home";
 @import "pages/faq";
 @import "posts";
+@import "sidebar";

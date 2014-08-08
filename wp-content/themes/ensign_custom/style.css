@@ -343,6 +343,13 @@ h6, h7, h8 {
 .mobile_only, .mobileNav {
   display: none; }
 
+hr {
+  height: 2px;
+  padding: 0;
+  margin: 1em 0;
+  border: none;
+  background: #9bb8d9; }
+
 /*-------------------------------------- Structure ---------------------------------------*/
 body {
   line-height: 1.2em;
@@ -805,6 +812,9 @@ dl.accordion dd {
 /* Wordpress Blog Posts */
 /***********************************************************************************/
 .wp_content .post_body {
+  margin: 1em 0;
+  padding-bottom: 1em;
+  border-bottom: 2px solid #9bb8d9;
   zoom: 1; }
   .wp_content .post_body:before, .wp_content .post_body:after {
     content: "\0020";
@@ -813,18 +823,11 @@ dl.accordion dd {
     overflow: hidden; }
   .wp_content .post_body:after {
     clear: both; }
-  .wp_content .post_body .f_image {
-    display: block;
-    float: left;
-    margin-right: 3.22581%;
-    width: 48.3871%; }
-    .wp_content .post_body .f_image:last-child {
-      margin-right: 0; }
   .wp_content .post_body .f_copy {
     display: block;
     float: left;
     margin-right: 3.22581%;
-    width: 48.3871%;
+    width: 100%;
     margin-right: 0;
     padding-left: 1.15em; }
     .wp_content .post_body .f_copy:last-child {
@@ -833,17 +836,45 @@ dl.accordion dd {
     font-size: 16px;
     color: #dee8f2; }
   .wp_content .post_body h1 a {
-    color: red;
-    font-size: 40px;
+    color: #cc0000;
+    font-size: 36px;
+    line-height: 1.15em;
+    text-transform: uppercase;
     text-decoration: none;
     font-weight: 400; }
     .wp_content .post_body h1 a:hover {
-      color: #c20000;
+      color: #8f0000;
       text-decoration: none !important;
       border-bottom: none; }
   .wp_content .post_body h1 {
     font-weight: 400; }
+  .wp_content .post_body p.author_meta {
+    color: #9bb8d9; }
+    .wp_content .post_body p.author_meta a {
+      text-decoration: none; }
+  .wp_content .post_body p.read_more {
+    text-align: right; }
+  .wp_content .post_body:last-child {
+    border-bottom: none; }
 
+.wp_content div.wp-pagenavi {
+  padding-bottom: 1.5em;
+  margin-left: .25em; }
+  .wp_content div.wp-pagenavi .pages {
+    display: none; }
+  .wp_content div.wp-pagenavi a, .wp_content div.wp-pagenavi span {
+    border: 1px solid #9bb8d9; }
+    .wp_content div.wp-pagenavi a:hover, .wp_content div.wp-pagenavi span:hover {
+      text-decoration: none;
+      border-color: #dee8f2; }
+
+article.single-post {
+  padding-left: 2em;
+  padding-right: 2em; }
+
+/***********************************************************************************/
+/* Site-Wide Sidebars */
+/***********************************************************************************/
 aside.sidebar {
   padding-top: 2em;
   padding-bottom: 2em; }
@@ -870,18 +901,3 @@ aside.sidebar {
 
 aside.left_sidebar h4, aside.left_sidebar ul {
   margin-left: 0; }
-
-.wp_content div.wp-pagenavi {
-  padding-bottom: 1.5em;
-  margin-left: .25em; }
-  .wp_content div.wp-pagenavi .pages {
-    display: none; }
-  .wp_content div.wp-pagenavi a, .wp_content div.wp-pagenavi span {
-    border: 1px solid #3333ff; }
-    .wp_content div.wp-pagenavi a:hover, .wp_content div.wp-pagenavi span:hover {
-      text-decoration: none;
-      border-color: #dee8f2; }
-
-article.single-post {
-  padding-left: 2em;
-  padding-right: 2em; }

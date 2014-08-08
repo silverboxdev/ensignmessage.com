@@ -125,6 +125,17 @@ if(function_exists('register_sidebar')) {
 }
 
 /***********************************************************************************/
+/* Extensions */
+/***********************************************************************************/
+
+// Replaces the excerpt "more" text by a link
+function new_excerpt_more($more) {
+       global $post;
+	return '...<p class="read_more"><a class="button blue_button" href="'. get_permalink($post->ID) . '">Read More</a></p>';
+}
+add_filter('excerpt_more', 'new_excerpt_more');
+
+/***********************************************************************************/
 /* Enqueue Styles */
 /***********************************************************************************/
 
