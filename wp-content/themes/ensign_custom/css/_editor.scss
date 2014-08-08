@@ -14,11 +14,12 @@
 	}
 	
 	a {
-		color: blue;
+		color: $body_link;
 		text-decoration: underline;
 		@include color-transition;
 		&:hover {
-			color: pink;
+			color: $body_link_hover;
+			text-decoration: none;
 		}
 	}
 	
@@ -62,10 +63,11 @@
 	}
 	
 	blockquote {
-		margin: 1em 3em;
+		margin: 1em 0;
 		color: #666;
-		border-left: 2px solid #666;
-		padding-left: 1em;
+		background: $grey;
+		color: $dark_blue;
+		padding: .5em 1.25em;
 	}
 	
 	#wpcf7-f44-p14-o1 br { display: none; }

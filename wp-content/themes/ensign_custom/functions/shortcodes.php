@@ -112,7 +112,7 @@ add_shortcode('question', 'question');
 
 // Buttons
 function button($atts, $content = null) {
-	 extract(shortcode_atts(array('title' => 'Button Needs Text', 'class' => "button1", 'link' => '#'), $atts));
+	 extract(shortcode_atts(array('title' => 'Button Needs Text', 'class' => "dark_blue_button", 'link' => '#'), $atts));
 	 $button_title = $title;
 	 $button_class = $class;
 	 $button_link = $link;

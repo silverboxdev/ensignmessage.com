@@ -4,16 +4,40 @@
 
 // Generic Font
 
-@mixin font_family {
-	font-family: 'Font Family Name', sans-serif;
+@mixin goldenbook {
+	font-family: 'goldenbook', sans-serif;
 	font-style: normal;
-	font-weight: 400;
+	font-weight: 700;
 }
 
-@mixin font_family_bold {
-	font-family: 'Font Family Name', sans-serif;
+@mixin museo {
+	font-family: 'museo-sans', sans-serif;
+	font-style: normal;
+	font-weight: 500;	
+}
+
+@mixin museo_700 {
+	font-family: 'museo-sans', sans-serif;
 	font-style: normal;
 	font-weight: 700;	
+}
+
+@mixin museo_700_italic {
+	font-family: 'museo-sans', sans-serif;
+	font-style: italic;
+	font-weight: 700;
+}
+
+@mixin museo_900 {
+	font-family: "museo-sans",sans-serif;
+	font-style: normal;
+	font-weight: 900;
+}
+
+@mixin museo_900_italic {
+	font-family: "museo-sans",sans-serif;
+	font-style: italic;
+	font-weight: 900;
 }
 
 @mixin box-sizing {

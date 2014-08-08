@@ -21,18 +21,18 @@
 	}
 	
 	span.wpcf7-not-valid-tip {
-		color: $color1;
+		color: $red;
 	}
 	
 	div.wpcf7-validation-errors {
-		border-color: $color1;
+		border-color: $red;
 		font-size: 16px;
 		margin-left: 0;
 		width: 100%;
 	}
 	
 	div.wpcf7-mail-sent-ok {
-		border-color: $color2;
+		border-color: $blue;
 		margin-left: 0;
 		width: 100%;
 	}

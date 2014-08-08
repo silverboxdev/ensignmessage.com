@@ -5,6 +5,8 @@
 body {
 	font-size: 16px;
 	line-height: 1.25em;
+	color: $body_color;
+	@include museo;
 }
 
 h1, h2, h3, h4, h5, h6 {
@@ -12,25 +14,42 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 h1 {
-	font-size: em(36);
+	@include goldenbook;
+	font-size: 36px;
+	color: $h1;
 }
 
 h2 {
-	font-size: em(24);
+	@include museo_900;
+	font-size: 22px;
+	color: $h2;
+}
+
+h2.rev {
+	color: $h2_rev;
+	background: $h2_rev_bg;
+	padding: .35em;
 }
 
 h3 {
-	font-size: em(20);
+	@include museo_700;
+	font-size: 20px;
+	color: $h3;
 }
 
 h4 {
-	font-size: em(18);
+	@include museo_900;
+	font-size: 18px;
+	color: $h4;
 }
 
 h5 {
-	font-size: 1em;
+	@include museo_900;
+	font-size: 16px;
+	color: $h5;
 }
 
 h6, h7, h8 {
-	font-size: .85em;
+	font-size: .9em;
+	color: $h5;
 }

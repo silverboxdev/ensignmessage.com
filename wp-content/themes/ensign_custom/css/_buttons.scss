@@ -13,37 +13,37 @@ body, .wp_content {
 		text-decoration: none;
 	}
 	
-	.button1 {
+	.red_button {
 		color: #FFF;
-		background: $button1;
+		background: $red;
 		@include all-transition;
 		&:hover {
 			color: #FFF;
-			background: darken($button1, 12%);
+			background: $light_blue;
 			text-decoration: none;
 			cursor: pointer;
 		}
 	}
 	
-	.button2 {
-		color: #FFF;
-		background: $button2;
+	.blue_button {
+		color: $grey;
+		background: $blue;
 		@include all-transition;
 		&:hover {
 			color: #FFF;
-			background: darken($button2, 12%);
+			background: $light_blue;
 			text-decoration: none;
 			cursor: pointer;
 		}
 	}
 	
-	.button3 {
-		color: $button3_text;
-		background: $button3;
+	.dark_blue_button {
+		color: $blue;
+		background: $dark_blue;
 		@include all-transition;
 		&:hover {
-			color: $button3_text;
-			background: darken($button3, 12%);
+			color: #FFF;
+			background: $blue;
 			text-decoration: none;
 			cursor: pointer;
 		}

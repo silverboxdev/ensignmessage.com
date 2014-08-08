@@ -133,28 +133,58 @@ strong {
 /***********************************************************************************/
 body {
   font-size: 16px;
-  line-height: 1.25em; }
+  line-height: 1.25em;
+  color: #0b2444;
+  font-family: 'museo-sans', sans-serif;
+  font-style: normal;
+  font-weight: 500; }
 
 h1, h2, h3, h4, h5, h6 {
   margin-bottom: .5em; }
 
 h1 {
-  font-size: 2.25em; }
+  font-family: 'goldenbook', sans-serif;
+  font-style: normal;
+  font-weight: 700;
+  font-size: 36px;
+  color: #cc0000; }
 
 h2 {
-  font-size: 1.5em; }
+  font-family: "museo-sans",sans-serif;
+  font-style: normal;
+  font-weight: 900;
+  font-size: 22px;
+  color: #588ac0; }
+
+h2.rev {
+  color: white;
+  background: #588ac0;
+  padding: .35em; }
 
 h3 {
-  font-size: 1.25em; }
+  font-family: 'museo-sans', sans-serif;
+  font-style: normal;
+  font-weight: 700;
+  font-size: 20px;
+  color: #9bb8d9; }
 
 h4 {
-  font-size: 1.125em; }
+  font-family: "museo-sans",sans-serif;
+  font-style: normal;
+  font-weight: 900;
+  font-size: 18px;
+  color: #cc0000; }
 
 h5 {
-  font-size: 1em; }
+  font-family: "museo-sans",sans-serif;
+  font-style: normal;
+  font-weight: 900;
+  font-size: 16px;
+  color: #588ac0; }
 
 h6, h7, h8 {
-  font-size: .85em; }
+  font-size: .9em;
+  color: #588ac0; }
 
 /***********************************************************************************/
 /* Column Code */
@@ -316,7 +346,6 @@ h6, h7, h8 {
 /*-------------------------------------- Structure ---------------------------------------*/
 body {
   line-height: 1.2em;
-  font: 16px Arial, Verdana, sans-serif;
   color: #333;
   background: #e2e2e2; }
 
@@ -368,7 +397,7 @@ header {
       position: relative; }
       header .mainNav ul li a {
         display: inline-block;
-        color: #cc0000;
+        color: pink;
         text-decoration: none;
         margin-right: 1.5em;
         -webkit-transition: all 0.2s ease;
@@ -447,14 +476,15 @@ footer {
   .wp_content p {
     margin: 1em 0; }
   .wp_content a {
-    color: blue;
+    color: #9bb8d9;
     text-decoration: underline;
     -webkit-transition: color 0.2s ease;
     -moz-transition: color 0.2s ease;
     -o-transition: color 0.2s ease;
     transition: color 0.2s ease; }
     .wp_content a:hover {
-      color: pink; }
+      color: #cc0000;
+      text-decoration: none; }
   .wp_content ol {
     margin: 1em 0 1em 1.15em; }
     .wp_content ol li {
@@ -479,10 +509,11 @@ footer {
   .wp_content i, .wp_content em {
     font-style: italic; }
   .wp_content blockquote {
-    margin: 1em 3em;
+    margin: 1em 0;
     color: #666;
-    border-left: 2px solid #666;
-    padding-left: 1em; }
+    background: #dee8f2;
+    color: #0b2444;
+    padding: .5em 1.25em; }
   .wp_content #wpcf7-f44-p14-o1 br {
     display: none; }
   .wp_content #wpcf7-f44-p14-o1 p {
@@ -544,40 +575,40 @@ body .button, .wp_content .button {
   -moz-border-radius: 5px;
   -webkit-border-radius: 5px;
   text-decoration: none; }
-body .button1, .wp_content .button1 {
+body .red_button, .wp_content .red_button {
   color: #FFF;
   background: #cc0000;
   -webkit-transition: all 0.2s ease;
   -moz-transition: all 0.2s ease;
   -o-transition: all 0.2s ease;
   transition: all 0.2s ease; }
-  body .button1:hover, .wp_content .button1:hover {
+  body .red_button:hover, .wp_content .red_button:hover {
     color: #FFF;
-    background: #8f0000;
+    background: #9bb8d9;
     text-decoration: none;
     cursor: pointer; }
-body .button2, .wp_content .button2 {
-  color: #FFF;
-  background: #ff6600;
+body .blue_button, .wp_content .blue_button {
+  color: #dee8f2;
+  background: #588ac0;
   -webkit-transition: all 0.2s ease;
   -moz-transition: all 0.2s ease;
   -o-transition: all 0.2s ease;
   transition: all 0.2s ease; }
-  body .button2:hover, .wp_content .button2:hover {
+  body .blue_button:hover, .wp_content .blue_button:hover {
     color: #FFF;
-    background: #c24e00;
+    background: #9bb8d9;
     text-decoration: none;
     cursor: pointer; }
-body .button3, .wp_content .button3 {
-  color: #cc0000;
-  background: #cccccc;
+body .dark_blue_button, .wp_content .dark_blue_button {
+  color: #588ac0;
+  background: #0b2444;
   -webkit-transition: all 0.2s ease;
   -moz-transition: all 0.2s ease;
   -o-transition: all 0.2s ease;
   transition: all 0.2s ease; }
-  body .button3:hover, .wp_content .button3:hover {
-    color: #cc0000;
-    background: #adadad;
+  body .dark_blue_button:hover, .wp_content .dark_blue_button:hover {
+    color: #FFF;
+    background: #588ac0;
     text-decoration: none;
     cursor: pointer; }
 
@@ -597,7 +628,7 @@ body .button3, .wp_content .button3 {
   padding: .4em 1em;
   font-size: 16px;
   margin: 0 0 .5em 0;
-  border: 1px solid #666666; }
+  border: 1px solid #dee8f2; }
 .wp_content span.wpcf7-not-valid-tip {
   color: #cc0000; }
 .wp_content div.wpcf7-validation-errors {
@@ -606,7 +637,7 @@ body .button3, .wp_content .button3 {
   margin-left: 0;
   width: 100%; }
 .wp_content div.wpcf7-mail-sent-ok {
-  border-color: #ff6600;
+  border-color: #588ac0;
   margin-left: 0;
   width: 100%; }
 
@@ -619,7 +650,7 @@ body .button3, .wp_content .button3 {
     width: 100%;
     height: 100%;
     background: #FFF;
-    color: #0d0d0d;
+    color: #5e8fc0;
     border: 1px solid #FFF;
     font-size: 12px;
     padding: 0 1em; }
@@ -712,7 +743,7 @@ dl.accordion dd {
       margin-right: 0; }
   .wp_content .post_body .post_meta {
     font-size: 16px;
-    color: #666666; }
+    color: #dee8f2; }
   .wp_content .post_body h1 a {
     color: red;
     font-size: 40px;
@@ -760,7 +791,7 @@ aside.left_sidebar h4, aside.left_sidebar ul {
     border: 1px solid #3333ff; }
     .wp_content div.wp-pagenavi a:hover, .wp_content div.wp-pagenavi span:hover {
       text-decoration: none;
-      border-color: #666666; }
+      border-color: #dee8f2; }
 
 article.single-post {
   padding-left: 2em;
