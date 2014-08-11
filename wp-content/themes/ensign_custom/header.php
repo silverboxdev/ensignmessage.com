@@ -17,8 +17,7 @@
 		
 		<!-- Styles -->
 		<link rel="stylesheet" href="<?php bloginfo('stylesheet_url'); ?>" />
-		
-		<!-- Typekit -->
+		<link rel="shortcut icon" type="image/x-icon" href="/favicon.ico" />
 		
 		<?php wp_head(); ?>
 		
