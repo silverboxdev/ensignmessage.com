@@ -473,7 +473,8 @@ header {
       position: absolute;
       top: 100%;
       left: 0;
-      width: 250px; }
+      width: 250px;
+      z-index: 999; }
       .mainNav ul li ul li a, .footerNav ul li ul li a {
         font-size: 16px;
         width: 250px;
