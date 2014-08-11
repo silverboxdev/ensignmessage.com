@@ -1,0 +1,29 @@
+ul.archive_list {
+
+	hr:first-child {
+		display: none;
+	}
+
+	li.archive-year {
+		list-style: none;
+		
+		h2 a {
+			color: $h1;
+			text-decoration: none;
+			@include goldenbook;
+			font-size: 36px;
+			@include color-transition;
+			
+			&:hover {
+				color: $blue;
+			}
+		}		
+		
+	}
+	
+	li.archive-month {
+		margin-left: 3em;
+		list-style: none;
+	}
+	
+}

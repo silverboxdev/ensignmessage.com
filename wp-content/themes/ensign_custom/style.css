@@ -852,6 +852,27 @@ dl.accordion dd {
   .wp_content a.active_question:hover {
     background-position: 0 -50px; }
 
+ul.archive_list hr:first-child {
+  display: none; }
+ul.archive_list li.archive-year {
+  list-style: none; }
+  ul.archive_list li.archive-year h2 a {
+    color: #cc0000;
+    text-decoration: none;
+    font-family: 'goldenbook', sans-serif;
+    font-style: normal;
+    font-weight: 700;
+    font-size: 36px;
+    -webkit-transition: color 0.2s ease;
+    -moz-transition: color 0.2s ease;
+    -o-transition: color 0.2s ease;
+    transition: color 0.2s ease; }
+    ul.archive_list li.archive-year h2 a:hover {
+      color: #588ac0; }
+ul.archive_list li.archive-month {
+  margin-left: 3em;
+  list-style: none; }
+
 /***********************************************************************************/
 /* Wordpress Blog Posts */
 /***********************************************************************************/
@@ -872,8 +893,7 @@ dl.accordion dd {
     float: left;
     margin-right: 3.22581%;
     width: 100%;
-    margin-right: 0;
-    padding-left: 1.15em; }
+    margin-right: 0; }
     .wp_content .post_body .f_copy:last-child {
       margin-right: 0; }
   .wp_content .post_body .post_meta {
