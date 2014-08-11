@@ -516,6 +516,12 @@ div.searchContain {
     background: transparent;
     color: #588ac0; }
 
+body.customize-support div.searchContain {
+  top: 150px; }
+
+body div.searchContain {
+  top: 118px; }
+
 /*-------------------------------------- Page Layouts ---------------------------------------*/
 .default_page {
   margin: 0;
