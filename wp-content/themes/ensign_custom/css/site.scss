@@ -225,7 +225,11 @@ body div.searchContain {
 
 .landing_page {
 	background: $dark_blue;
-	padding-top: 6em;
+	padding-top: 75px;
+	
+	.sidebar_bottom_footer, .sidebar_bottom {
+		display: none;
+	}
 }
 
 /*-------------------------------------- Sidebar Bottom ---------------------------------------*/
@@ -271,8 +275,12 @@ footer {
 	
 	.copyright {
 		clear: both;
-		margin: 2em 0 1em 0;
+		margin: 1em 0 1em 0;
 		font-size: 12px;
+	}
+	
+	.footerNav {
+		margin-bottom: 2em;
 	}
 }
 

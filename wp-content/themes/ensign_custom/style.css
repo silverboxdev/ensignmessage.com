@@ -552,7 +552,9 @@ body div.searchContain {
 
 .landing_page {
   background: #0b2444;
-  padding-top: 6em; }
+  padding-top: 75px; }
+  .landing_page .sidebar_bottom_footer, .landing_page .sidebar_bottom {
+    display: none; }
 
 /*-------------------------------------- Sidebar Bottom ---------------------------------------*/
 .sidebar_bottom {
@@ -598,8 +600,10 @@ footer {
       clear: both; }
   footer .copyright {
     clear: both;
-    margin: 2em 0 1em 0;
+    margin: 1em 0 1em 0;
     font-size: 12px; }
+  footer .footerNav {
+    margin-bottom: 2em; }
 
 /*-------------------------------------- Imports ---------------------------------------*/
 /***********************************************************************************/
