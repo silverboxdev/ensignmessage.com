@@ -140,7 +140,8 @@ body {
   font-weight: 500; }
 
 h1, h2, h3, h4, h5, h6 {
-  margin-bottom: .5em; }
+  margin-bottom: .5em;
+  line-height: 1.15em; }
 
 h1 {
   font-family: 'goldenbook', sans-serif;
@@ -1099,6 +1100,9 @@ aside.left_sidebar h4, aside.left_sidebar ul {
 
   .wp_content .post_body .f_copy {
     padding-left: 0; }
+
+  aside.sidebar {
+    padding-bottom: 0; }
 
   aside.sidebar a.recentTrigger {
     text-decoration: underline; }
