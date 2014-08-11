@@ -327,7 +327,7 @@ h6, h7, h8 {
 /***********************************************************************************/
 /* Mobile Columns */
 /***********************************************************************************/
-@media screen and (max-width: 640px) {
+@media screen and (max-width: 768px) {
   *[class*='span'], *[class^=' span'] {
     display: block;
     float: left;
@@ -349,6 +349,9 @@ hr {
   margin: 1em 0;
   border: none;
   background: #9bb8d9; }
+
+.triggerContainer {
+  display: none; }
 
 /*-------------------------------------- Structure ---------------------------------------*/
 body {
@@ -572,6 +575,9 @@ body div.searchContain {
     padding-bottom: .5em; }
   .sidebar_bottom .dark_blue_button:hover {
     background: #081b32; }
+
+.sidebar_bottom_footer {
+  display: none; }
 
 /*-------------------------------------- Footer ---------------------------------------*/
 footer {
@@ -875,7 +881,7 @@ dl.accordion dd {
     text-decoration: none;
     font-weight: 400; }
     .wp_content .post_body h1 a:hover {
-      color: #8f0000;
+      color: #588ac0;
       text-decoration: none !important;
       border-bottom: none; }
   .wp_content .post_body h1 {
@@ -944,3 +950,189 @@ aside.sidebar {
 
 aside.left_sidebar h4, aside.left_sidebar ul {
   margin-left: 0; }
+
+/*-------------------------------------- Small Screens ---------------------------------------*/
+@media screen and (max-width: 1024px) {
+  /***********************************************************************************/
+  /* Small Screens Breakpoint - 1024px */
+  /***********************************************************************************/
+  .body_wrapper {
+    width: 100%; }
+
+  div.searchContain {
+    width: 100%; }
+
+  /***********************************************************************************/
+  /* 940px Breakpoint for Header */
+  /***********************************************************************************/
+  /***********************************************************************************/
+  /* Custom Breakpoint - 915px */
+  /***********************************************************************************/ }
+@media screen and (max-width: 1024px) and (max-width: 940px) {
+  header {
+    height: 110px; }
+    header .logo {
+      display: block;
+      float: left;
+      margin-right: 2.12766%;
+      width: 100%;
+      margin-right: 0;
+      text-align: center; }
+      header .logo:last-child {
+        margin-right: 0; }
+    header .tagline {
+      display: block;
+      float: left;
+      margin-right: 2.12766%;
+      width: 100%;
+      margin-right: 0;
+      text-align: center; }
+      header .tagline:last-child {
+        margin-right: 0; }
+      header .tagline h2 {
+        text-align: center;
+        margin-top: .35em;
+        margin-bottom: 1em; }
+
+  body.customize-support div.searchContain {
+    top: 185px; }
+
+  body div.searchContain {
+    top: 153px; } }
+@media screen and (max-width: 1024px) and (max-width: 915px) {
+  .mainNav {
+    display: none; }
+
+  .left_sidebar, .right_sidebar {
+    background: #FFF; }
+
+  .mobileNav {
+    display: block; }
+
+  .triggerContainer {
+    display: block;
+    background: #0b2444; }
+    .triggerContainer a {
+      width: 44px;
+      height: 44px;
+      background: url("images/icon_trigger.png") 0 0 no-repeat;
+      display: block;
+      margin-left: auto;
+      margin-right: auto;
+      text-indent: -999em; }
+
+  .m_search_contain {
+    position: relative; }
+
+  div.searchContain {
+    display: none;
+    position: absolute;
+    height: auto;
+    top: 100% !important;
+    left: 0; }
+
+  .mobileNav {
+    display: none;
+    width: 100%;
+    zoom: 1;
+    background: #0b2444; }
+    .mobileNav:before, .mobileNav:after {
+      content: "\0020";
+      display: block;
+      height: 0;
+      overflow: hidden; }
+    .mobileNav:after {
+      clear: both; }
+    .mobileNav ul li {
+      display: block;
+      position: relative;
+      font-family: "museo-sans",sans-serif;
+      font-style: normal;
+      font-weight: 900;
+      font-size: 18px; }
+      .mobileNav ul li a {
+        display: block;
+        color: #dee8f2;
+        background: #588ac0;
+        text-decoration: none;
+        margin-right: 0;
+        -webkit-transition: all 0.2s ease;
+        -moz-transition: all 0.2s ease;
+        -o-transition: all 0.2s ease;
+        transition: all 0.2s ease;
+        padding: .7em .7em .7em 3em;
+        border-bottom: 1px solid #9bb8d9; }
+        .mobileNav ul li a:hover {
+          color: white;
+          background: #9bb8d9; }
+      .mobileNav ul li a.searchTrigger {
+        width: 44px;
+        height: 44px;
+        text-indent: -999em;
+        background: url("images/icon_search.png") 0 0 no-repeat;
+        -webkit-transition: none 0;
+        -moz-transition: none 0;
+        -o-transition: none 0;
+        transition: none 0;
+        margin-right: 0; }
+        .mobileNav ul li a.searchTrigger:hover {
+          background-position: 0 -44px; }
+      .mobileNav ul li:last-child a {
+        border-bottom: none; }
+      .mobileNav ul li ul li a {
+        padding-left: 5em;
+        color: white;
+        background: #9bb8d9;
+        border-bottom: 1px solid #588ac0; }
+        .mobileNav ul li ul li a:hover {
+          color: #588ac0; }
+      .mobileNav ul li ul li:last-child a {
+        border-bottom: 1px solid #9bb8d9; }
+    .mobileNav ul li.hover_nav a {
+      color: #9bb8d9; }
+
+  .wp_content {
+    padding-top: 0; }
+
+  .wp_content .post_body .f_copy {
+    padding-left: 0; }
+
+  aside.sidebar a.recentTrigger {
+    text-decoration: underline; }
+    aside.sidebar a.recentTrigger:hover {
+      text-decoration: none; }
+
+  aside.sidebar ul.sidebar-widget ul {
+    display: none; }
+
+  .sidebar_bottom {
+    display: none; }
+
+  .sidebar_bottom_footer {
+    position: static;
+    display: block;
+    float: left;
+    margin-right: 2.12766%;
+    width: 100%;
+    width: 100%;
+    background: #588ac0;
+    margin-right: 0;
+    padding: 1em 0;
+    text-align: center; }
+    .sidebar_bottom_footer:last-child {
+      margin-right: 0; }
+    .sidebar_bottom_footer .button {
+      width: 240px;
+      text-transform: uppercase;
+      padding-top: .5em;
+      padding-bottom: .5em;
+      margin-left: auto;
+      margin-right: auto; }
+    .sidebar_bottom_footer .dark_blue_button:hover {
+      background: #081b32; }
+
+  .footerNav {
+    display: none; }
+
+  footer .copyright {
+    margin: 1em 0; } }

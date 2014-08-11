@@ -42,9 +42,7 @@
 					<div class="tagline">
 						<h2><?= get_bloginfo('description'); ?></h2>
 					</div>
-				
-					<a href="#" class="navTrigger mobile_only">Trigger</a>
-				
+								
 				</div>
 				
 			</header>
@@ -61,26 +59,33 @@
 
 			</nav>
 			
-			<div class="searchContain">
-				<div class="inside">
-				<form action="<?php echo home_url(); ?>" id="search-form" method="get">
-					<a href="#" class="searchButton"><img src="<?= IMAGES; ?>/btn-search-big.png" alt="Search" /></a>
-					<input type="hidden" value="submit" />
-					<input type="text" name="s" id="s" value="Search For..." onblur="if(this.value=='')this.value='Search For...'" onfocus="if(this.value=='Search For...')this.value=''" />
-				</form>
-				</div>
-			</div>
+			<div class="m_search_contain">
 			
-			<!-- Main Navigation -->
-			<nav class="mobileNav">
-				<ul>
+				<div class="triggerContainer">
+					<a href="#" class="navTrigger mobile_only">Trigger</a>
+				</div>
+	
+				
+				<!-- Main Navigation -->
+				<nav class="mobileNav">
 					<?php 
 						wp_nav_menu(array(
 							'theme_location' => 'top-menu'
 						)); 
 					?>	
-				</ul>
-			</nav>
+				</nav>
+				
+				<div class="searchContain">
+					<div class="inside">
+					<form action="<?php echo home_url(); ?>" id="search-form" method="get">
+						<a href="#" class="searchButton"><img src="<?= IMAGES; ?>/btn-search-big.png" alt="Search" /></a>
+						<input type="hidden" value="submit" />
+						<input type="text" name="s" id="s" value="Search For..." onblur="if(this.value=='')this.value='Search For...'" onfocus="if(this.value=='Search For...')this.value=''" />
+					</form>
+					</div>
+				</div>
+			
+			</div>
 			
 			<? } ?>
 			

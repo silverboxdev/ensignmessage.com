@@ -28,7 +28,7 @@
 		font-weight: 400;
 		
 		&:hover {
-			color: darken($red, 12%);
+			color: $blue;
 			text-decoration: none !important;
 			border-bottom: none;
 		}

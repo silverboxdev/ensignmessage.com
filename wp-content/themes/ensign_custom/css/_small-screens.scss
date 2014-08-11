@@ -1,4 +1,225 @@
 /***********************************************************************************/
-/* Small Screens Breakpoint */
+/* Small Screens Breakpoint - 1024px */
 /***********************************************************************************/
 
+.body_wrapper {
+	width: 100%;
+}
+
+div.searchContain {
+	width: 100%;
+}
+
+
+/***********************************************************************************/
+/* 940px Breakpoint for Header */
+/***********************************************************************************/
+
+@media screen and (max-width: 940px) {
+	
+	header {
+		
+		height: 110px;
+	
+		.logo {
+			@include span-columns(12 of 12);
+			@include omega();
+			text-align: center;
+		}
+		.tagline {
+			@include span-columns(12 of 12);
+			@include omega();
+			text-align: center;
+			
+			h2 {
+				text-align: center;
+				margin-top: .35em;
+				margin-bottom: 1em;
+			}
+		}
+	}
+	
+	body.customize-support div.searchContain {
+		top: 185px;
+	}
+
+	body div.searchContain {
+		top: 153px;
+	}
+	
+}
+
+
+/***********************************************************************************/
+/* Custom Breakpoint - 915px */
+/***********************************************************************************/
+
+@media screen and (max-width: 915px) {
+	
+	.mainNav {
+		display: none;
+	}
+	
+	.left_sidebar, .right_sidebar {
+		background: #FFF;
+	}
+	
+	.mobileNav {
+		display: block;
+	}
+	
+	.triggerContainer {
+		display: block;
+		background: $dark_blue;
+		
+		a {
+			width: 44px;
+			height: 44px;
+			background: url('images/icon_trigger.png') 0 0 no-repeat;
+			display: block;
+			margin-left: auto;
+			margin-right: auto;
+			text-indent: -999em;
+		}
+	}
+	
+	.m_search_contain {
+		position: relative;
+	}
+	
+	div.searchContain {
+		display: none;
+		position: absolute;
+		height: auto;
+		top: 100% !important;
+		left:0;
+	}
+	
+	.mobileNav {
+		display: none;
+		width: 100%;
+		@include clearfix;
+		background: $dark_blue;
+		
+		ul {
+		
+			li {
+				
+				display: block;
+				position: relative;
+				@include museo_900;
+				font-size: 18px;
+				
+				a {
+					display: block;
+					color: $mobile_color;
+					background: $mobile_bg;
+					text-decoration: none;
+					margin-right: 0;
+					@include all-transition;
+					padding: .7em .7em .7em 3em;
+					border-bottom: 1px solid $light_blue;
+					
+					&:hover {
+						color: $mobile_hover_color;
+						background: $mobile_hover_bg;
+					}
+				}
+				
+				a.searchTrigger {
+					width: 44px;
+					height: 44px;
+					text-indent: -999em;
+					background: url('images/icon_search.png') 0 0 no-repeat;
+					@include no-transition;
+					margin-right: 0;
+					&:hover {
+						background-position: 0 -44px;
+					}
+				}
+				
+				&:last-child a {
+					border-bottom: none;
+				}
+				
+				ul {
+					li {
+						a {
+							padding-left: 5em;
+							color: $mobile_hover_color;
+							background: $mobile_hover_bg;
+							border-bottom: 1px solid $blue;
+							&:hover {
+								color: $mobile_bg;
+							}
+						}
+						
+						&:last-child a {
+							border-bottom: 1px solid $light_blue;
+						}
+					}
+				}
+			}
+		
+			
+			li.hover_nav a {
+				color: $light_blue;
+			}
+		}
+	}
+	
+	.wp_content {
+		padding-top: 0;
+	}
+	
+	.wp_content .post_body .f_copy {
+		padding-left: 0;
+	}
+
+	aside.sidebar a.recentTrigger {
+		text-decoration: underline;
+		&:hover {
+			text-decoration: none;
+		}
+	}
+	
+	aside.sidebar ul.sidebar-widget ul {
+		display: none;
+	}
+	
+	.sidebar_bottom {
+		display: none;
+	}
+	
+	.sidebar_bottom_footer {
+		position: static;
+		@include span-columns(12 of 12);
+		width: 100%;
+		background: $blue;
+		@include omega();
+		padding: 1em 0;
+		text-align: center;
+		
+		.button {
+			width: 240px;
+			text-transform: uppercase;
+			padding-top: .5em;
+			padding-bottom: .5em;
+			margin-left: auto;
+			margin-right: auto;
+		}
+		
+		.dark_blue_button:hover {
+			background: darken($dark_blue, 4%);
+		}
+	}
+	
+	.footerNav {
+		display: none;
+	}
+
+	footer .copyright {
+		margin: 1em 0;
+	}
+	
+}

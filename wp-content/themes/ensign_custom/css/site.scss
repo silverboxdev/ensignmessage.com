@@ -24,6 +24,10 @@ hr {
 	background: $light_blue;
 }
 
+.triggerContainer {
+	display: none;
+}
+
 /*-------------------------------------- Structure ---------------------------------------*/
 
 body {
@@ -248,6 +252,10 @@ body div.searchContain {
 	}
 }
 
+.sidebar_bottom_footer {
+	display: none;
+}
+
 /*-------------------------------------- Footer ---------------------------------------*/
 
 footer {
@@ -276,3 +284,9 @@ footer {
 @import "pages/faq";
 @import "posts";
 @import "sidebar";
+
+/*-------------------------------------- Small Screens ---------------------------------------*/
+
+@media screen and (max-width: 1024px) {
+	@import "small-screens";
+}

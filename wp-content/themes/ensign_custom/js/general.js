@@ -35,6 +35,12 @@ $(document).ready(function() {
 	 $('.navTrigger').click(function(e) {
 		 $(this).toggleClass('triggerActive');
 		 $('.mobileNav').slideToggle(650);
+		 if($('div.searchContain').is(':hidden')) {
+			 $('div.searchContain').show().addClass('search_in_mobile');
+		 }
+		 else {
+			 $('div.searchContain').hide();
+		 }
 		 e.preventDefault();
 	 });
 	 
@@ -53,6 +59,57 @@ $(document).ready(function() {
 		$('.searchContain').slideToggle('fast');
 		e.preventDefault();
 	});
+	
+	 var $window = $(window);
+     
+    function checkWidth() {
+	    
+	    var windowsize = $window.width();
+        
+        // IF window is Wide
+        if (windowsize > 915) {        		
+				$('.mainNav').show();
+				$('.mobileNav').hide();
+				//$('div.searchContain').hide();
+				
+			}
+			// IF Window is Narrow
+			else {
+				$('.mainNav').hide();
+			}
+			
+			if (windowsize < 769) {
+				$('.sidebar-widget h4').wrap('<a href="#" class="recentTrigger"></a>');
+			}
+			
+			if(windowsize < 916) {
+				var search = $('div.searchContain');
+				
+				if($(search).is(':visible')) {
+					if($(search).hasClass('search_in_mobile')) {
+						// Do Nothing
+					}
+					else {
+						$('div.searchContain').hide();
+					}
+				}
+			}
+			
+			else {
+				$('div.searchContain').removeClass('search_in_mobile');
+			}
+			
+    }
+    
+    // Execute on load
+    checkWidth();
+    // Bind event listener
+    $(window).resize(checkWidth);
+    
+    $('a.recentTrigger').click(function(e) {
+	    $(this).next().slideToggle(600);
+	    e.preventDefault();
+    });
 
 });
 
