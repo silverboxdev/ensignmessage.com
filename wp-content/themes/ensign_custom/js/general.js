@@ -36,10 +36,13 @@ $(document).ready(function() {
 		 $(this).toggleClass('triggerActive');
 		 $('.mobileNav').slideToggle(650);
 		 if($('div.searchContain').is(':hidden')) {
-			 $('div.searchContain').show().addClass('search_in_mobile');
+			 $('div.searchContain')
+			 	.show()
+			 	.addClass('search_in_mobile');
 		 }
 		 else {
-			 $('div.searchContain').hide();
+			 $('div.searchContain')
+			 	.hide();
 		 }
 		 e.preventDefault();
 	 });

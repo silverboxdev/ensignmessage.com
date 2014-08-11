@@ -967,6 +967,9 @@ aside.left_sidebar h4, aside.left_sidebar ul {
   /***********************************************************************************/
   /***********************************************************************************/
   /* Custom Breakpoint - 915px */
+  /***********************************************************************************/
+  /***********************************************************************************/
+  /* 640 Breakpoint */
   /***********************************************************************************/ }
 @media screen and (max-width: 1024px) and (max-width: 940px) {
   header {
@@ -1092,7 +1095,7 @@ aside.left_sidebar h4, aside.left_sidebar ul {
       color: #9bb8d9; }
 
   .wp_content {
-    padding-top: 0; }
+    padding-top: .5em; }
 
   .wp_content .post_body .f_copy {
     padding-left: 0; }
@@ -1136,3 +1139,13 @@ aside.left_sidebar h4, aside.left_sidebar ul {
 
   footer .copyright {
     margin: 1em 0; } }
+@media screen and (max-width: 1024px) and (max-width: 460px) {
+  header {
+    height: 184px; }
+    header div.logo h1 {
+      line-height: 1em;
+      margin-bottom: .25em; }
+
+  div.searchContain input[type="text"] {
+    padding-left: 0;
+    padding-right: 0; } }
