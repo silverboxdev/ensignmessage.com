@@ -409,7 +409,8 @@ header {
       -webkit-transition: all 0.2s ease;
       -moz-transition: all 0.2s ease;
       -o-transition: all 0.2s ease;
-      transition: all 0.2s ease; }
+      transition: all 0.2s ease;
+      line-height: .4em; }
       header .logo h1:hover, header .logo a:hover {
         color: #0b2444; }
   header .tagline {

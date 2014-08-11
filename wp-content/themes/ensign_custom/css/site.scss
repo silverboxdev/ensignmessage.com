@@ -70,6 +70,7 @@ header {
 			text-decoration: none;
 			margin-top: 25px;
 			@include all-transition;
+			line-height: .4em;
 			
 			&:hover {
 				color: $dark_blue;
