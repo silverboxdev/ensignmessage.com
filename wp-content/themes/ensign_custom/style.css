@@ -757,7 +757,7 @@ body .dark_blue_button, .wp_content .dark_blue_button {
 /***********************************************************************************/
 /*-------------------------------------- Form Elements ---------------------------------------*/
 /* Main Pages */
-.wp_content input[type="text"], .wp_content textarea, .wp_content input[type="email"], .wp_content input[type="tel"] {
+.wp_content input[type="text"], .wp_content textarea, .wp_content input[type="email"], .wp_content input[type="tel"], .wp_content input[type="password"] {
   background: #FFF;
   display: block;
   border-radius: 7px;
@@ -922,7 +922,7 @@ h1.archive-title {
   margin-bottom: 1.5em; }
 
 p.author_meta {
-  color: #9bb8d9;
+  color: #588ac0;
   font-size: 18px; }
   p.author_meta a {
     text-decoration: none; }

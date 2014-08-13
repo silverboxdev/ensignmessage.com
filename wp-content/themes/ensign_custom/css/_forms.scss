@@ -8,7 +8,7 @@
 
 .wp_content {
 	
-	input[type="text"], textarea, input[type="email"], input[type="tel"] {
+	input[type="text"], textarea, input[type="email"], input[type="tel"], input[type="password"] {
 		background: #FFF;
 		display: block;
 		@include round-corners(7px);
