@@ -28,6 +28,11 @@ hr {
 	display: none;
 }
 
+span.search_string {
+	color: $h2;
+	text-transform: capitalize;
+}
+
 /*-------------------------------------- Structure ---------------------------------------*/
 
 body {

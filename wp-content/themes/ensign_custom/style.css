@@ -354,6 +354,10 @@ hr {
 .triggerContainer {
   display: none; }
 
+span.search_string {
+  color: #588ac0;
+  text-transform: capitalize; }
+
 /*-------------------------------------- Structure ---------------------------------------*/
 body {
   line-height: 1.2em;
@@ -940,8 +944,7 @@ h1.pg_title {
   .wp_content div.wp-pagenavi a, .wp_content div.wp-pagenavi span {
     border: 1px solid #9bb8d9; }
     .wp_content div.wp-pagenavi a:hover, .wp_content div.wp-pagenavi span:hover {
-      text-decoration: none;
-      border-color: #dee8f2; }
+      text-decoration: none; }
 
 article.single-post {
   padding-left: 2em;
