@@ -88,7 +88,8 @@
 			</aside>
 		<? } ?>
 		
-		
+		<!-- Sidebar Bottom -->
+		<?php require_once("include/sidebar-bottom.php"); ?>
 			
 	</section>
 	

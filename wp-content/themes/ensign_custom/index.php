@@ -34,9 +34,8 @@
 				
 		</article>
 		
-		<div class="sidebar_bottom">
-			<a href="<?= get_page_link('21'); ?>" class="button dark_blue_button">Archives</a>
-		</div>
+		<!-- Sidebar Bottom -->
+		<?php require_once("include/sidebar-bottom.php"); ?>
 						
 	</section>
 	

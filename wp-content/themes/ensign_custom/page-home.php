@@ -31,7 +31,7 @@
 	</article>
 	
 	<?php endwhile; endif; ?>
-		
+			
 </section>
 
 <?php

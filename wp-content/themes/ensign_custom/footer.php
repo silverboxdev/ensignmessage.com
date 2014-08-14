@@ -1,7 +1,5 @@
 <?php if(!is_front_page()) { ?>
-<div class="sidebar_bottom_footer">
-	<a href="<?= get_page_link('21'); ?>" class="button dark_blue_button">Archives</a>
-</div>
+<?php require_once("include/footer-bottom.php"); ?>
 <?php } ?>
 
 <footer class="footer">
