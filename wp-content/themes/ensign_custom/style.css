@@ -1004,6 +1004,9 @@ aside.left_sidebar h4, aside.left_sidebar ul {
   /* Custom Breakpoint - 915px */
   /***********************************************************************************/
   /***********************************************************************************/
+  /* iPad */
+  /***********************************************************************************/
+  /***********************************************************************************/
   /* 640 Breakpoint */
   /***********************************************************************************/ }
 @media screen and (max-width: 1024px) and (max-width: 940px) {
@@ -1136,7 +1139,9 @@ aside.left_sidebar h4, aside.left_sidebar ul {
     padding-left: 0; }
 
   aside.sidebar {
-    padding-bottom: 0;
+    padding-bottom: 0; }
+
+  aside.sidebar {
     min-height: intrinsic; }
 
   aside.sidebar a.recentTrigger {
