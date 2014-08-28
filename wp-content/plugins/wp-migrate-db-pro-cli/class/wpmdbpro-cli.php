@@ -7,7 +7,7 @@ class WPMDBPro_CLI extends WPMDBPro_Addon {
 		$this->plugin_slug = 'wp-migrate-db-pro-cli';
 		$this->plugin_version = $GLOBALS['wpmdb_meta']['wp-migrate-db-pro-cli']['version'];
 
-		if( ! $this->meets_version_requirements( '1.4' ) ) {
+		if( ! $this->meets_version_requirements( '1.4.2' ) ) {
 			return;
 		}
 	}
@@ -18,7 +18,7 @@ class WPMDBPro_CLI extends WPMDBPro_Addon {
 		$wpmdb_settings = get_option( 'wpmdb_settings' );
 		--$profile;
 
-		if( ! $this->meets_version_requirements( '1.4' ) ) {
+		if( ! $this->meets_version_requirements( '1.4.2' ) ) {
 			return $this->cli_error( __( 'Please update WP Migrate DB Pro.', 'wp-migrate-db-pro-cli' ) );
 		}
 
@@ -103,7 +103,7 @@ class WPMDBPro_CLI extends WPMDBPro_Addon {
 				$tables_to_migrate = $verify_connection_response['prefixed_tables'];
 			} elseif( 'migrate_select' == $profile['table_migrate_option'] ) {
 				$tables_to_migrate = array_intersect( $profile['select_tables'], $verify_connection_response['tables'] );
-			}	
+			}
 		}
 		$tables_to_migrate = apply_filters( 'wpmdb_cli_tables_to_migrate', $tables_to_migrate, $profile, $verify_connection_response, $initiate_migration_response );
 
