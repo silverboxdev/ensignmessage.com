@@ -960,7 +960,8 @@ article.single-post {
 /***********************************************************************************/
 aside.sidebar {
   padding-top: 2em;
-  padding-bottom: 2em; }
+  padding-bottom: 2em;
+  min-height: 780px; }
   aside.sidebar a {
     color: #588ac0;
     text-decoration: none;
@@ -1135,7 +1136,8 @@ aside.left_sidebar h4, aside.left_sidebar ul {
     padding-left: 0; }
 
   aside.sidebar {
-    padding-bottom: 0; }
+    padding-bottom: 0;
+    min-height: intrinsic; }
 
   aside.sidebar a.recentTrigger {
     text-decoration: underline; }
