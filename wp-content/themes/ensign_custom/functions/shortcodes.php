@@ -92,10 +92,10 @@ add_shortcode('column', 'column_build');
 
 // Wrappers
 function wrapper_build($atts, $content = null) {
-   extract(shortcode_atts(array('class' => 'blue_wrapper'), $atts));
+   extract(shortcode_atts(array('class' => 'paypal_wrapper'), $atts));
    return '<div class="' . $class . '">' . do_shortcode($content) . '</div>';
 }
-add_shortcode('blue_wrapper', 'wrapper_build');
+add_shortcode('paypal_wrapper', 'wrapper_build');
 
 // Accordion Wrappers
 function accordion($atts, $content = null) {
