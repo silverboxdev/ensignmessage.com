@@ -1,5 +1,11 @@
 <!-- Post Options -->
 <?php
+
+if(!defined('LS_ROOT_FILE')) { 
+	header('HTTP/1.0 403 Forbidden');
+	exit;
+}
+
 $queryArgs = array('post_status' => 'publish', 'limit' => 30, 'posts_per_page' => 30);
 
 if(!empty($slider['properties']['post_orderby'])) {
@@ -25,14 +31,14 @@ if(!empty($slider['properties']['post_taxonomy']) && !empty($slider['properties'
 	);
 }
 
-$posts = $LSC->posts->find($queryArgs)->getParsedObject();
+$posts = LS_Posts::find($queryArgs)->getParsedObject();
 ?>
 <div id="ls-post-options">
 	<textarea class="ls-hidden" id="ls-posts-json"><?php echo json_encode($posts) ?></textarea>
 	<div class="ls-box ls-modal ls-configure-posts-modal">
 		<h2 class="header">
-			<?php _e('Find posts with the above filters', 'LayerSlider') ?>
-			<a href="#">x</a>
+			<?php _e('Find posts with the filters above', 'LayerSlider') ?>
+			<a href="#" class="dashicons dashicons-no"></a>
 		</h2>
 		<div class="inner clearfix">
 			<div class="ls-post-filters clearfix">
@@ -101,7 +107,7 @@ $posts = $LSC->posts->find($queryArgs)->getParsedObject();
 				</select>
 			</div>
 		</div>
-		<h3 class="header clearfix">
+		<h3 class="subheader clearfix">
 			<div class="half"><?php echo _e('Order results by', 'LayerSlider') ?></div>
 			<div class="half"><?php echo _e('On this slide', 'LayerSlider') ?></div>
 		</h3>
@@ -125,7 +131,7 @@ $posts = $LSC->posts->find($queryArgs)->getParsedObject();
 				<?php _e('item in the set of matched selection', 'LayerSlider') ?>
 			</div>
 		</div>
-		<h3 class="header"><?php echo _e('Preview from currenty matched elements', 'LayerSlider') ?></h3>
+		<h3 class="subheader preview-subheader"><?php echo _e('Preview from currenty matched elements', 'LayerSlider') ?></h3>
 		<div class="ls-post-previews"><ul></ul></div>
 	</div>
 </div>

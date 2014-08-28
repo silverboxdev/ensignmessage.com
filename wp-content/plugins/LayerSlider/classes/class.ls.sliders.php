@@ -58,6 +58,10 @@ class LS_Sliders {
 		if(is_numeric($args) && intval($args) == $args) {
 			return self::_getById( (int) $args );
 
+		// Random slider
+		} elseif($args === 'random') {
+			return self::_getRandom();
+
 		// Find by slider slug
 		} elseif(is_string($args)) {
 			return self::_getBySlug($args);
@@ -179,6 +183,41 @@ class LS_Sliders {
 
 
 
+	/**
+	 * Updates sliders
+	 *
+	 * @since 5.2.0
+	 * @access public
+	 * @param int $id The database ID of the slider to be updated
+	 * @param string $title The new title of the slider
+	 * @param array $data The new settings of the slider
+	 * @return bool Returns true on success, false otherwise
+	 */
+	public static function update($id = 0, $title = 'Unnamed', $data = array()) {
+
+		global $wpdb;
+
+		// Slider data 
+		$data = !empty($data) ? $data : array(
+			'properties' => array('title' => $title),
+			'layers' => array(array()),
+		);
+
+		// Insert slider, WPDB will escape data automatically
+		$wpdb->update($wpdb->prefix.LS_DB_TABLE, array(
+				'name' => $title,
+				'slug' => '',
+				'data' => json_encode($data),
+				'date_m' => time()
+			), 
+			array('id' => $id), 
+			array('%s', '%s', '%s', '%d')
+		);
+
+		// Return insert database ID
+		return true;
+	}
+
 
 	/**
 	 * Marking a slider as removed without deleting it
@@ -263,7 +302,7 @@ class LS_Sliders {
 		// Get Sliders
 		global $wpdb;
 		$table = $wpdb->prefix.LS_DB_TABLE;
-		$result = $wpdb->get_row("SELECT * FROM $table WHERE id = '$id' LIMIT 1", ARRAY_A);
+		$result = $wpdb->get_row("SELECT * FROM $table WHERE id = '$id' ORDER BY id DESC LIMIT 1", ARRAY_A);
 
 		// Check return value
 		if(!is_array($result)) { return false; }
@@ -327,7 +366,26 @@ class LS_Sliders {
 		$table = $wpdb->prefix.LS_DB_TABLE;
 
 		// Make the call
-		$result = $wpdb->get_row("SELECT * FROM $table WHERE slug = '$slug' LIMIT 1", ARRAY_A);
+		$result = $wpdb->get_row("SELECT * FROM $table WHERE slug = '$slug' ORDER BY id DESC LIMIT 1", ARRAY_A);
+
+		// Check return value
+		if(!is_array($result)) { return false; }
+
+		// Return result
+		$result['data'] = json_decode($result['data'], true);
+		return $result;
+	}
+
+
+
+	private static function _getRandom() {
+
+		// Get DB stuff
+		global $wpdb;
+		$table = $wpdb->prefix.LS_DB_TABLE;
+
+		// Make the call
+		$result = $wpdb->get_row("SELECT * FROM $table WHERE flag_hidden = '0' AND flag_deleted = '0' ORDER BY RAND() LIMIT 1", ARRAY_A);
 
 		// Check return value
 		if(!is_array($result)) { return false; }

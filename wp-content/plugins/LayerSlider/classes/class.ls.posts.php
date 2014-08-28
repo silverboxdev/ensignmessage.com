@@ -11,20 +11,18 @@ class LS_Posts {
 	 * @param  array  	$args Array of WP_Query attributes
 	 * @return bool           Success of the query
 	 */
-	public function find($args = array()) {
+	public static function find($args = array()) {
 
-		if($this->posts = get_posts($args)) {
-			$this->post = $this->posts[0];
+		// Crate new instance
+		$instance = new self;
+
+		if($instance->posts = get_posts($args)) {
+			$instance->post = $instance->posts[0];
 		}
-		return $this;
+		return $instance;
 	}
 
-
-	public function getResults() {
-		return $this->posts;
-	}
-
-	public function getPostTypes() {
+	public static function getPostTypes() {
 
 		// Get post types
 		$postTypes = get_post_types();
@@ -63,8 +61,8 @@ class LS_Posts {
 			$ret[$key]['thumbnail'] = !empty($ret[$key]['thumbnail']) ? $ret[$key]['thumbnail'] : LS_ROOT_URL . '/static/img/blank.gif';
 			$ret[$key]['image'] = '<img src="'.$ret[$key]['thumbnail'].'" alt="">';
 			$ret[$key]['image-url'] = $ret[$key]['thumbnail'];
-			$ret[$key]['title'] = $val->post_title;
-			$ret[$key]['content'] = wp_strip_all_tags($val->post_content);
+			$ret[$key]['title'] = htmlentities(__($val->post_title));
+			$ret[$key]['content'] = wp_strip_all_tags(__($val->post_content));
 			$ret[$key]['excerpt'] = !empty($val->post_excerpt) ? $val->post_excerpt : '';
 			$ret[$key]['author'] = get_userdata($val->post_author)->user_nicename;
 			$ret[$key]['author-id'] = $val->post_author;
@@ -169,6 +167,19 @@ class LS_Posts {
 		if(stripos($str, '[comments]') !== false) {
 			$str = str_replace('[comments]', $this->post->comment_count, $str); }
 
+		// Meta
+		if(stripos($str, '[meta:') !== false) {
+			$matches = array();
+			preg_match_all('/\[meta:\w+\]/', $str, $matches);
+			
+			foreach($matches[0] as $match) {
+				$meta = str_replace('[meta:', '', $match);
+				$meta = str_replace(']', '', $meta);
+				$meta = get_post_meta($this->post->ID, $meta, true);
+				$str = str_replace($match, $meta, $str);
+			}
+		}
+
 		return $str;
 	}
 
@@ -178,7 +189,7 @@ class LS_Posts {
 	 * @return string The title of the post
 	 */
 	public function getTitle() {
-		if(is_object($this->post)) { return $this->post->post_title; }
+		if(is_object($this->post)) { return __($this->post->post_title); }
 			else { return false; }
 	}
 
@@ -230,9 +241,9 @@ class LS_Posts {
 		if(!is_object($this->post)) { return false; }
 
 		if(empty($length)) {
-			return wp_strip_all_tags($this->post->post_content);
+			return wp_strip_all_tags(__($this->post->post_content));
 		} else {
-			return substr(wp_strip_all_tags($this->post->post_content), 0, $length);
+			return substr(wp_strip_all_tags(__($this->post->post_content)), 0, $length);
 		}
 	}
 

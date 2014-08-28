@@ -44,6 +44,10 @@ class LS_ImportUtil {
 		if(!empty($type['ext']) && $type['ext'] == 'zip') {
 			if(class_exists('ZipArchive')) {
 
+				// Remove previous uploads (if any)
+				$this->cleanup();
+
+				// Extract ZIP
 				$this->zip = new ZipArchive;
 				if($this->zip->open($archive)) {
 					if($this->unpack($archive)) {
@@ -77,11 +81,15 @@ class LS_ImportUtil {
 		} elseif(!empty($type['ext']) && $type['ext'] == 'json') {
 
 			// Get decoded file data
-			$data = base64_decode(file_get_contents($archive));
-
-			// Parsing JSON or PHP object
-			if(!$parsed = json_decode($data, true)) {
-				$parsed = unserialize($data);
+			$data = file_get_contents($archive);
+			if($decoded = base64_decode($data, true)) {
+				if(!$parsed = json_decode($decoded, true)) {
+					$parsed = unserialize($decoded);
+				}
+			
+			// Since v5.1.1
+			} else {
+				$parsed = array(json_decode($data, true));
 			}
 
 			// Iterate over imported sliders
@@ -186,24 +194,16 @@ class LS_ImportUtil {
 
 
 
-	public function deleteDir($dirPath) {
-		
-		if(!is_dir($dirPath)) {
-			return false;
+	public function deleteDir($dir) {
+		if(!file_exists($dir)) return true;
+		if(!is_dir($dir)) return unlink($dir);
+		foreach(scandir($dir) as $item) {
+			if($item == '.' || $item == '..') continue;
+			if(!$this->deleteDir($dir.DIRECTORY_SEPARATOR.$item)) return false;
 		}
-		if(substr($dirPath, strlen($dirPath) - 1, 1) != '/') {
-			$dirPath .= '/';
-		}
-		$files = glob($dirPath . '*', GLOB_MARK);
-		foreach($files as $file) {
-			if(is_dir($file)) {
-				$this->deleteDir($file);
-			} else {
-				unlink($file);
-			}
-		}
-		rmdir($dirPath);
+		return rmdir($dir);
 	}
+
 
 
 
@@ -221,10 +221,8 @@ class LS_ImportUtil {
 		}
 
 		if(!empty($data['properties']['yourlogo'])) {
-			$data['properties']['yourlogoId'] = '';
-			$data['properties']['yourlogo'] = $this->attachURLForImage(
-				$data['properties']['yourlogo']
-			);
+			$data['properties']['yourlogoId'] = $this->attachIDForImage($data['properties']['yourlogo']);
+			$data['properties']['yourlogo'] = $this->attachURLForImage($data['properties']['yourlogo']);
 		}
 
 
@@ -233,17 +231,13 @@ class LS_ImportUtil {
 		foreach($data['layers'] as &$slide) {
 
 			if(!empty($slide['properties']['background'])) {
-				$slide['properties']['backgroundId'] = '';
-				$slide['properties']['background'] = $this->attachURLForImage(
-					$slide['properties']['background']
-				);
+				$slide['properties']['backgroundId'] = $this->attachIDForImage($slide['properties']['background']);
+				$slide['properties']['background'] = $this->attachURLForImage($slide['properties']['background']);
 			}
 
 			if(!empty($slide['properties']['thumbnail'])) {
-				$slide['properties']['thumbnailId'] = '';
-				$slide['properties']['thumbnail'] = $this->attachURLForImage(
-					$slide['properties']['thumbnail']
-				);
+				$slide['properties']['thumbnailId'] = $this->attachIDForImage($slide['properties']['thumbnail']);
+				$slide['properties']['thumbnail'] = $this->attachURLForImage($slide['properties']['thumbnail']);
 			}
 
 			// Layers
@@ -251,7 +245,7 @@ class LS_ImportUtil {
 			foreach($slide['sublayers'] as &$layer) {
 					
 				if(!empty($layer['image'])) {
-					$layer['imageId'] = '';
+					$layer['imageId'] = $this->attachIDForImage($layer['image']);
 					$layer['image'] = $this->attachURLForImage($layer['image']);
 				}
 			}}
@@ -267,6 +261,16 @@ class LS_ImportUtil {
 
 		if(isset($this->imported[basename($file)])) {
 			return $this->imported[basename($file)]['url'];
+		}
+
+		return $file;
+	}
+
+
+	public function attachIDForImage($file = '') {
+
+		if(isset($this->imported[basename($file)])) {
+			return $this->imported[basename($file)]['id'];
 		}
 
 		return $file;

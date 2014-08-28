@@ -110,6 +110,22 @@ function ls_register_form_actions() {
 			}
 		}
 
+		if(isset($_GET['page']) && $_GET['page'] == 'layerslider' && isset($_GET['action']) && $_GET['action'] == 'hide-support-notice') {
+			if(check_admin_referer('hide-support-notice')) {
+				update_option('ls-show-support-notice', 0);
+				header('Location: admin.php?page=layerslider');
+				die();
+			}
+		}
+
+		if(isset($_GET['page']) && $_GET['page'] == 'layerslider' && isset($_GET['action']) && $_GET['action'] == 'hide-revalidation-notice') {
+			if(check_admin_referer('hide-revalidation-notice')) {
+				update_option('ls-show-revalidation-notice', 0);
+				header('Location: admin.php?page=layerslider');
+				die();
+			}
+		}
+
 		// AJAX functions
 		add_action('wp_ajax_ls_save_slider', 'ls_save_slider');
 		add_action('wp_ajax_ls_save_screen_options', 'ls_save_screen_options');
@@ -208,10 +224,14 @@ function ls_save_google_fonts() {
 		}
 	}
 
+	// Google Fonts character sets
+	array_shift($_POST['scripts']);
+	update_option('ls-google-font-scripts', $_POST['scripts']);
 
 	// Save & redirect back
 	update_option('ls-google-fonts', $fonts);
 	header('Location: admin.php?page=layerslider&message=googleFontsUpdated');
+	die();
 }
 
 
@@ -260,29 +280,29 @@ function ls_update_box_toggles() {
 
 function ls_save_slider() {
 
-	// DB stuff
-	global $wpdb;
-	$table_name = $wpdb->prefix.LS_DB_TABLE;
+	// Vars
+	$id = (int) $_POST['id'];
+	$settings = $slides = $callbacks = $data = array();
 
-	// Get slider ID if any
-	$id = !empty($_POST['slider_id']) ? (int) $_POST['slider_id'] : '';
-
-	// Get slider data unless when we need to reset
-	if($_POST['layerkey'] == 0 && !empty($id)) {
-		$data = array();
-	} else {
-		$slider = LS_Sliders::find( $id );
-		$id = $slider['id'];
-		$data = $slider['data'];
+	// Decode data
+	parse_str($_POST['settings'], $settings);
+	parse_str($_POST['callbacks'], $callbacks);
+	if(!empty($_POST['slides']) && is_array($_POST['slides'])) {
+		foreach($_POST['slides'] as $key => $val) {
+			$tmp = array();
+			parse_str($val, $tmp);
+			$slides['ls_data']['layers'][$key] = $tmp['ls_data']['layers'][$key];
+		}
 	}
 
-	// Add modifications
-	if(isset($_POST['layerslider-slides']['properties']['relativeurls'])) {
-		$data['properties'] = $_POST['layerslider-slides']['properties'];
-		$data['layers'][ $_POST['layerkey'] ] = layerslider_convert_urls($_POST['layerslider-slides']['layers'][$_POST['layerkey']]);
-	} else {
-		$data['properties'] = $_POST['layerslider-slides']['properties'];
-		$data['layers'][ $_POST['layerkey'] ] = $_POST['layerslider-slides']['layers'][$_POST['layerkey']];
+	$data = array_merge_recursive($settings, $slides, $callbacks);
+	$data = $data['ls_data'];
+	$title = esc_sql($data['properties']['title']);
+	$slug = !empty($data['properties']['slug']) ? esc_sql($data['properties']['slug']) : '';
+
+	// Relative URL
+	if(isset($data['properties']['relativeurls'])) {
+		$data = layerslider_convert_urls($data);
 	}
 
 	// WPML
@@ -290,13 +310,12 @@ function ls_save_slider() {
 		layerslider_register_wpml_strings($id, $data);
 	}
 
-	// Save slider
-	$author = get_current_user_id();
-	$name = esc_sql($data['properties']['title']);
-	$slug = !empty($data['properties']['slug']) ? esc_sql($data['properties']['slug']) : '';
-	$data = esc_sql(json_encode($data));
-	$wpdb->query("INSERT INTO $table_name (id, author, name, slug, data, date_c, date_m) VALUES ('$id', '$author', '$name', '$slug', '{}', '".time()."', '".time()."')
-							ON DUPLICATE KEY UPDATE author = '$author', name = '$name', slug = '$slug', data = '$data', date_m = '".time()."'");
+	// Update the slider
+	if(!$id) {
+		LS_Sliders::add($title, $data);
+	} else {
+		LS_Sliders::update($id, $title, $data);
+	}
 
 	die(json_encode(array('status' => 'ok')));
 }
@@ -314,27 +333,17 @@ function layerslider_duplicateslider() {
 	}
 
 	// Get the original slider
-	global $wpdb;
-	$table_name = $wpdb->prefix . "layerslider";
-	$slider = $wpdb->get_row("SELECT * FROM $table_name WHERE id = ".(int)$id." ORDER BY date_c DESC LIMIT 1" , ARRAY_A);
-	$slider = json_decode($slider['data'], true);
+	$slider = LS_Sliders::find( (int)$_GET['id'] );
+	$data = $slider['data'];
 
 	// Name check
-	if(empty($slider['properties']['title'])) {
-		$slider['properties']['title'] = 'Unnamed';
+	if(empty($data['properties']['title'])) {
+		$data['properties']['title'] = 'Unnamed';
 	}
 
 	// Insert the duplicate
-	$slider['properties']['title'] .= ' copy';
-	$wpdb->query(
-		$wpdb->prepare("INSERT INTO $table_name (name, data, date_c, date_m)
-						VALUES (%s, %s, %d, %d)",
-						$slider['properties']['title'],
-						json_encode($slider),
-						time(),
-						time()
-		)
-	);
+	$data['properties']['title'] .= ' copy';
+	LS_Sliders::add($data['properties']['title'], $data);
 
 	// Success
 	header('Location: admin.php?page=layerslider');
@@ -434,11 +443,17 @@ function ls_export_sliders() {
 
 	// Get sliders
 	if(isset($_POST['sliders'][0]) && $_POST['sliders'][0] == -1) {
-		$sliders = LS_Sliders::find(array('limit' => 200));
+		$sliders = LS_Sliders::find(array('limit' => 500));
 	} elseif(!empty($_POST['sliders'])) {
 		$sliders = LS_Sliders::find($_POST['sliders']);
 	} else {
 		header('Location: admin.php?page=layerslider&error=1&message=exportSelectError');
+		die('Invalid data received.');
+	}
+
+	// Check results
+	if(empty($sliders)) {
+		header('Location: admin.php?page=layerslider&error=1&message=exportNotFound');
 		die('Invalid data received.');
 	}
 
@@ -457,7 +472,8 @@ function ls_export_sliders() {
 		if(class_exists('ZipArchive')) {
 
 			// Add slider folder and settings.json
-			$name = sanitize_file_name($item['name']);
+			$name = empty($item['name']) ? 'slider_' . $item['id'] : $item['name'];
+			$name = sanitize_file_name($name);
 			$zip->addSettings(json_encode($item['data']), $name);
 
 			// Add images?
@@ -489,11 +505,10 @@ function ls_save_user_css() {
 	// Get target file and content
 	$upload_dir = wp_upload_dir();
 	$file = $upload_dir['basedir'].'/layerslider.custom.css';
-	$content = stripslashes($_POST['contents']);
 
 	// Attempt to save changes
 	if(is_writable($upload_dir['basedir'])) {
-		file_put_contents($file, $content);
+		file_put_contents($file, stripslashes($_POST['contents']));
 		header('Location: admin.php?page=ls-style-editor&edited=1');
 		die();
 
@@ -512,20 +527,18 @@ function ls_save_user_css() {
 function ls_save_user_skin() {
 
 	// Error checking
-	if(empty($_POST['skin'])) {
+	if(empty($_POST['skin']) || strpos($_POST['skin'], '..') !== false) {
 		wp_die(__("It looks like you haven't selected any skin to edit.", "LayerSlider"), __('No skin selected.', 'LayerSlider'), array('back_link' => true) );
 	}
 
 	// Get skin file and contents
-	$skin = $_POST['skin'];
-	$folder = $file = LS_ROOT_PATH.'/static/skins/'.$skin;
-	$file = LS_ROOT_PATH.'/static/skins/'.$skin.'/skin.css';
-	$content = $_POST['contents'];
+	$folder = $file = LS_ROOT_PATH.'/static/skins/'.$_POST['skin'];
+	$file = LS_ROOT_PATH.'/static/skins/'.$_POST['skin'].'/skin.css';
 
 	// Attempt to write the file
 	if(is_writable($folder)) {
-		file_put_contents($file, $content);
-		header('Location: admin.php?page=ls-skin-editor&skin='.$skin.'&edited=1');
+		file_put_contents($file, stripslashes($_POST['contents']));
+		header('Location: admin.php?page=ls-skin-editor&skin='.$_POST['skin'].'&edited=1');
 	} else {
 		wp_die(__("It looks like your files isn't writable, so PHP couldn't make any changes (CHMOD).", "LayerSlider"), __('Cannot write to file', 'LayerSlider'), array('back_link' => true) );
 	}
@@ -609,7 +622,6 @@ function ls_get_post_details() {
 
 	$params = $_POST['params'];
 
-	global $LSC;
 	$queryArgs = array(
 		'post_status' => 'publish',
 		'limit' => 30,
@@ -637,7 +649,7 @@ function ls_get_post_details() {
 		);
 	}
 
-	$posts = $LSC->posts->find($queryArgs)->getParsedObject();
+	$posts = LS_Posts::find($queryArgs)->getParsedObject();
 
 	die(json_encode($posts));
 }

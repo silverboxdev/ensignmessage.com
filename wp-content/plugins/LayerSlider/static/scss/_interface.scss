@@ -7,46 +7,14 @@
 	top: 0;
 	background-color: black;
 	opacity: 0.5;
-	z-index: 2000;
+	z-index: 9999991;
 }
 
 //  NOTIFICATIONS
 //----------------------------------------------------------------
-
+ 
 .ls-notification {
-
-	padding: 0 0 2px 0 !important;
-	margin: 10px 0;
-	background: #c9c9c9;
-	border-radius: 3px;
-	box-shadow: 0 1px 1px #999;
-
-	div {
-		padding: 5px 10px;
-		background: #ddd;
-		border-radius: 3px;
-		font-family: Helvetica, Arial, sans-serif, serif;
-		font-size: 15px;
-		line-height: 20px;
-	}
-}
-
-.ls-notification.changed {
-	background: #ecdf86;
-	box-shadow: 0 1px 2px #bba98a;
-	div {
-		@include gradient(#fffbcc, #fffb99);
-		color: #795d1c;
-	}
-}
-
-.ls-notification.warning {
-	background: #dfafb0;
-	box-shadow: 0 1px 2px #a27172;
-	div {
-		@include gradient(#ffebe6, #f0c8c7);
-		color: #581b1e;
-	}
+	padding: 5px 12px !important;
 }
 
 //  CUSTOM CHECKBOXES
@@ -54,34 +22,37 @@
 
 .ls-checkbox {
 	display: inline-block;
-	width: 35px;
-	height: 16px;
+	width: 38px;
+	height: 18px;
 	margin-bottom: -3px;
 	position: relative;
-	background: transparent url(../img/sprite.png) 0px -291px no-repeat;
+	border-radius: 18px;
+	border: 1px solid #ccc;
 }
 
 .ls-checkbox span {
 	display: inline-block;
-	width: 19px;
-	height: 19px;
+	width: 18px;
+	height: 18px;
 	position: absolute;
-	top: -1px;
-	left: 17px;
-	background: transparent url(../img/sprite.png) 0px -343px no-repeat;
+	top: 0px;
+	left: 20px;
+	border-radius: 10px;
+	background: white;
 	-webkit-transition: all 0.3s ease-out;
-	-moz-transition: all 0.3s ease-out;
-	-o-transition: all 0.3s ease-out;
 	transition: all 0.3s ease-out;
+	box-shadow: rgba(0, 0, 0, 0.2) 0px 1px 1px 1px;
 }
 
 
 .ls-checkbox.on {
-	background: transparent url(../img/sprite.png) 0px -317px no-repeat;
+	background: #90CA77;
+	border-color: #90CA77;
 }
 
 .ls-checkbox.on span {
-	left: -2px;
+	top: 0px;
+	left: 0px;
 }
 
 //  POPUPS
@@ -91,12 +62,13 @@
 	width: 300px;
 	height: 150px;
 	position: absolute;
-	padding: 20px;
+	padding: 5px;
 	background: white;
+	background: rgba(255,255,255,.8);
 	border-radius: 7px;
 	color: #eee;
-	z-index: 6000;
-	box-shadow: 0px 2px 10px -2px black;
+	z-index: 9999993;
+	box-shadow: 0px 5px 30px -5px black;
 }
 
 .ls-popup .inner {
@@ -117,7 +89,7 @@
 	color: #eee;
 	font: normal normal normal 12px/14px Arial, sans-serif;
 	text-align: justify;
-	z-index: 6000;
+	z-index: 999999;
 	box-shadow: 0px 2px 10px -2px black;
 }
 
@@ -144,7 +116,6 @@
 	border-radius: 3px;
 	margin-top: 15px;
 	position: relative;
-	box-shadow: 0 0 10px darken(white, 5%);
 
 	.header {
 		height: 28px;
@@ -152,19 +123,16 @@
 		line-height: 28px;
 		border-radius: 3px 3px 0 0;
 		font: normal normal bold 12px/29px Arial, serif;
-		@include alphaGradient($boxHeaderGradient...);
+		background: #F1F1F1;
 
 		&.medium {
 			height: 38px;
 			line-height: 38px;
 
-		} &.dark {
-			@include alphaGradient($boxHeaderGradientDark...);
-
 		} &.blue {
 			border-top: 0;
-			text-shadow: 1px 1px 1px #333;
-			@include gradient($boxHeaderGradientBlue...);
+			text-shadow: 0 1px 0 #555;
+			background: #2a95c5;
 		}
 
 		h2 {
@@ -237,7 +205,8 @@
 
 	thead td, .ls-box th {
 		border-bottom: 1px solid #dfdfdf;
-		@include alphaGradient(3%, 9%);
+		background: #f7f7f7;
+		//@include alphaGradient(3%, 9%);
 	}
 
 	tbody td, .ls-box tfoot td {
@@ -246,7 +215,8 @@
 		border-top: 1px solid #fff;
 		border-bottom: 1px solid #e3e3e3;
 		font: normal normal normal 13px/16px Arial, serif;
-		@include alphaGradient(0%, 2%);
+		background: #fdfdfd;
+		// @include alphaGradient(0%, 2%);
 	}
 
 	tbody:last-child tr:last-child td {
@@ -271,6 +241,8 @@
 	span {
 		float: left;
 		margin-right: 10px;
+		font-weight: normal;
+		font-size: 13px;
 		color: darken(white, 45%);
 	}
 
@@ -279,26 +251,22 @@
 		padding: 0;
 		float: left;
 		list-style-type: none;
+		font-weight: normal;
+		font-size: 13px;
 
 		li {
 			display: inline-block;
 			margin: 0;
-			margin-right: 12px;
-			text-shadow: 0 1px 1px white;
+			padding: 1px 6px;
 			color: #333;
 			cursor: pointer;
+			text-shadow: none !important;
 
 			&.active {
-				border: 1px solid #444;
-				padding: 0 8px;
-				border-radius: 8px;
-				-webkit-box-shadow: 0 1px 1px white;
-				-moz-box-shadow: 0 1px 1px white;
-				box-shadow: 0 1px 1px white;
+				border-radius: 3px;
 				color: white;
-				text-shadow: 0 1px #333;
 				line-height: 16px;
-				@include alphaGradient(70% 60%...);
+				background: #444;
 			}
 		}
 	}
@@ -308,36 +276,25 @@
 //----------------------------------------------------------------
 .ls-modal {
 	width: 980px;
-	height: 560px;
+	height: 90%;
 	position: fixed;
-	top: 50%;
+	top: 5%;
 	left: 50%;
-	margin: -280px 0px 0px -490px;
-	z-index: 2001;
+	margin: 0 0 0 -490px;
+	z-index: 9999992 !important;
 	box-shadow: 0px 0px 40px -13px #000;
 	background-color: white;
 }
 
-.ls-modal .header a {
-	display: inline-block;
-	width: 10px;
-	height: 10px;
-	position: absolute;
-	top: 8px;
-	right: 10px;
-	border: 1px solid #ad1714;
-	font: normal normal normal 10px/10px Arial, serif;
-	color: #FFF;
-	background-color: #db1b17;
-	border-radius: 6px;
-	text-align: center;
-	-webkit-box-shadow: inset 1px 1px 0px rgba(255,255,255,0.2),1px 1px 0px #fff;
-	-moz-box-shadow: inset 1px 1px 0px rgba(255,255,255,0.2),1px 1px 0px #fff;
-	box-shadow: inset 1px 1px 0px rgba(255,255,255,0.2),1px 1px 0px #fff;
+.ls-modal .header i {
+	float: right;
+	margin-right: -4px;
 	cursor: pointer;
+	font-size: 15px;
+	color: #db1b17;
 
 	&:hover {
-		background-color: #981210;
+		color: #981210;
 	}
 }
 
@@ -345,27 +302,75 @@
 //----------------------------------------------------------------
 
 .ls-editor-slider {
-	width: 260px;
-	height: 2px;
-	display: inline-block;
-	position: relative;
-	top: -2px;
-	background: #aaa;
-	border-radius: 2px;
+	width: 260px !important;
+	height: 2px !important;
+	display: inline-block !important;
+	position: relative !important;
+	top: -2px !important;
+	background: #aaa !important;
+	border-radius: 2px !important;
 }
 
 .ls-editor-slider .ui-slider-range {
-	height: 2px;
-	background: #666;
+	height: 2px !important;
+	background: #666 !important;
 }
 
 .ls-editor-slider .ui-slider-handle {
-	width: 10px;
-	height: 10px;
-	display: block;
-	position: absolute;
-	top: -5px;
+	width: 10px !important;
+	height: 10px !important;
+	display: block !important;
+	position: absolute !important;
+	top: -5px !important;
+	background: white !important;
+	border: 1px solid #999 !important;
+	border-radius: 6px !important;
+}
+
+
+//  WP HELP ITEMS
+//----------------------------------------------------------------
+#contextual-help-wrap table {
+	width: 100%;
+	border-collapse: collapse;
+	border-spacing: 0px;
+	font-family: Arial, seif;
+	font-size: 13px;
 	background: white;
-	border: 1px solid #999;
-	border-radius: 6px;
+	border: 1px solid #CCC;
+}
+
+#contextual-help-wrap table thead td {
+	color: #333;
+	text-shadow: 0 1px 1px #FFF;
+	border-right: 1px solid #CCC;
+	border-bottom: 1px solid #CCC;
+	text-align: left;
+	padding: 5px 10px;
+	font-weight: 400;
+	font-size: 12px;
+	line-height: 18px;
+	background: #F5F5F5;
+	background: url(data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiA/Pgo8c3ZnIHhtbG5zPSJod…EiIGhlaWdodD0iMSIgZmlsbD0idXJsKCNncmFkLXVjZ2ctZ2VuZXJhdGVkKSIgLz4KPC9zdmc+);
+	background: -moz-linear-gradient(top, #f5f5f5 0%, #ebebeb 100%);
+	background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#F5F5F5), color-stop(100%,#EBEBEB));
+	background: -webkit-linear-gradient(top, #F5F5F5 0%,#EBEBEB 100%);
+	background: -o-linear-gradient(top, #f5f5f5 0%,#ebebeb 100%);
+	background: -ms-linear-gradient(top, #f5f5f5 0%,#ebebeb 100%);
+	background: linear-gradient(to bottom, #F5F5F5 0%,#EBEBEB 100%);
+	filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#f5f5f5', endColorstr='#ebebeb',GradientType=0 );
+}
+
+#contextual-help-wrap td {
+	border-bottom: 1px solid #CCC;
+	border-right: 1px solid #CCC;
+	padding: 5px 10px;
+}
+
+#contextual-help-wrap tbody td:first-child {
+	font-weight: bold !important;
+}
+
+#contextual-help-wrap table a {
+	text-decoration: none;
 }

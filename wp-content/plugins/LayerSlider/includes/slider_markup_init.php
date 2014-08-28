@@ -1,5 +1,10 @@
  <?php
 
+if(!defined('LS_ROOT_FILE')) { 
+	header('HTTP/1.0 403 Forbidden');
+	exit;
+}
+
 // Enqueue scripts
 wp_enqueue_script('layerslider');
 wp_enqueue_script('greensock');
@@ -59,16 +64,6 @@ if(has_filter('layerslider_post_parse_defaults')) {
 	}
 }
 
-// // Demo site: skins
-// $skin = $slides['properties']['attrs']['skin'];
-// $skin = !empty($skin) ? $skin : $lsDefaults['slider']['skin']['value'];
-// $slides['properties']['attrs']['skin'] = !empty($_GET['skin']) ? (string) $_GET['skin'] : $skin;
-
-// // Demo site: navigation area
-// $thumbNav = $slides['properties']['attrs']['thumbnailNavigation'];
-// $thumbNav = !empty($thumbNav) ? $thumbNav : $lsDefaults['slider']['thumbnailNavigation']['value'];
-// $slides['properties']['attrs']['thumbnailNavigation'] = !empty($_GET['nav']) ? (string) $_GET['nav'] : $thumbNav;
-
 // Get init code
 foreach($slides['properties']['attrs'] as $key => $val) {
 
@@ -85,7 +80,6 @@ $init = implode(', ', $init);
 // Fix multiple jQuery issue
 $data[] = '<script type="text/javascript">';
 $data[] = 'var lsjQuery = jQuery;';
-// $data[] = "var curSkin = '{$slides['properties']['attrs']['skin']}';";
 $data[] = '</script>';
 
 // Include JS files to body option

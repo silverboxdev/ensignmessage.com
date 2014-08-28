@@ -1,10 +1,14 @@
-
+<?php 
+	if(!defined('LS_ROOT_FILE')) { 
+		header('HTTP/1.0 403 Forbidden');
+		exit;
+	}
+?>
 <!-- Slider title -->
-
 <div class="ls-slider-titlewrap">
 	<input type="text" name="title" value="<?php echo $slider['properties']['title'] ?>" id="title" autocomplete="off" placeholder="<?php _e('Type your slider name here', 'LayerSlider') ?>">
 	<div class="ls-slider-slug">
-		Slider slug:<input type="text" name="slug" value="<?php echo !empty($slider['properties']['slug']) ? $slider['properties']['slug'] : '' ?>" id="title" autocomplete="off" placeholder="<?php _e('e.g. homepageslider', 'LayerSlider') ?>" data-help="Set a custom slider identifier to use in shortcodes instead of the database ID. Needs to be unique, and can contain only alphanumeric characters. This setting is optional.">
+		Slider slug:<input type="text" name="slug" value="<?php echo !empty($slider['properties']['slug']) ? $slider['properties']['slug'] : '' ?>" autocomplete="off" placeholder="<?php _e('e.g. homepageslider', 'LayerSlider') ?>" data-help="Set a custom slider identifier to use in shortcodes instead of the database ID. Needs to be unique, and can contain only alphanumeric characters. This setting is optional.">
 	</div>
 </div>
 
@@ -13,14 +17,14 @@
 	<h3 class="header medium"><?php _e('Slider Settings', 'LayerSlider') ?></h3>
 	<div class="inner">
 		<ul class="ls-settings-sidebar">
-			<li class="active"><span class="ls-icon layout"></span><?php _e('Layout', 'LayerSlider') ?></li>
-			<li><span class="ls-icon slideshow"></span><?php _e('Slideshow', 'LayerSlider') ?></li>
-			<li><span class="ls-icon appearance"></span><?php _e('Appearance', 'LayerSlider') ?></li>
-			<li><span class="ls-icon navigation"></span><?php _e('Navigation Area', 'LayerSlider') ?></li>
-			<li><span class="ls-icon thumbnails"></span><?php _e('Thumbnail Navigation', 'LayerSlider') ?></li>
-			<li><span class="ls-icon videos"></span><?php _e('Videos', 'LayerSlider') ?></li>
-			<li><span class="ls-icon misc"></span><?php _e('Misc', 'LayerSlider') ?></li>
-			<li><span class="ls-icon yourlogo"></span><?php _e('YourLogo', 'LayerSlider') ?></li>
+			<li class="active"><i class="dashicons dashicons-editor-distractionfree"></i><?php _e('Layout', 'LayerSlider') ?></li>
+			<li><i class="dashicons dashicons-editor-video"></i><?php _e('Slideshow', 'LayerSlider') ?></li>
+			<li class="codemirror"><i class="dashicons dashicons-admin-appearance"></i><?php _e('Appearance', 'LayerSlider') ?></li>
+			<li><i class="dashicons dashicons-image-flip-horizontal"></i><?php _e('Navigation Area', 'LayerSlider') ?></li>
+			<li><i class="dashicons dashicons-screenoptions"></i><?php _e('Thumbnail Navigation', 'LayerSlider') ?></li>
+			<li><i class="dashicons dashicons-video-alt3"></i><?php _e('Videos', 'LayerSlider') ?></li>
+			<li><i class="dashicons dashicons-admin-generic"></i><?php _e('Misc', 'LayerSlider') ?></li>
+			<li class="codemirror"><i class="dashicons dashicons-admin-post"></i><?php _e('YourLogo', 'LayerSlider') ?></li>
 		</ul>
 		<div class="ls-settings-contents">
 			<table>
@@ -65,6 +69,22 @@
 						<td><?php lsGetInput($lsDefaults['slider']['layersContainer'], $slider['properties']) ?></td>
 						<td class="desc"><?php _e($lsDefaults['slider']['layersContainer']['desc'], 'LayerSlider') ?></td>
 					</tr>
+					<tr><th colspan="3"><?php _e('Other', 'LayerSlider') ?></th></tr>
+					<tr>
+						<td><?php _e($lsDefaults['slider']['hideOnMobile']['name'], 'LayerSlider') ?></td>
+						<td><?php lsGetCheckbox($lsDefaults['slider']['hideOnMobile'], $slider['properties']) ?></td>
+						<td class="desc"><?php _e($lsDefaults['slider']['hideOnMobile']['desc'], 'LayerSlider') ?></td>
+					</tr>
+					<tr>
+						<td><?php _e($lsDefaults['slider']['hideUnder']['name'], 'LayerSlider') ?></td>
+						<td><?php lsGetInput($lsDefaults['slider']['hideUnder'], $slider['properties']) ?></td>
+						<td class="desc"><?php _e($lsDefaults['slider']['hideUnder']['desc'], 'LayerSlider') ?></td>
+					</tr>
+					<tr>
+						<td><?php _e($lsDefaults['slider']['hideOver']['name'], 'LayerSlider') ?></td>
+						<td><?php lsGetInput($lsDefaults['slider']['hideOver'], $slider['properties']) ?></td>
+						<td class="desc"><?php _e($lsDefaults['slider']['hideOver']['desc'], 'LayerSlider') ?></td>
+					</tr>
 				</tbody>
 
 				<!-- Slideshow -->
@@ -74,6 +94,11 @@
 						<td><?php _e($lsDefaults['slider']['autoStart']['name'], 'LayerSlider') ?></td>
 						<td><?php lsGetCheckbox($lsDefaults['slider']['autoStart'], $slider['properties']) ?></td>
 						<td class="desc"><?php _e($lsDefaults['slider']['autoStart']['desc'], 'LayerSlider') ?></td>
+					</tr>
+					<tr>
+						<td><?php _e($lsDefaults['slider']['startInViewport']['name'], 'LayerSlider') ?></td>
+						<td><?php lsGetCheckbox($lsDefaults['slider']['startInViewport'], $slider['properties']) ?></td>
+						<td class="desc"><?php _e($lsDefaults['slider']['startInViewport']['desc'], 'LayerSlider') ?></td>
 					</tr>
 					<tr>
 						<td><?php _e($lsDefaults['slider']['pauseOnHover']['name'], 'LayerSlider') ?></td>
@@ -156,22 +181,31 @@
 					<tr>
 						<td><?php _e('Background image', 'LayerSlider') ?></td>
 						<td>
-							<div class="reset-parent">
-								<?php lsGetInput($lsDefaults['slider']['globalBGImage'], $slider['properties'], array('class' => 'input ls-upload')) ?>
-								<span class="ls-reset">x</span>
+							<?php $bgImage = !empty($slider['properties']['backgroundimage']) ? $slider['properties']['backgroundimage'] : null; ?>
+							<?php $bgImageId = !empty($slider['properties']['backgroundimageId']) ? $slider['properties']['backgroundimageId'] : null; ?>
+							<input type="hidden" name="backgroundimageId" value="<?php echo !empty($slider['properties']['backgroundimageId']) ? $slider['properties']['backgroundimageId'] : '' ?>">
+							<input type="hidden" name="backgroundimage" value="<?php echo !empty($slider['properties']['backgroundimage']) ? $slider['properties']['backgroundimage'] : '' ?>">
+							<div class="ls-image ls-upload">
+								<div><img src="<?php echo apply_filters('ls_get_thumbnail', $bgImageId, $bgImage) ?>" alt=""></div>
+								<a href="#" class="dashicons dashicons-dismiss"></a>
 							</div>
 						</td>
 						<td class="desc"><?php _e($lsDefaults['slider']['globalBGImage']['desc'], 'LayerSlider') ?></td>
 					</tr>
+
 					<tr>
-						<td><?php _e('Slider style', 'LayerSlider') ?></td>
+						<td><?php _e($lsDefaults['slider']['sliderFadeInDuration']['name'], 'LayerSlider') ?></td>
+						<td><?php lsGetInput($lsDefaults['slider']['sliderFadeInDuration'], $slider['properties']) ?></td>
+						<td class="desc"><?php _e($lsDefaults['slider']['sliderFadeInDuration']['desc'], 'LayerSlider') ?></td>
+					</tr>
+					
+					<tr>
 						<td>
-							<div class="reset-parent">
-								<?php lsGetInput($lsDefaults['slider']['sliderStyle'], $slider['properties'], array('class' => 'input')) ?>
-								<span class="ls-reset">x</span>
-							</div>
+							<?php _e('Custom slider CSS', 'LayerSlider') ?> <br>
 						</td>
-						<td class="desc"><?php _e('Here you can apply your custom CSS style settings to the slider.', 'LayerSlider') ?></td>
+						<td colspan="2">
+							<textarea name="sliderstyle" class="ls-codemirror" cols="30" rows="10"><?php echo !empty($slider['properties']['sliderstyle']) ? $slider['properties']['sliderstyle'] : $lsDefaults['slider']['sliderStyle']['value'] ?></textarea>
+						</td>
 					</tr>
 				</tbody>
 
@@ -303,15 +337,16 @@
 							<input type="hidden" name="yourlogo" value="<?php echo !empty($slider['properties']['yourlogo']) ? $slider['properties']['yourlogo'] : '' ?>">
 							<div class="ls-image ls-upload">
 								<div><img src="<?php echo apply_filters('ls_get_thumbnail', $slider['properties']['yourlogoId'], $slider['properties']['yourlogo']) ?>" alt=""></div>
-								<a href="#">x</a>
+								<a href="#" class="dashicons dashicons-dismiss"></a>
 							</div>
 						</td>
 						<td class="desc"><?php _e($lsDefaults['slider']['yourLogoImage']['desc'], 'LayerSlider') ?></td>
 					</tr>
 					<tr>
 						<td><?php _e($lsDefaults['slider']['yourLogoStyle']['name'], 'LayerSlider') ?></td>
-						<td><?php lsGetInput($lsDefaults['slider']['yourLogoStyle'], $slider['properties']) ?></td>
-						<td class="desc"><?php _e($lsDefaults['slider']['yourLogoStyle']['desc'], 'LayerSlider') ?></td>
+						<td colspan="2">
+							<textarea name="yourlogostyle" class="ls-codemirror" cols="30" rows="10"><?php echo !empty($slider['properties']['yourlogostyle']) ? $slider['properties']['yourlogostyle'] : $lsDefaults['slider']['yourLogoStyle']['value'] ?></textarea>
+						</td>
 					</tr>
 					<tr>
 						<td><?php _e($lsDefaults['slider']['yourLogoLink']['name'], 'LayerSlider') ?></td>

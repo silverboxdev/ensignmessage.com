@@ -103,7 +103,6 @@ Modified by kreatura for LayerSlider
 /* Gutter border and some shadow from it  */
 .cm-s-solarized .CodeMirror-gutters {
   padding: 0 10px 0 5px !important;
-  box-shadow: 0 0 10px #ddd;
   margin-right: 10px;
   padding-right: 4px;
   border-right: 1px solid #ddd;
@@ -139,7 +138,7 @@ View-port and gutter both get little noise background to give it a real feel.
 */
 .cm-s-solarized.CodeMirror,
 .cm-s-solarized .CodeMirror-gutters {
-  background-image: url(../../img/cm-noise.png);
+  /*background-image: url(../../img/cm-noise.png);*/
 }
 
 
@@ -147,7 +146,7 @@ View-port and gutter both get little noise background to give it a real feel.
 .CodeMirror-activeline-background {
   padding-left: 5px;
   margin-left: -5px;
-  background: #f7f7f7 url(../../img/cm-noise.png);
+  background: #eee;
 }
 
 .CodeMirror-focused .CodeMirror-selected {
@@ -159,11 +158,11 @@ View-port and gutter both get little noise background to give it a real feel.
   top: -1px;
   margin: 0 5px;
   padding: 0px 6px 1px 6px;
-  background: rgba(234, 58, 66, .7) url(../../img/cm-noise.png);
+  background: rgba(234, 58, 66, .7);
   color: white;
   border-radius: 7px;
-  box-shadow: 1px 1px 1px #aaa;
-  text-shadow: 0px 0px 2px black;
+  box-shadow: 0px 0px 1px #aaa;
+  text-shadow: 0px 0px 1px black;
   font-family: arial;
   line-height: 16px;
   cursor: pointer;
@@ -180,7 +179,7 @@ View-port and gutter both get little noise background to give it a real feel.
 
 .CodeMirror-foldgutter-folded {
   color: #e60204 !important;
-  text-shadow: 1px 1px 1px #666;
+  text-shadow: 0px 0px 1px #888;
 }
 
 .CodeMirror-foldgutter-open,

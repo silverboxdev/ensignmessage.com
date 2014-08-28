@@ -1,8 +1,13 @@
 <?php
 
+if(!defined('LS_ROOT_FILE')) { 
+	header('HTTP/1.0 403 Forbidden');
+	exit;
+}
+
 // Full-width slider
 if(isset($slides['properties']['props']['forceresponsive'])) {
-	$data[] = '<div class="ls-wp-fullwidth-container">';
+	$data[] = '<div class="ls-wp-fullwidth-container" style="height:'.layerslider_check_unit($slides['properties']['props']['height']).';">';
 	$data[] = '<div class="ls-wp-fullwidth-helper">';
 }
 
@@ -46,23 +51,77 @@ if(!empty($slider['slides']) && is_array($slider['slides'])) {
 			}
 		}
 
+		// Post content
+		$queryArgs = array( 'post_status' => 'publish', 'limit' => 30, 'posts_per_page' => 30 );
+
+		if(isset($slide['props']['post_offset'])) {
+			if($slide['props']['post_offset'] == -1) {
+				$slide['props']['post_offset'] = $slidekey;
+			}
+
+			$queryArgs['offset'] = $slide['props']['post_offset'];
+		}
+
+		if(!empty($slides['properties']['props']['post_type'])) {
+			$queryArgs['post_type'] = $slides['properties']['props']['post_type']; }
+
+		if(!empty($slides['properties']['props']['post_orderby'])) {
+			$queryArgs['orderby'] = $slides['properties']['props']['post_orderby']; }
+
+		if(!empty($slides['properties']['props']['post_order'])) {
+			$queryArgs['order'] = $slides['properties']['props']['post_order']; }
+
+		if(!empty($slides['properties']['props']['post_categories'][0])) {
+			$queryArgs['category__in'] = $slides['properties']['props']['post_categories']; }
+
+		if(!empty($slides['properties']['props']['post_tags'][0])) {
+			$queryArgs['tag__in'] = $slides['properties']['props']['post_tags']; }
+
+		if(!empty($slides['properties']['props']['post_taxonomy']) && !empty($slides['properties']['props']['post_tax_terms'])) {
+			$queryArgs['tax_query'][] = array(
+				'taxonomy' => $slides['properties']['props']['post_taxonomy'],
+				'field' => 'id',
+				'terms' => $slides['properties']['props']['post_tax_terms']
+			);
+		}
+
+		$postContent = LS_Posts::find($queryArgs);
+
 		// Start of slide
 		$slideAttrs = !empty($slideAttrs) ? 'data-ls="'.$slideAttrs.'"' : '';
 		$data[] = '<div class="ls-slide"'.$slideId.' '.$slideAttrs.'>';
 
 		// Add slide background
 		if(!empty($slide['props']['background'])) {
-			$src = !empty($slide['props']['backgroundId']) ? apply_filters('ls_get_image', $slide['props']['backgroundId'], $slide['props']['background']) : $slide['props']['background'];
-			$data[] = '<img src="'.LS_ROOT_URL.'/static/img/blank.gif" data-src="'.$src.'" class="ls-bg" alt="Slide background" />';
+			if(!empty($slide['props']['backgroundId'])) {
+				$src = apply_filters('ls_get_image', $slide['props']['backgroundId'], $slide['props']['background']);
+				$alt = get_post_meta($slide['props']['backgroundId'], '_wp_attachment_image_alt', true);
+				$alt = empty($alt) ? get_the_title($slide['props']['backgroundId']) : $alt;
+				$alt = empty($alt) ? 'Slide background' : $alt;
+			} elseif($slide['props']['background'] == '[image-url]') {
+				$src = $postContent->getWithFormat($slide['props']['background']);
+
+				if(is_object($postContent->post)) {
+					$attchID = get_post_thumbnail_id($postContent->post->ID);
+					$alt = get_post_meta($attchID, '_wp_attachment_image_alt', true);
+					$alt = empty($alt) ? get_the_title($attchID) : $alt;
+					$alt = empty($alt) ? get_the_title($postContent->post->ID) : $alt;
+					$alt = empty($alt) ? 'Slide background' : $alt;
+				}
+			} else {
+				$src = $slide['props']['background'];
+				$alt = 'Slide background';
+			}
+
+
+			$data[] = '<img src="'.LS_ROOT_URL.'/static/img/blank.gif" data-src="'.$src.'" class="ls-bg" alt="'.$alt.'" />';
 		}
 
 		// Add slide thumbnail
-		if(isset($slides['properties']['attrs']['thumbnailNavigation'])) {
-			if($slides['properties']['attrs']['thumbnailNavigation'] != 'disabled') {
-				if(!empty($slide['props']['thumbnail'])) {
-					$src = !empty($slide['props']['thumbnailId']) ? apply_filters('ls_get_image', $slide['props']['thumbnailId'], $slide['props']['thumbnail']) : $slide['props']['thumbnail'];
-					$data[] = '<img src="'.LS_ROOT_URL.'/static/img/blank.gif" data-src="'.$src.'" class="ls-tn" alt="Slide thumbnail" />';
-				}
+		if(!isset($slides['properties']['attrs']['thumbnailNavigation']) || $slides['properties']['attrs']['thumbnailNavigation'] != 'disabled') {
+			if(!empty($slide['props']['thumbnail'])) {
+				$src = !empty($slide['props']['thumbnailId']) ? apply_filters('ls_get_image', $slide['props']['thumbnailId'], $slide['props']['thumbnail']) : $slide['props']['thumbnail'];
+				$data[] = '<img src="'.LS_ROOT_URL.'/static/img/blank.gif" data-src="'.$src.'" class="ls-tn" alt="Slide thumbnail" />';
 			}
 		}
 
@@ -94,47 +153,9 @@ if(!empty($slider['slides']) && is_array($slider['slides'])) {
 
 				// Post layer
 				if(!empty($layer['props']['media']) && $layer['props']['media'] == 'post') {
-
-					if(!$postContent) {
-
-						$queryArgs = array( 'post_status' => 'publish', 'limit' => 30, 'posts_per_page' => 30 );
-
-						if(isset($slide['props']['post_offset'])) {
-							if($slide['props']['post_offset'] == -1) {
-								$slide['props']['post_offset'] = $slidekey;
-							}
-
-							$queryArgs['offset'] = $slide['props']['post_offset'];
-						}
-
-						if(!empty($slides['properties']['props']['post_type'])) {
-							$queryArgs['post_type'] = $slides['properties']['props']['post_type']; }
-
-						if(!empty($slides['properties']['props']['post_orderby'])) {
-							$queryArgs['orderby'] = $slides['properties']['props']['post_orderby']; }
-
-						if(!empty($slides['properties']['props']['post_order'])) {
-							$queryArgs['order'] = $slides['properties']['props']['post_order']; }
-
-						if(!empty($slides['properties']['props']['post_categories'][0])) {
-							$queryArgs['category__in'] = $slides['properties']['props']['post_categories']; }
-
-						if(!empty($slides['properties']['props']['post_tags'][0])) {
-							$queryArgs['tag__in'] = $slides['properties']['props']['post_tags']; }
-
-						if(!empty($slides['properties']['props']['post_taxonomy']) && !empty($slides['properties']['props']['post_tax_terms'])) {
-							$queryArgs['tax_query'][] = array(
-								'taxonomy' => $slides['properties']['props']['post_taxonomy'],
-								'field' => 'id',
-								'terms' => $slides['properties']['props']['post_tax_terms']
-							);
-						}
-
-						$postContent = $LSC->posts->find($queryArgs);
-					}
-
 					$layer['props']['post_text_length'] = !empty($layer['props']['post_text_length']) ? $layer['props']['post_text_length'] : 0;
 					$layer['props']['html'] = $postContent->getWithFormat($layer['props']['html'], $layer['props']['post_text_length']);
+					$layer['props']['html'] = do_shortcode($layer['props']['html']);
 				}
 
 				// Skip image layer without src
@@ -151,14 +172,17 @@ if(!empty($slider['slides']) && is_array($slider['slides'])) {
 				}
 
 				if(!empty($layer['props']['url']) && !preg_match('/^\#[0-9]/', $layer['props']['url'])) {
-					$el = phpQuery::newDocument('<a>')->children();
+					$el = phpQuery::newDocumentHTML('<a>')->children();
+					if($layer['props']['url'] == '[post-url]') {
+						$layer['props']['url'] = $postContent->getWithFormat($layer['props']['url']);
+					}
 					$el->attr('href', $layer['props']['url']);
 					if(!empty($layer['props']['target'])) {
 						$el->attr('target', $layer['props']['target']); }
 
 					$inner = $el->append($type)->children();
 				} else {
-					$el = $inner = phpQuery::newDocument($type)->children();
+					$el = $inner = phpQuery::newDocumentHTML($type)->children();
 				}
 
 				// HTML attributes
@@ -202,12 +226,17 @@ if(!empty($slider['slides']) && is_array($slider['slides'])) {
 				if($layer['props']['type'] == 'img') {
 					$inner->attr('src', LS_ROOT_URL.'/static/img/blank.gif');
 					$inner->attr('src', LS_ROOT_URL.'/static/img/blank.gif');
-					$src = !empty($layer['props']['imageId']) ? apply_filters('ls_get_image', $layer['props']['imageId'], $layer['props']['image']) : $layer['props']['image'];
+					
+					if($layer['props']['image'] == '[image-url]') {
+						$src = $postContent->getWithFormat($layer['props']['image']);
+					} else {
+						$src = !empty($layer['props']['imageId']) ? apply_filters('ls_get_image', $layer['props']['imageId'], $layer['props']['image']) : $layer['props']['image'];
+					}
 					$inner->attr('data-src', $src);
 
 					if(!empty($layer['props']['alt'])) {
-						$el->attr('alt', $layer['props']['alt']); }
-							else { $el->attr('alt', ''); }
+						$inner->attr('alt', $layer['props']['alt']); }
+							else { $inner->attr('alt', ''); }
 
 				// Text / HTML layer
 				} elseif($layer['props']['media'] != 'post' || ($first != '<' && $last != '>')) {
@@ -222,6 +251,10 @@ if(!empty($slider['slides']) && is_array($slider['slides'])) {
 		if(!empty($slide['props']['linkUrl'])) {
 			if(!empty($slide['props']['linkTarget'])) {
 				$target = ' target="'.$slide['props']['linkTarget'].'"'; } else { $target = '';
+			}
+
+			if($slide['props']['linkUrl'] == '[post-url]') {
+				$slide['props']['linkUrl'] = $postContent->getWithFormat($slide['props']['linkUrl']);
 			}
 
 			$data[] = '<a href="'.$slide['props']['linkUrl'].'"'.$target.' class="ls-link"></a>';

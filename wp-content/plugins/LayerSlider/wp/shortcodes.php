@@ -10,8 +10,11 @@ function layerslider_init($atts) {
 		return '[LayerSliderWP] '.__('Invalid shortcode', 'LayerSlider').'';
 	}
 
+	// Get slider
+	$slider = LS_Sliders::find($atts['id']);
+
 	// Get slider if any
-	if(!$slider = LS_Sliders::find($atts['id'])) {
+	if(!$slider || $slider['flag_deleted'] == '1') {
 		return '[LayerSliderWP] '.__('Slider not found', 'LayerSlider').'';
 	}
 
@@ -22,9 +25,6 @@ function layerslider_init($atts) {
 
 	// Include slider file
 	if(is_array($slides)) {
-
-		// For posts
-		global $LSC;
 
 		// Get phpQuery
 		if(!class_exists('phpQuery')) {
@@ -40,7 +40,7 @@ function layerslider_init($atts) {
 
 	// Return data
 	if(get_option('ls_concatenate_output', true)) {
-		$data = trim(preg_replace('/\s+/', ' ', $data));
+		$data = trim(preg_replace('/\s+/u', ' ', $data));
 	}
 
 	return $data;

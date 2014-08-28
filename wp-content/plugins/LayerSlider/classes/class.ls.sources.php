@@ -36,6 +36,18 @@ class LS_Sources {
 	public static function removeTransitions() {
 
 	}
+
+	public static function addDemoSlider() {
+
+	}
+
+	public static function removeDemoSlider() {
+
+	}
+
+	public static function removeDemoSliders() {
+
+	}
 }
 
 ?>

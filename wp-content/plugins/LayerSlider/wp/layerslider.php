@@ -11,11 +11,10 @@ function layerslider($id = 0, $page = '') {
 	// Page filter
 	if(isset($page) && !empty($page)) {
 
-		// Get page name
-		global $pagename;
-
-		// Get page ID
+		// Get page name, ID and categories
+		$pagename = basename(get_permalink());
 		$pageid = (string) get_the_ID();
+		$categories = get_the_category();
 
 		// Get pages
 		$pages = explode(',', $page);
@@ -26,10 +25,14 @@ function layerslider($id = 0, $page = '') {
 			if($page == 'homepage' && is_front_page()) {
 				echo layerslider_init(array('id' => $id));
 
-			} else if($pageid == $page) {
+			} elseif($pageid == $page) {
 				echo layerslider_init(array('id' => $id));
-			} else if($pagename == $page) {
+
+			} elseif($pagename == $page) {
 				echo layerslider_init(array('id' => $id));
+			
+			} elseif(in_category($page)) {
+				echo layerslider_init(array('id' => $id));	
 			}
 		}
 

@@ -1,5 +1,10 @@
 <?php
 
+	if(!defined('LS_ROOT_FILE')) { 
+		header('HTTP/1.0 403 Forbidden');
+		exit;
+	}
+
 	// Get screen options
 	$lsScreenOptions = get_option('ls-screen-options', '0');
 	$lsScreenOptions = ($lsScreenOptions == 0) ? array() : $lsScreenOptions;
@@ -39,11 +44,19 @@
 
 	// Auto-updates
 	$code = get_option('layerslider-purchase-code', '');
-	$validity = get_option('layerslider-validated', '0');
+	if(!empty($code)) {
+		$start = substr($code, 0, -6);
+		$end = substr($code, -6);
+		$code = preg_replace("/[a-zA-Z0-9]/", '●', $start) . $end;
+		$code = str_replace('-', ' ', $code);
+	}
+
+	$validity = get_option('layerslider-authorized-site', '0');
 	$channel = get_option('layerslider-release-channel', 'stable');
 
 	// Google Fonts
 	$googleFonts = get_option('ls-google-fonts', array());
+	$googleFontScripts = get_option('ls-google-font-scripts', array('latin'));
 
 	// Box toggles
 	$lsBoxToggles = get_option('ls-collapsed-boxes', array());
@@ -55,19 +68,20 @@
 		'removeSelectError' => __('No sliders were selected to remove.', 'LayerSlider'),
 		'removeSuccess' => __('The selected sliders were removed.', 'LayerSlider'),
 		'deleteSelectError' => __('No sliders were selected.', 'LayerSlider'),
-		'deleteSuccess' => __('The selected sliders were deleted permanently.', 'LayerSlider'),
+		'deleteSuccess' => __('The selected sliders were permanently deleted.', 'LayerSlider'),
 		'mergeSelectError' => __('You need to select at least 2 sliders to merge them.', 'LayerSlider'),
 		'mergeSuccess' => __('The selected items were merged together as a new slider.', 'LayerSlider'),
 		'restoreSelectError' => __('No sliders were selected.', 'LayerSlider'),
 		'restoreSuccess' => __('The selected sliders were restored.', 'LayerSlider'),
 
+		'exportNotFound' => __('No sliders were found to export.', 'LayerSlider'),
 		'exportSelectError' => __('No sliders were selected to export.', 'LayerSlider'),
-		'exportZipError' => __('The PHP ZipArchive extension is required to import ZIPs.', 'LayerSlider'),
+		'exportZipError' => __('The PHP ZipArchive extension is required to import .zip files.', 'LayerSlider'),
 
 		'importSelectError' => __('Choose a file to import sliders.', 'LayerSlider'),
 		'importFailed' => __('The import file seems to be invalid or corrupted.', 'LayerSlider'),
 		'importSuccess' => __('Your slider has been imported.', 'LayerSlider'),
-		'permissionError' => __('Your account does not have the necessary permission you chose, and your settings have not been saved to prevent locking yourself out of the plugin.', 'LayerSlider'),
+		'permissionError' => __('Your account does not have the necessary permission you have chosen, and your settings have not been saved in order to prevent locking yourself out of the plugin.', 'LayerSlider'),
 		'permissionSuccess' => __('Permission changes has been updated.', 'LayerSlider'),
 		'googleFontsUpdated' => __('Your Google Fonts library has been updated.', 'LayerSlider'),
 		'generalUpdated' => __('Your settings has been updated.', 'LayerSlider')
@@ -78,7 +92,7 @@
 		<form id="ls-screen-options-form" action="<?php echo $_SERVER['REQUEST_URI']?>" method="post">
 			<h5><?php _e('Show on screen', 'LayerSlider') ?></h5>
 			<label><input type="checkbox" name="showTooltips"<?php echo $lsScreenOptions['showTooltips'] == 'true' ? ' checked="checked"' : ''?>> <?php _e('Tooltips', 'LayerSlider') ?></label>
-			<label><input type="checkbox" name="showRemovedSliders" class="reload"<?php echo $lsScreenOptions['showRemovedSliders'] == 'true' ? ' checked="checked"' : ''?>> <?php _e('Removed sliders', 'LayerSlider') ?></label><br>
+			<label><input type="checkbox" name="showRemovedSliders" class="reload"<?php echo $lsScreenOptions['showRemovedSliders'] == 'true' ? ' checked="checked"' : ''?>> <?php _e('Removed sliders', 'LayerSlider') ?></label><br><br>
 
 			<input type="number" name="numberOfSliders" min="3" step="1" value="<?php echo $lsScreenOptions['numberOfSliders'] ?>"> <?php _e('Sliders', 'LayerSlider') ?>
 			<button class="button"><?php _e('Apply', 'LayerSlider') ?></button>
@@ -92,12 +106,12 @@
 	<h2>
 		<?php _e('LayerSlider sliders', 'LayerSlider') ?>
 		<a href="#" id="ls-add-slider-button" class="add-new-h2"><?php _e('Add New', 'LayerSlider') ?></a>
-		<a href="<?php echo wp_nonce_url('?page=layerslider&action=import_sample', 'import-sample-sliders') ?>" id="ls-import-samples-button" class="add-new-h2"><?php _e('Import sample sliders', 'LayerSlider') ?></a>
+		<a href="#" id="ls-import-samples-button" class="add-new-h2"><?php _e('Import sample sliders', 'LayerSlider') ?></a>
 	</h2>
 
 	<!-- Error messages -->
 	<?php if(isset($_GET['message'])) : ?>
-	<div class="ls-notification <?php echo isset($_GET['error']) ? 'warning' : 'changed' ?>">
+	<div class="ls-notification <?php echo isset($_GET['error']) ? 'error' : 'updated' ?>">
 		<div><?php echo $notifications[ $_GET['message'] ] ?></div>
 	</div>
 	<?php endif; ?>
@@ -117,7 +131,7 @@
 		<?php wp_nonce_field('add-slider'); ?>
 		<input type="hidden" name="ls-add-new-slider" value="1">
 		<span class="ls-mce-arrow"></span>
-		<h3 class="header"><?php _e('Give a name for your new slider', 'LayerSlider') ?></h3>
+		<h3 class="header"><?php _e('Name your new slider', 'LayerSlider') ?></h3>
 		<div class="inner">
 			<input type="text" name="title" placeholder="<?php _e('e.g. Homepage slider', 'LayerSlider') ?>">
 			<button class="button"><?php _e('Add slider', 'LayerSlider') ?></button>
@@ -163,6 +177,92 @@
 	</div>
 	<!-- End of Import sample sliders template -->
 
+
+	<!-- Share sheet template -->
+	<?php 
+		$time = time();
+		$installed = get_option('ls-date-installed', 0);
+		$level = get_option('ls-share-displayed', 1);
+
+		switch($level){
+			case 1: 
+				$time = $time-60*60*24*14;
+				$odds = 100;
+				break;
+
+			case 2:
+				$time = $time-60*60*24*30*2;
+				$odds = 200;
+				break;
+
+			case 3:
+				$time = $time-60*60*24*30*6;
+				$odds = 300;
+				break;
+
+			default:
+				$time = $time-60*60*24*14;
+				$odds = 100;
+				break;
+		}
+		
+		if($installed && $time > $installed) {
+			if(mt_rand(1, $odds) == 3) {
+				update_option('ls-share-displayed', ++$level);
+	?>
+	<div class="ls-overlay" data-manualclose="true"></div>
+	<link href='http://fonts.googleapis.com/css?family=Indie+Flower' rel='stylesheet' type='text/css'>
+	<div id="ls-share-template" class="ls-modal ls-box">
+		<h3>
+			<?php _e('Enjoy using LayerSlider?', 'LayerSlider') ?>
+			<a href="#" class="dashicons dashicons-no-alt"></a>
+		</h3>
+		<div class="inner desc">
+			<?php _e("If so, please consider recommending it to your friends on your favorite social network!", "LayerSlider"); ?>
+		</div>
+		<div class="inner">
+			<a href="https://www.facebook.com/sharer/sharer.php?u=http://kreaturamedia.com/layerslider-responsive-wordpress-slider-plugin/" target="_blank">
+				<i class="dashicons dashicons-facebook-alt"></i> Share
+			</a>
+
+			<a href="http://www.twitter.com/share?url=http%3A%2F%2Fkreaturamedia.com%2Flayerslider-responsive-wordpress-slider-plugin%2F&amp;text=Check%20out%20LayerSlider%20WP%2C%20an%20awesome%20%23slider%20%23plugin%20for%20%23WordPress&amp;via=kreaturamedia" target="_blank">
+				<i class="dashicons dashicons-twitter"></i> Tweet
+			</a>
+			
+			<a href="https://plus.google.com/share?url=http://kreaturamedia.com/layerslider-responsive-wordpress-slider-plugin/" target="_blank">
+				<i class="dashicons dashicons-googleplus"></i> +1
+			</a>
+		</div>
+	</div>
+	<?php } } ?>
+	<!-- End of Share sheet template -->
+
+
+	<!-- Auto-update revalidation -->
+	<?php if(
+		get_option('layerslider-validated', null) === '1' && 
+		get_option('layerslider-authorized-site', null) === null && 
+		get_option('ls-show-revalidation-notice', 1)
+	) : ?>
+	<div class="ls-overlay" data-manualclose="true"></div>
+	<div id="ls-autoupdate-popup" class="ls-box">
+		<h3 class="header">Auto-update revalidation required</h3>
+		<div class="inner">
+			<h4>What's changed?</h4>
+			<p>Due to changes in our auto-update solution you need to re-validate the plugin to receive automatic updates again. From now on a purchase code can be used to enable automatic updates on 2 websites only. The domain name of your site will be recorded on re-activation.</p>
+			<h4>What I have to do?</h4>
+			<p>Since you've already entered your purchase code you just need to click on the "Update" button in the auto-update box. Please keep in mind that now you can only activate 2 websites with a key at the same time.</p>
+			<h4>Why is it necessary?</h4>
+			<p>Item purchase codes have many applications besides the auto-update feature. We feel it's important to minimize the impact of leaked/shared codes on the web in order to improve user experience and our products and support services.</p>
+			<h4>Should I be worried?</h4>
+			<p>The plugin will remain functioning without any restriction, but you need to re-validate your purchase to receive updates again. If you've got LayerSlider by a theme purchase you can receive the latest versions with theme updates, unless you purchase a license directly for LayerSlider on <a href="http://codecanyon.net/item/layerslider-responsive-wordpress-slider-plugin-/1362246" target="_blank">CodeCanyon</a>.</p>
+			<p class="signature">Please accept our sincerest apologies for any inconvenience may caused. <br> Kreatura Media Team</p>
+			<a href="<?php echo wp_nonce_url('?page=layerslider&action=hide-revalidation-notice', 'hide-revalidation-notice') ?>" class="button button-primary">I understand</a>
+		</div>
+	</div>
+	<?php endif ?>
+	<!-- End of Auto-update revalidation template -->
+
 	<form action="<?php echo $_SERVER['REQUEST_URI'] ?>" method="post">
 		<input type="hidden" name="ls-bulk-action" value="1">
 		<?php wp_nonce_field('bulk-action'); ?>
@@ -201,7 +301,7 @@
 							</a>
 						</td>
 						<td><input type="text" class="ls-shortcode" value="[layerslider id=&quot;<?php echo !empty($item['slug']) ? $item['slug'] : $item['id'] ?>&quot;]" readonly></td>
-						<td><?php echo count($item['data']['layers']) ?></td>
+						<td><?php echo isset($item['data']['layers']) ? count($item['data']['layers']) : 0 ?></td>
 						<td><?php echo date('d/m/y', $item['date_c']) ?></td>
 						<td><?php echo human_time_diff($item['date_m']) ?> <?php _e('ago', 'LayerSlider') ?></td>
 						<td>
@@ -209,8 +309,8 @@
 							<a href="<?php echo wp_nonce_url('?page=layerslider&action=duplicate&id='.$item['id'], 'duplicate_'.$item['id']) ?>">
 								<span class="dashicons dashicons-admin-page" data-help="<?php _e('Duplicate this slider', 'LayerSlider') ?>"></span>
 							</a>
-							<a href="<?php echo wp_nonce_url('?page=layerslider&action=remove&id='.$item['id'], 'remove_'.$item['id']) ?>">
-								<span class="dashicons dashicons-post-trash" data-help="<?php _e('Remove this slider', 'LayerSlider') ?>"></span>
+							<a href="<?php echo wp_nonce_url('?page=layerslider&action=remove&id='.$item['id'], 'remove_'.$item['id']) ?>" class="remove">
+								<span class="dashicons dashicons-trash" data-help="<?php _e('Remove this slider', 'LayerSlider') ?>"></span>
 							</a>
 							<?php else : ?>
 							<a href="<?php echo wp_nonce_url('?page=layerslider&action=restore&id='.$item['id'], 'restore_'.$item['id']) ?>">
@@ -223,14 +323,14 @@
 					<?php endif; ?>
 					<?php if(empty($sliders)) : ?>
 					<tr>
-						<td colspan="9"><?php _e('You haven\'t created any a slider yet. Click on the "Add New" button above to add one.', 'LayerSlider') ?></td>
+						<td colspan="9"><?php _e('You haven\'t created any slider yet. Click on the "Add New" button above to add one.', 'LayerSlider') ?></td>
 					</tr>
 					<?php endif; ?>
 				</tbody>
 			</table>
 			<div class="ls-bulk-actions">
 			<select name="action">
-				<option value="0"><?php _e('Choose an action', 'LayerSlider') ?></option>
+				<option value="0"><?php _e('Bulk Actions', 'LayerSlider') ?></option>
 				<option value="remove"><?php _e('Remove selected', 'LayerSlider') ?></option>
 				<option value="delete"><?php _e('Delete permanently', 'LayerSlider') ?></option>
 				<?php if($lsScreenOptions['showRemovedSliders'] == 'true') : ?>
@@ -263,40 +363,41 @@
 	<div class="ls-export-wrapper columns clearfix">
 		<div class="half">
 			<div class="ls-import-export-box ls-box">
-				<h3 class="header medium"><?php _e('Import & Export Sliders', 'LayerSlider') ?></h3>
+				<h3 class="header medium"><?php _e('Import Sliders', 'LayerSlider') ?></h3>
 				<form action="<?php echo $_SERVER['REQUEST_URI'] ?>" method="post" enctype="multipart/form-data" class="ls-import-box">
 					<?php wp_nonce_field('import-sliders'); ?>
 					<input type="hidden" name="ls-import" value="1">
-					<table data-help="<?php _e('Choose a LayerSlider export file downloaded previously to import your sliders. To import from outdated versions, you need to create a file and paste the export code into it. The file needs to have a .json extension.', 'LayerSlider') ?>">
+					<table data-help="<?php _e('Choose a LayerSlider export file downloaded previously to import your sliders. In order to import from outdated versions, you need to create a file and paste the export code into it. The file needs to have a .json extension.', 'LayerSlider') ?>">
 						<tbody>
 							<tr>
-								<td><?php  _e('Import Sliders', 'LayerSlider') ?></td>
 								<td><input type="file" name="import_file"></td>
 								<td><button class="button"><?php _e('Import', 'LayerSlider') ?></button></td>
 							</tr>
 						</tbody>
 					</table>
 				</form>
+			</div>
+			<div class="ls-import-export-box ls-box">
+				<h3 class="header medium"><?php _e('Export Sliders', 'LayerSlider') ?></h3>
 				<form action="<?php echo $_SERVER['REQUEST_URI'] ?>" method="post" class="ls-export-form">
 					<?php wp_nonce_field('export-sliders'); ?>
 					<input type="hidden" name="ls-export" value="1">
 					<table>
 						<tbody>
 							<tr>
-								<td valign="top"><?php _e('Export Sliders', 'LayerSlider') ?></td>
 								<td>
 									<select name="sliders[]" multiple="multiple" data-help="<?php _e('Downloads an export file that contains your selected sliders to import on your new site. You can select multiple sliders by holding the Ctrl/Cmd button while clicking.', 'LayerSlider') ?>">
 										<option value="-1" selected> <?php _e('All Sliders', 'LayerSlider') ?></option>
 										<?php foreach($sliders as $slider) : ?>
 										<option value="<?php echo $slider['id'] ?>">
 											#<?php echo str_replace(' ', '&nbsp;', str_pad($slider['id'], 3, " ")) ?> -
-											<?php echo $slider['name'] ?>
+											<?php echo apply_filters('ls_slider_title', $slider['name'], 30) ?>
 										</option>
 										<?php endforeach; ?>
 									</select>
 
 									<label>
-										<input type="checkbox"  class="checkbox" name="exportWithImages" checked> Export with images
+										<input type="checkbox"  class="checkbox" name="exportWithImages" checked> Export images
 									</label>
 									<button class="button"><?php _e('Export', 'LayerSlider') ?></button>
 								</td>
@@ -304,8 +405,7 @@
 						</tbody>
 						<tfoot>
 							<tr data-help="The PHP ZipArchive extension is needed for exporting/importing images. The plugin will only copy your slider settings if it's not available. In that case please contact with your hosting provider.">
-								<td>Status</td>
-								<td colspan="2" class="<?php echo class_exists('ZipArchive') ? 'available' : 'notavailable' ?>">
+								<td class="<?php echo class_exists('ZipArchive') ? 'available' : 'notavailable' ?>">
 									<?php echo class_exists('ZipArchive') ? 
 										'ZipArchive is available to import/export images' : 
 										'ZipArchive isn\'t avilable' 
@@ -355,55 +455,57 @@
 		</div>
 
 		<div class="half">
-			<?php if($GLOBALS['lsAutoUpdateBox'] == true) : ?>
 			<form action="<?php echo $_SERVER['REQUEST_URI'] ?>" method="post" class="ls-box ls-settings ls-auto-update">
-				<input type="hidden" name="action" value="layerslider_verify_purchase_code">
+				<input type="hidden" name="action" value="layerslider_authorize_site">
 				<h3 class="header medium blue">
-					<?php _e('Auto-updates', 'LayerSlider') ?>
-					<figure><span>|</span><?php _e('Update notifications and one-click installation', 'LayerSlider') ?></figure>
+					<?php _e('Automatic updates & Premium support', 'LayerSlider') ?>
+					<i class="dashicons dashicons-editor-help" data-help="Receive update notifications and install new versions with just a click. For instructions to set up this feature, please hover over the individual option fields with your mouse cursor and read the tooltip messages. <br><br>Please note, the auto-update feature can be activated on two WordPress installations with a purchase code at the same time. We will store the domain name of your site upon activation, and an option to deauthorize installations will be provided."></i>
 				</h3>
+				<?php if($GLOBALS['lsAutoUpdateBox'] == false) : ?>
+					<div class="inner" style="border-bottom: 1px solid #e3e3e3;">
+						<?php _e("It seems you've received LayerSlider by a theme. Please note that the auto-update feature only works if you've purchased the plugin directly from us on <a href=\"http://codecanyon.net/item/layerslider-responsive-wordpress-slider-plugin-/1362246\" target=\"_blank\">CodeCanyon</a>.", "LayerSlider"); ?>
+					</div>
+				<?php endif ?>
 				<table>
 					<tbody>
 						<tr>
 							<td><?php _e('Purchase code', 'LayerSlider') ?></td>
 							<td>
-								<input type="text" name="purchase_code" value="<?php echo $code ?>"  class="key" placeholder="e.g. bc8e2b24-3f8c-4b21-8b4b-90d57a38e3c7" data-help="<?php _e('To receive auto-updates, you need to enter your item purchase code. You can find it on your CodeCanyon downloads page, just click on the Download button and choose the "Licence Certificate" option. This will download a text file that contains your purchase code.', 'LayerSlider') ?>">
+								<input type="text" name="purchase_code" value="<?php echo $code ?>"  class="key" placeholder="e.g. bc8e2b24-3f8c-4b21-8b4b-90d57a38e3c7" data-help="<?php _e('To receive automatic updates, you need to enter your item purchase code. Click on the Download button next to LayerSlider WP on your CodeCanyon downloads page and choose the &quot;License certificate & purchase code&quot; option. This will download a text file that contains your purchase code.', 'LayerSlider') ?>">
 							</td>
 						</tr>
 						<tr>
 							<td><?php _e('Release channel', 'LayerSlider') ?></td>
 							<td>
 								<label><input type="radio" name="channel" value="stable" <?php echo ($channel === 'stable') ? 'checked="checked"' : ''?>> <?php _e('Stable', 'LayerSlider') ?></label>
-								<label data-help="<?php _e('Although pre-release versions should be fine, they might contain unknown issues, and are not recommended for sites in production.', 'LayerSlider') ?>">
+								<label data-help="<?php _e('Although pre-release versions meant to work properly, they might contain unknown issues, and are not recommended for sites in production.', 'LayerSlider') ?>">
 									<input type="radio" name="channel" value="beta" <?php echo ($channel === 'beta') ? 'checked="checked"' : ''?>> <?php _e('Beta', 'LayerSlider') ?>
 								</label>
+							</td>
+						</tr>
+						<tr>
+							<td><?php _e('Status', 'LayerSlider'); ?></td>
+							<td>
+								<span class="status" style="<?php echo ($validity == '1') ? 'color: #4b982f;' : 'color: #c33219'?>">
+								<?php
+									if($validity == '1') {
+										_e('This site is authorized to receive automatic updates.', 'LayerSlider');
+
+									} else {
+										_e("This site is not yet authorized to receive plugin updates.", "LayerSlider");
+									}
+								?>
+								</span>
 							</td>
 						</tr>
 					</tbody>
 				</table>
 				<div class="footer">
 					<button class="button"><?php _e('Update', 'LayerSlider') ?></button>
-					<span style="<?php echo ($validity == '0' && $code != '') ? 'color: #c33219;' : 'color: #4b982f'?>">
-						<?php
-							if($validity == '1') {
-								_e('Thank you for purchasing LayerSlider WP.', 'LayerSlider');
-								echo '<a href="update-core.php">', __('Check for update', 'LayerSlider'), '</a>';
-
-							} else if($code != '') {
-								_e("Your purchase code doesn't appear to be valid.", "LayerSlider");
-							}
-						?>
-					</span>
+					<a href="#" class="ls-deauthorize<?php echo ($validity == '1') ? '' : ' ls-hidden' ?>"><?php _e('Deauthorize this site', 'LayerSlider') ?></a>
+					<a href="update-core.php" class="<?php echo ($validity == '1') ? '' : 'ls-hidden' ?>"><?php _e('Check for update', 'LayerSlider') ?></a>
 				</div>
 			</form>
-			<?php else : ?>
-			<div class="ls-box ls-settings ls-auto-update">
-				<h3 class="header medium blue"><?php _e('Auto-updates', 'LayerSlider') ?></h3>
-				<div class="inner" style="text-align: justify;">
-					<?php _e("It seems you've received LayerSlider with your current theme. Our auto-update mechanism only works with a direct purchase of the plugin, thus you can receive newer versions by updating your theme. Please note, updates are available for everyone at the same time, but it might take some time while theme authors include them in their own releases.", "LayerSlider"); ?>
-				</div>
-			</div>
-			<?php endif; ?>
 		</div>
 	</div>
 
@@ -431,7 +533,7 @@
 				<tr>
 					<td><?php _e("Conditional script loading", "LayerSlider") ?></td>
 					<td><input type="checkbox" name="conditional_script_loading" <?php echo get_option('ls_conditional_script_loading', false) ? 'checked="checked"' : '' ?>></td>
-					<td class="desc"><?php _e("Increase your site's performance by loading resources only when needed. Outdated themes might not support this method.", "LayerSlider") ?></td>
+					<td class="desc"><?php _e("Increase your site's performance by loading resources only when necessary. Outdated themes might not support this method.", "LayerSlider") ?></td>
 				</tr>
 				<tr>
 					<td><?php _e('Concatenate output', 'LayerSlider') ?></td>
@@ -464,17 +566,17 @@
 		<div class="inner">
 			<ul class="ls-font-list">
 				<li class="ls-hidden">
-					<a href="#" class="remove" title="Remove this font">x</a>
+					<a href="#" class="remove dashicons dashicons-dismiss" title="Remove this font"></a>
 					<input type="text" name="urlParams[]" readonly="readonly">
 					<input type="checkbox" name="onlyOnAdmin[]">
 					<?php _e('Load only on admin interface', 'LayerSlider') ?>
 				</li>
 				<?php if(is_array($googleFonts) && !empty($googleFonts)) : ?>
-				<?php foreach($googleFonts as $key => $item): ?>
+				<?php foreach($googleFonts as $item) : ?>
 				<li>
-					<a href="#" class="remove" title="Remove this font">x</a>
-					<input type="text" name="urlParams[<?php echo $key ?>]" value="<?php echo $item['param'] ?>" readonly="readonly">
-					<input type="checkbox" name="onlyOnAdmin[<?php echo $key ?>]" <?php echo $item['admin'] ? ' checked="checked"' : '' ?>>
+					<a href="#" class="remove dashicons dashicons-dismiss" title="Remove this font"></a>
+					<input type="text" name="urlParams[]" value="<?php echo $item['param'] ?>" readonly="readonly">
+					<input type="checkbox" name="onlyOnAdmin[]" <?php echo $item['admin'] ? ' checked="checked"' : '' ?>>
 					<?php _e('Load only on admin interface', 'LayerSlider') ?>
 				</li>
 				<?php endforeach ?>
@@ -483,16 +585,10 @@
 				<?php endif ?>
 			</ul>
 		</div>
+		<div class="inner ls-font-search">
 
-		<!-- Google Fonts search bar -->
-		<div class="inner ls-font-search footer">
-			<button type="submit" class="button"><?php _e('Save changes', 'LayerSlider') ?></button>
-
-			<div class="right">
-				<?php _e('Add font:', 'LayerSlider') ?>
-				<input type="text" placeholder="Search Google Fonts library">
-				<button class="button"><?php _e('Search', 'LayerSlider') ?></button>
-			</div>
+			<input type="text" placeholder="<?php _e('Enter a font name to add to your collection', 'LayerSlider') ?>">
+			<button class="button"><?php _e('Search', 'LayerSlider') ?></button>
 
 			<!-- Google Fonts search pointer -->
 			<div class="ls-box ls-pointer">
@@ -509,6 +605,58 @@
 				</div>
 			</div>
 		</div>
+
+		<!-- Google Fonts search bar -->
+		<div class="inner footer">
+			<button type="submit" class="button"><?php _e('Save changes', 'LayerSlider') ?></button>
+			<?php 
+				$scripts = array(
+					'cyrillic' => __('Cyrillic', 'LayerSlider'),
+					'cyrillic-ext' => __('Cyrillic Extended', 'LayerSlider'),
+					'devanagari' => __('Devanagari', 'LayerSlider'),
+					'greek' => __('Greek', 'LayerSlider'),
+					'greek-ext' => __('Greek Extended', 'LayerSlider'),
+					'khmer' => __('Khmer', 'LayerSlider'),
+					'latin' => __('Latin', 'LayerSlider'),
+					'latin-ext' => __('Latin Extended', 'LayerSlider'),
+					'vietnamese' => __('Vietnamese', 'LayerSlider')
+				);
+			?>
+			<div class="right">
+				<div>
+					<select>
+						<option><?php _e('Select new', 'LayerSlider') ?></option>
+						<?php foreach($scripts as $key => $val) : ?>
+						<option value="<?php echo $key ?>"><?php echo $val ?></option>
+						<?php endforeach ?>
+					</select>
+				</div>
+				<ul class="ls-google-font-scripts">
+					<li class="ls-hidden">
+						<span></span>
+						<a href="#" class="dashicons dashicons-dismiss" title="<?php _e('Remove character set', 'LayerSlider') ?>"></a>
+						<input type="hidden" name="scripts[]" value="">
+					</li>
+					<?php if(!empty($googleFontScripts) && is_array($googleFontScripts)) : ?>
+					<?php foreach($googleFontScripts as $item) : ?>
+					<li>
+						<span><?php echo $scripts[$item] ?></span>
+						<a href="#" class="dashicons dashicons-dismiss" title="<?php _e('Remove character set', 'LayerSlider') ?>"></a>
+						<input type="hidden" name="scripts[]" value="<?php echo $item ?>">
+					</li>
+					<?php endforeach ?>
+					<?php else : ?>
+					<li>
+						<span>Latin</span>
+						<a href="#" class="dashicons dashicons-dismiss" title="<?php _e('Remove character set', 'LayerSlider') ?>"></a>
+						<input type="hidden" name="scripts[]" value="latin">
+					</li>
+					<?php endif ?>
+				</ul>
+				<div><?php _e('Use character sets:', 'LayerSlider') ?></div>
+			</div>
+		</div>
+
 	</form>
 
 	<div class="ls-box ls-news">
@@ -547,7 +695,7 @@ add_user_meta($current_user->ID, 'layerslider_help_wp_pointer', '1'); ?>
 		jQuery('#contextual-help-link-wrap').pointer({
 			pointerClass : 'ls-help-pointer',
 			pointerWidth : 320,
-			content: '<h3><?php _e('The documentation is here', 'LayerSlider') ?></h3><div class="inner"><?php _e('This is a WordPress contextual help menu, we use it to give you fast access to our documentation. Please keep in mind that because this menu is contextual, it only shows the relevant information to the page that you are currently viewing. So if you search something, you should visit the corresponding page first and then open this help menu.', 'LayerSlider') ?></div>',
+			content: '<h3><?php _e('The documentation is here', 'LayerSlider') ?></h3><div class="inner"><?php _e('This is a WordPress contextual help menu, it is used to give you fast access to our documentation. Please keep in mind that because this menu is contextual it only shows the relevant information to the page that you are currently viewing. So if you search for something else, you should visit the corresponding page first and then open this help menu.', 'LayerSlider') ?></div>',
 			position: {
 				edge : 'top',
 				align : 'right'

@@ -11,6 +11,29 @@
 	padding: 6px 4px !important;
 }
 
+.ls-slide-options td:first-child {
+	width: 190px;
+
+	.inner {
+		width: 150px;
+		margin: 0  auto !important;
+		padding-top: 0 !important;
+	}
+}
+
+.ls-slide-options .slide-image {
+	line-height: 16px;
+	text-align: right;
+
+	.ls-image {
+		margin-bottom: 5px;
+	}
+}
+
+.ls-slide-options td.second {
+	width: 190px;
+}
+
 div.ls-image {
 	position: relative;
 	width: 152px;
@@ -38,14 +61,10 @@ div.ls-image {
 		display: block;
 		position: absolute;
 		top: -4px;
-		right: -4px;
+		right: -1px;
 		width: 16px;
 		height: 16px;
-		background: red;
-		text-align: center;
-		color: white;
-		border-radius: 10px;
-		box-shadow: 0px 0px 2px #333;
+		color: red;
 	}
 }
 
@@ -63,8 +82,22 @@ div.ls-image {
 	margin: -329px 0 0 -400px;
 	box-shadow: 0 0 5px 2px #666;
 
-	h3.header {
-		border-top: 1px solid #dedede !important;
+	.header {
+		a {
+			float: right;
+			line-height: 30px;
+			margin-right: -4px;
+			cursor: pointer;
+			color: #444;
+		}
+	}
+
+	.subheader {
+		margin: 0;
+	}
+
+	.preview-subheader {
+		padding-left: 10px;
 	}
 
 	.inner {
@@ -113,11 +146,11 @@ div.ls-image {
 
 		&.ls-post-taxonomy {
 			width: 130px;
-			height: 20px;
+			height: 26px;
 		}
 
 		&:last-child {
-			height: 170px !important;
+			height: 164px !important;
 		}
 	}
 }
@@ -220,10 +253,22 @@ div.ls-image {
 	}
 }
 
-.ls-linkfield {
-	// width: 100% !important;
-	width: calc(100% * 0.666 + 132px) !important;
+.ls-slide-link {
+	width: 90%;
+	margin: 0 auto;
+	padding: 0 10px 0 10px !important;
+	text-align: left !important;
+
+	input {
+		width: 100% !important;
+		margin: 0 10px 10px 0;
+	}
+
+	span {
+		float: right;
+	}
 }
+
 
 // TAGS
 .ls-post-placeholders {

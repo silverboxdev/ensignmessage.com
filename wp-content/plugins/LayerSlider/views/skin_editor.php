@@ -1,8 +1,14 @@
 <?php
 
+	if(!defined('LS_ROOT_FILE')) { 
+		header('HTTP/1.0 403 Forbidden');
+		exit;
+	}
+
 	// Get all skins
 	$skins = array_map('basename', glob(LS_ROOT_PATH . '/static/skins/*', GLOB_ONLYDIR));
-	$skin = !empty($_GET['skin']) ? $_GET['skin'] : $skins[0];
+	$skin = (!empty($_GET['skin']) && strpos($_GET['skin'], '..') === false) ? $_GET['skin'] : '';
+	$skin = !empty($skin) ? $skin : $skins[0];
 	$folder = LS_ROOT_PATH.'/static/skins/'.$skin;
 	$file = LS_ROOT_PATH.'/static/skins/'.$skin.'/skin.css';
 	// Get screen options
@@ -41,7 +47,7 @@
 
 	<!-- Error messages -->
 	<?php if(isset($_GET['edited'])) : ?>
-	<div class="ls-notification changed">
+	<div class="ls-notification updated">
 		<div><?php _e('Your changes has been saved!', 'LayerSlider') ?></div>
 	</div>
 	<?php endif; ?>
@@ -69,13 +75,13 @@
 		</h3>
 		<p class="inner"><?php _e('Built-in skins will be overwritten by plugin updates. Making changes should be done through the Custom Styles Editor.', 'LayerSlider') ?></p>
 		<div class="inner">
-			<textarea rows="10" cols="50" name="contents" class="ls-codemirror"><?php echo file_get_contents($file); ?></textarea>
+			<textarea rows="10" cols="50" name="contents" class="ls-codemirror"><?php echo htmlentities(file_get_contents($file)); ?></textarea>
 			<p class="footer">
 				<?php if(!is_writable($folder)) { ?>
-				<?php _e('You need to make this file writable before you can save your changes. See the <a href="http://codex.wordpress.org/Changing_File_Permissions" target="_blank">Codex</a> for more information.', 'LayerSlider') ?>
+				<?php _e('You need to make this file writable in order to save your changes. See the <a href="http://codex.wordpress.org/Changing_File_Permissions" target="_blank">Codex</a> for more information.', 'LayerSlider') ?>
 				<?php } else { ?>
 				<button class="button-primary"><?php _e('Save changes', 'LayerSlider') ?></button>
-				<?php _e("Modifying a skin with bad code can break your sliders' appearance. Changes cannot be reverted after saving.", "LayerSlider") ?>
+				<?php _e("Modifying a skin with invalid code can break your sliders' appearance. Changes cannot be reverted after saving.", "LayerSlider") ?>
 				<?php } ?>
 			</p>
 		</div>

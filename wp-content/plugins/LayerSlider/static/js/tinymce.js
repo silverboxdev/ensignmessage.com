@@ -19,9 +19,9 @@ jQuery(document).ready(function($) {
 
 			// Button props
 			ed.addButton('layerslider_button', {
-				itle : 'Add LayerSlider',
+				title : 'Add LayerSlider',
 				cmd : 'layerslider_insert_shortcode',
-				onclick : function() { self.openPopup(); }
+				onClick : function() { self.openPopup(); }
 			});
 		},
 
@@ -56,7 +56,7 @@ jQuery(document).ready(function($) {
 			});
 
 			// Get button props
-			var offsets = $('#content_layerslider_button').offset();
+			var offsets = $('.mce-i-layerslider_button,.mce_layerslider_button').offset();
 
 			// Show popup
 			$('.ls-pointer').css({

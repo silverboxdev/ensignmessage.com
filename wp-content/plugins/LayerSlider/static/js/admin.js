@@ -186,7 +186,7 @@ var lsTooltip = {
 		var tooltip = jQuery('.ls-tooltip');
 
 		// Set tooltip text
-		tooltip.find('.inner').text( jQuery(el).attr('data-help'));
+		tooltip.find('.inner').html( jQuery(el).data('help') );
 
 		// Get viewport dimensions
 		var v_w = jQuery(window).width();
@@ -241,8 +241,8 @@ var LayerSlider = {
 
 		// Init CodeMirror
 		if(jQuery(el).hasClass('callbacks')) {
-			if(jQuery('.CodeMirror-code').length === 0) {
-				LS_CodeMirror.init({ mode: 'javascript', autofocus : false });
+			if(jQuery('.ls-callback-page .CodeMirror-code').length === 0) {
+				LS_CodeMirror.init({ mode: 'javascript', autofocus : false, styleActiveLine : false });
 				jQuery(window).scrollTop(0);
 			}
 		}
@@ -255,6 +255,18 @@ var LayerSlider = {
 		jQuery(li).addClass('active');
 		jQuery('div.ls-settings-contents tbody.active').removeClass('active');
 		jQuery('div.ls-settings-contents tbody').eq(index).addClass('active');
+
+		// SliderStyle Editor
+		if(jQuery(li).hasClass('codemirror')) {
+			if(jQuery('div.ls-settings-contents tbody:eq('+index+') .CodeMirror-code').length === 0) {
+				var cm = CodeMirror.fromTextArea( jQuery('div.ls-settings-contents tbody:eq('+index+') textarea.ls-codemirror')[0], {
+					mode: 'css', theme: 'solarized', lineWrapping : true
+				});
+				cm.on("change", function(instance) {
+					instance.getTextArea().value = instance.getValue();
+				});
+			}
+		}
 	},
 
 	addLayer : function() {
@@ -272,7 +284,7 @@ var LayerSlider = {
 		var index = clone.index();
 
 		// Add layer tab
-		var tab = jQuery('<a href="#">Slide #'+(index+1)+'<span class="ls-icon-layer-remove">x</span></a>').insertBefore('#ls-add-layer');
+		var tab = jQuery('<a href="#">Slide #'+(index+1)+'<span class="dashicons dashicons-dismiss"></span>').insertBefore('#ls-add-layer');
 
 		// Open new layer
 		tab.click();
@@ -347,7 +359,7 @@ var LayerSlider = {
 		var index = jQuery(el).closest('.ls-layer-box').index();
 
 		// Append new tab
-		jQuery('<a href="#">Slide #0<span>x</span></a>').insertBefore('#ls-layer-tabs a:last');
+		jQuery('<a href="#">Slide #0<span class="dashicons dashicons-dismiss"></span></a>').insertBefore('#ls-layer-tabs a:last');
 
 		// Rename tab
 		LayerSlider.reindexLayers();
@@ -639,6 +651,7 @@ var LayerSlider = {
 	generatePreview : function(index) {
 
 		// Get main elements
+		var slide = jQuery('#ls-layers .ls-layer-box').eq(index);
 		var preview = jQuery('.ls-preview').eq( index + 1 );
 		var draggable = preview.find('.draggable');
 		var $settings = jQuery('.ls-settings');
@@ -657,6 +670,13 @@ var LayerSlider = {
 		// Set sizes
 		preview.add(draggable).css({ width : width, height : height });
 		preview.parent().css({ width : width });
+
+		// Get post content if any
+		var posts = jQuery.parseJSON( jQuery('#ls-posts-json').val() ); 
+		var postOffset = jQuery('input[name="post_offset"]', slide).val();
+		
+		if(postOffset == -1) { postOffset = index; }
+		var post = posts[postOffset];
 
 		// Get backgrounds
 		var bgColor = jQuery('input[name="backgroundcolor"]', $settings).val();
@@ -730,10 +750,11 @@ var LayerSlider = {
 		}
 
 		// Get layer background
-		var slide = jQuery('#ls-layers .ls-layer-box').eq(index);
 		var background = jQuery('input[name="background"]', slide).val();
-		var postOffset = jQuery('input[name="post_offset"]', slide).val();
-		var posts = null;
+		if(background == '[image-url]') {
+			background = post['image-url'];
+			jQuery('.slide-image:eq(0) img', slide).attr('src', post['image-url']);
+		}
 
 		// Set layer background
 		if(background != '') {
@@ -776,19 +797,17 @@ var LayerSlider = {
 			// Append element
 			if(type == 'img') {
 				var url = jQuery('input[name="image"]', this).val();
+
+				if(url == '[image-url]') {
+					url = post['image-url'];
+					jQuery('.slide-image:eq(0) img', this).attr('src', post['image-url']);
+				}
+
 				var tmpContent = (url !== '') ? '<img src="'+url+'">' : '<div>';
 				item = jQuery(tmpContent).appendTo(draggable);
 
 			} else if(type == 'post') {
 
-				if(posts === null) {
-					posts = jQuery.parseJSON( jQuery('#ls-posts-json').val() );
-				}
-
-				if(postOffset == -1) { postOffset = index; }
-
-				// Parse post placeholders
-				var post = posts[postOffset];
 				var textlength = jQuery('input[name="post_text_length"]', this).val();
 				for(var key in post) {
 					if(html.indexOf('['+key+']') !== -1) {
@@ -899,7 +918,12 @@ var LayerSlider = {
 
 				// Get library type
 				var type = jQuery(this).hasClass('ls-insert-media') ? 'video,audio' : 'image';
-				var multiple = jQuery(this).hasClass('ls-mass-upload') ? true : false;
+
+				if(jQuery(this).hasClass('ls-insert-media') || jQuery(this).hasClass('ls-mass-upload')) {
+					var multiple = true;
+				} else { 
+					var multiple = false; 
+				}
 
 				// Media Library params
 				var frame = wp.media({
@@ -938,13 +962,18 @@ var LayerSlider = {
 
 								input.prev().val(attachments[c].url);
 								input.prev().prev().val(attachments[c].id);
-								if(typeof attachment.sizes.thumbnail != "undefined") {
-									jQuery(uploadInput).find('img').attr('src', attachment.sizes.thumbnail.url);
+								if(typeof attachments[c].sizes.thumbnail != "undefined") {
+									input.find('img').attr('src', attachments[c].sizes.thumbnail.url);
 								} else {
-									jQuery(uploadInput).find('img').attr('src', attachment.sizes.full.url);
+									input.find('img').attr('src', attachments[c].sizes.full.url);
 								}
 								clone.find('input[name="subtitle"]').val('Layer #' + count);
 								clone.find('.ls-sublayer-number').text(count);
+						}
+
+						// Expand lastly inserted layer
+						if(typeof clone != "undefined") {
+							clone.click();
 						}
 
 					} else if( jQuery(uploadInput).is('div.ls-image') ) {
@@ -959,16 +988,45 @@ var LayerSlider = {
 					// Multimedia HTML
 					} else if( jQuery(uploadInput).hasClass('ls-insert-media')) {
 
-						var url = '/' + attachment.url.split('/').slice(3).join('/');
+						var hasVideo = false;
+						var hasAudio = false;
 
-						if(attachment.type === 'video') {
-							var mediaHTML = '<video width="320" height="240" preload="metadata" controls>\r\n';
-								mediaHTML+= '\t<source src="'+url+'" type="'+attachment.mime+'">\r\n';
-								mediaHTML+= '</video>';
-						} else {
-							var mediaHTML = '<audio preload="metadata" nocontrols>\r\n';
-								mediaHTML+= '\t<source src="'+url+'" type="'+attachment.mime+'">\r\n';
-								mediaHTML+= '</audio>';
+						var videos = [];
+						var audios = [];
+
+						var mediaHTML = '';
+
+						// Iterate over selected items
+						for(c = 0; c < attachments.length; c++) {
+							var url = '/' + attachments[c].url.split('/').slice(3).join('/');
+							if(attachments[c].type === 'video') {
+								hasVideo = true;
+								videos.push({ url: url, mime: attachment.mime });
+
+							} else if(attachments[c].type === 'audio') {
+								hasAudio = true;
+								audios.push({ url: url, mime: attachment.mime });
+							}
+						}
+
+						// Insert multimedia
+						if(hasVideo) {
+							mediaHTML += '<video width="320" height="240" preload="metadata" controls>\r\n';
+							for(c = 0; c < videos.length; c++) {
+								mediaHTML += '\t<source src="'+videos[c].url+'" type="'+videos[c].mime+'">\r\n';
+							}
+							mediaHTML += '</video>';
+						}
+
+						if(hasAudio) {
+
+							if(hasVideo) { mediaHTML += '\r\n\r\n'; }
+
+							mediaHTML += '<audio preload="metadata" nocontrols>\r\n';
+							for(c = 0; c < audios.length; c++) {
+								mediaHTML += '\t<source src="'+audios[c].url+'" type="'+audios[c].mime+'">\r\n';
+							}
+							mediaHTML += '</audio>';
 						}
 
 						jQuery(uploadInput).parent().prev().val(mediaHTML);
@@ -1093,6 +1151,10 @@ var LayerSlider = {
 
 				// Sortable
 				LayerSlider.addSortables();
+
+				// Reinit colorpicker
+				jQuery('#ls-layers .ls-colorpicker').minicolors('destroy');
+				LayerSlider.addColorPicker('#ls-layers .ls-colorpicker');
 			},
 			containment : 'parent',
 			tolerance : 'pointer',
@@ -1158,7 +1220,7 @@ var LayerSlider = {
 
 	reindexLayers : function() {
 		jQuery('#ls-layer-tabs a:not(.unsortable)').each(function(index) {
-			jQuery(this).html('Slide #' + (index + 1) + '<span>x</span>');
+			jQuery(this).html('Slide #' + (index + 1) + '<span class="dashicons dashicons-dismiss"></span>');
 		});
 	},
 
@@ -1426,123 +1488,104 @@ var LayerSlider = {
 
 	openTransitionGallery : function() {
 
-		// Create window
-		jQuery('body').prepend( jQuery('<div>', { 'id' : 'ls-transition-window', 'class' : 'ls-modal ls-box' })
-			.append( jQuery('<h1>', { 'class' : 'header', 'text' : 'Select LayerSlider transitions' })
-				.append( jQuery('<a>', { 'text' : 'x' }))
-			)
-			.append( jQuery('<div>')
-				.append( jQuery('<table>'))
-			)
-		);
-
 		// Create overlay
 		jQuery('body').prepend( jQuery('<div>', { 'class' : 'ls-overlay'}));
 
-
-		// Add custom checkboxes
-		jQuery('#ls-transition-window :checkbox').customCheckbox();
+		// Empty table
+		jQuery('#ls-transition-window table').empty();
 
 		// Append transitions
-		LayerSlider.appendTransition('Built-in 2D transitions', '2d_transitions', layerSliderTransitions['t2d']);
-		LayerSlider.appendTransition('Built-in 3D transitions', '3d_transitions', layerSliderTransitions['t3d']);
+		LayerSlider.appendTransition('', '2d_transitions', layerSliderTransitions['t2d']);
+		LayerSlider.appendTransition('', '3d_transitions', layerSliderTransitions['t3d']);
 
+		// Append custom transitions
 		if(typeof layerSliderCustomTransitions != "undefined") {
-
-			// Custom 3D transitions
-			if(layerSliderCustomTransitions['t3d'].length) {
-				LayerSlider.appendTransition('Custom 3D transitions', 'custom_3d_transitions', layerSliderCustomTransitions['t3d']);
-			}
-
-			// Custom 2D transitions
 			if(layerSliderCustomTransitions['t2d'].length) {
 				LayerSlider.appendTransition('Custom 2D transitions', 'custom_2d_transitions', layerSliderCustomTransitions['t2d']);
 			}
+			if(layerSliderCustomTransitions['t3d'].length) {
+				LayerSlider.appendTransition('Custom 3D transitions', 'custom_3d_transitions', layerSliderCustomTransitions['t3d']);
+			}
 		}
 
-		// Add custom checkboxes
-		jQuery('#ls-transition-window :checkbox').customCheckbox();
+		// Select proper tab
+		jQuery('#ls-transition-window .filters li.active').click();
 
 		// Close event
 		jQuery(document).one('click', '.ls-overlay', function() {
 			LayerSlider.closeTransitionGallery();
 		});
+
+
+		jQuery('#ls-transition-window').show();
 	},
 
 	closeTransitionGallery : function() {
 
-		jQuery('.ls-overlay, #ls-transition-window').remove();
+		jQuery('#ls-transition-window').hide();
+		jQuery('.ls-overlay').remove();
 	},
 
 	appendTransition : function(title, tbodyclass, transitions) {
 
 		// Append new tbody
-		var tbody = jQuery('<tbody>', { 'class' : tbodyclass }).appendTo('#ls-transition-window table');
-
-		// Append section header
-		tbody.append( jQuery('<tr>')
-			.append( jQuery('<th>', { 'colspan' : 2 })
-				.append( jQuery('<span>', { 'text' : title }))
-				.append( jQuery('<input>', { 'type' : 'checkbox' }))
-				.append( jQuery('<span>', { 'class' : 'all', 'text' : 'Select all' }))
-			)
-		);
+		var tbody = jQuery('<tbody>').data('tr-type', tbodyclass).appendTo('#ls-transition-window table');
 
 		// Get checked transitions
 		var checked = jQuery('#ls-layers .ls-layer-box.active').find('input[name="'+tbodyclass+'"]').val();
 			checked = (checked != '') ? checked.split(',') : [];
 
-		// Check checkbox if all is selected
-		if(checked == 'all') {
-			tbody.find('.ls-checkbox').removeClass('off').addClass('on');
-			tbody.find(':checkbox').prop('checked', true);
+		if(title != '') {
+			jQuery('<tr>').appendTo(tbody).append('<th colspan="4">'+title+'</th>');
 		}
 
 		for(c = 0; c < transitions.length; c+=2) {
 
 			// Append new table row
-			var tr = jQuery('<tr>').appendTo(tbody).append('<td>').append('<td>');
+			var tr = jQuery('<tr>').appendTo(tbody)
+				.append( jQuery('<td class="c"></td>') )
+				.append( jQuery('<td></td>') )
+				.append( jQuery('<td class="c"></td>') )
+				.append( jQuery('<td></td>') 
+			);
 
 			// Append transition col 1 & 2
-			tr.children().eq(0).append( jQuery('<a>', { 'href' : '#', 'html' : ''+(c+1)+'. '+transitions[c]['name']+'', 'rel' : 'tr'+(c+1) } ) )
+			tr.children().eq(0).append('<i>'+(c+1)+'</i><i class="dashicons dashicons-yes"></i>');
+			tr.children().eq(1).append( jQuery('<a>', { 'href' : '#', 'html' : transitions[c]['name']+'', 'data-key' : (c+1) } ) )
 			if(transitions.length > (c+1)) {
-				tr.children().eq(1).append( jQuery('<a>', { 'href' : '#', 'html' : ''+(c+2)+'. '+transitions[(c+1)]['name']+'', 'rel' : 'tr'+(c+2) } ) );
+				tr.children().eq(2).append('<i>'+(c+2)+'</i><i class="dashicons dashicons-yes"></i>');
+				tr.children().eq(3).append( jQuery('<a>', { 'href' : '#', 'html' : transitions[(c+1)]['name']+'', 'data-key' : (c+2) } ) );
 			}
 
 			// Check transitions
-			if(checked.indexOf(''+(c+1)+'') != -1 || checked == 'all') tr.children().eq(0).addClass('added');
-			if((checked.indexOf(''+(c+2)+'') != -1 || checked == 'all') && transitions.length > (c+1)) tr.children().eq(1).addClass('added');
+			if(checked.indexOf(''+(c+1)+'') != -1 || checked == 'all') {
+				tr.children().eq(0).addClass('added');
+				tr.children().eq(1).addClass('added');
+			}
+
+			if((checked.indexOf(''+(c+2)+'') != -1 || checked == 'all') ) {
+				tr.children().eq(2).addClass('added');
+				tr.children().eq(3).addClass('added');
+			}
 		}
 	},
 
 	selectAllTransition : function(index, check) {
 
-		// Get checkbox
-		var checkbox = jQuery('#ls-transition-window tbody').eq(index).find(':checkbox');
+		// Get checkbox and transition type
+		var checkbox = jQuery('#ls-transition-window header i:last');
+		var cat = jQuery('#ls-transition-window tbody').eq(index).data('tr-type');
 
-		// Get category
-		var cat = jQuery('#ls-transition-window tbody').eq(index).attr('class');
+		if(typeof check != undefined && check == true) {
 
-		if(checkbox.is(':checked') || (typeof check != undefined && check == true) ) {
-
-			// Check every transition
-			jQuery('#ls-transition-window tbody').eq(index).find('td a').each(function() {
-				jQuery(this).parent().addClass('added');
-			});
-
-			// Check the checkbox
-			jQuery('#ls-transition-window tbody').eq(index).find('.ls-checkbox').removeClass('off').addClass('on');
-			jQuery('#ls-transition-window tbody').eq(index).find(':checkbox').prop('checked', true);
-
-			// Set the hidden input
+			jQuery('#ls-transition-window tbody').eq(index).find('td').addClass('added');
+			checkbox.attr('class', 'on').text('Deselect all');
 			jQuery('#ls-layers .ls-layer-box.active').find('input[name="'+cat+'"]').val('all');
 
 		} else {
 
-			// Check every transition
 			jQuery('#ls-transition-window tbody').eq(index).find('td').removeClass('added');
-
-			// Set the hidden input
+			checkbox.attr('class', 'off').text('Select all');
 			jQuery('#ls-layers .ls-layer-box.active').find('input[name="'+cat+'"]').val('');
 		}
 	},
@@ -1551,38 +1594,35 @@ var LayerSlider = {
 
 		// Toggle addded class
 		if(jQuery(el).parent().hasClass('added')) {
-			jQuery(el).parent().removeClass('added');
+			jQuery(el).parent().removeClass('added').prev().removeClass('added');
 
 		} else {
-			jQuery(el).parent().addClass('added');
+			jQuery(el).parent().addClass('added').prev().addClass('added');
 		}
 
 		// Get transitions
 		var trs = jQuery(el).closest('tbody').find('td');
 
 		// All selected
-		if(trs.filter('.added').length == trs.find('a').length) {
+		if(trs.filter('.c.added').length == trs.filter('.c').length) {
 
 			LayerSlider.selectAllTransition( jQuery(el).closest('tbody').index(), true );
 			return;
 
-		// Uncheck sleect al.
+		// Uncheck select all
 		} else {
 
 			// Check the checkbox
-			jQuery(el).closest('tbody').find('.ls-checkbox').addClass('off').removeClass('on');
-			jQuery(el).closest('tbody').find(':checkbox').prop('checked', false);
+			jQuery('#ls-transition-window header i:last').attr('class', 'off').text('Select all');
 		}
 
 		// Get category
-		var cat = jQuery(el).closest('tbody').attr('class');
+		var cat = jQuery(el).closest('tbody').data('tr-type');
 
-		// Array to hold the checked elements
+		// Gather checked selected transitions
 		var checked = [];
-
-		// Get checked elements
 		trs.filter('.added').find('a').each(function() {
-			checked.push( jQuery(this).attr('rel').substr(2) );
+			checked.push( jQuery(this).data('key') );
 		});
 
 		// Set hidden input
@@ -1592,7 +1632,7 @@ var LayerSlider = {
 	showTransition : function(el) {
 
 		// Get transition index
-		var index = jQuery(el).attr('rel').substr(2)-1;
+		var index = parseInt(jQuery(el).data('key')) - 1;
 
 		// Create popup
 		jQuery('body').prepend( jQuery('<div>', { 'class' : 'ls-popup' })
@@ -1617,11 +1657,11 @@ var LayerSlider = {
 		var t_h = popup.outerHeight();
 
 		// Position tooltip
-		popup.css({ top : e_t - t_h - 60, left : e_l - (t_w - e_w) / 2  });
+		popup.css({ top : e_t - t_h - 14, left : e_l - (t_w - e_w) / 2  });
 
 		// Fix top
 		if(popup.offset().top < 20) {
-			popup.css('top', e_t + 75);
+			popup.css('top', e_t + 26);
 		}
 
 		// Fix left
@@ -1630,7 +1670,7 @@ var LayerSlider = {
 		}
 
 		// Get transition class
-		var trclass = jQuery(el).closest('tbody').attr('class');
+		var trclass = jQuery(el).closest('tbody').data('tr-type');
 
 		// Built-in 3D
 		if(trclass == '3d_transitions') {
@@ -1674,58 +1714,45 @@ var LayerSlider = {
 
 	save : function(el) {
 
+		var settings = slides = callbacks = [];
+
 		// Temporary disable submit button
 		jQuery('.ls-publish').addClass('saving').find('button').text('Saving ...').attr('disabled', true);
-		jQuery('.ls-saving-warning').text('Please don\'t navigate away while saving');
 
-		// Iterate over the slider settings
-		jQuery('.ls-slider-settings input:not(.nochange), .ls-slider-settings select').each(function() {
-
-			// Save original name attr to element's data
+		// Slider settings
+		jQuery('.ls-slider-settings').find('input:not(.nochange), select, textarea').each(function() {
 			jQuery(this).data('name', jQuery(this).attr('name') );
-
-			// Rewrite the name attr
-			jQuery(this).attr('name', 'layerslider-slides[properties]['+jQuery(this).attr('name')+']');
+			jQuery(this).attr('name', 'ls_data[properties]['+jQuery(this).attr('name')+']');
 		});
 
-		// Iterate over post options
+		// Post options
 		jQuery('#ls-post-options').find('input, select').each(function() {
-
-			// Save original name attr to element's data
 			jQuery(this).data('name', jQuery(this).attr('name') );
 
 			if(jQuery(this).attr('name').substr(-2, 2) == '[]') {
 				var nameAttr = jQuery(this).attr('name');
 					nameAttr = nameAttr.substring(0, nameAttr.length - 2);
-				jQuery(this).attr('name', 'layerslider-slides[properties]['+nameAttr+'][]');
+				jQuery(this).attr('name', 'ls_data[properties]['+nameAttr+'][]');
 			} else {
-				jQuery(this).attr('name', 'layerslider-slides[properties]['+jQuery(this).attr('name')+']');
+				jQuery(this).attr('name', 'ls_data[properties]['+jQuery(this).attr('name')+']');
 			}
 		});
 
-		// Iterate over the layers
+		// Slides
 		jQuery('#ls-layers .ls-layer-box').each(function(layer) {
 
-			// Iterate over layer settings
 			jQuery('.ls-slide-options', this).find('input, select').each(function() {
-
-				// Save original name attr to element's data
 				jQuery(this).data('name', jQuery(this).attr('name') );
-				jQuery(this).attr('name', 'layerslider-slides[layers]['+layer+'][properties]['+jQuery(this).attr('name')+']');
+				jQuery(this).attr('name', 'ls_data[layers]['+layer+'][properties]['+jQuery(this).attr('name')+']');
 			});
 
-			// Iterate over the sublayers
+			// Layers
 			jQuery(this).find('.ls-sublayers > tr').each(function(sublayer) {
 
 				// Transtions
 				var transitionProps = {};
 				jQuery(this).find('.sublayerprop').each(function() {
-					if(jQuery(this).is(':checkbox')) {
-						transitionProps[jQuery(this).attr('name')] = jQuery(this).prop('checked');
-					} else {
-						transitionProps[jQuery(this).attr('name')] = jQuery(this).val();
-					}
-
+					transitionProps[jQuery(this).attr('name')] = jQuery(this).is(':checkbox') ? jQuery(this).prop('checked') : jQuery(this).val();
 					jQuery(this).data('name', jQuery(this).attr('name') ).attr('name', '');
 				});
 
@@ -1748,110 +1775,49 @@ var LayerSlider = {
 				// Iterate over the sublayer properties
 				jQuery(this).find('input, select, textarea').filter(':not(.auto,.sublayerprop)').each(function() {
 					if(jQuery(this).attr('name') == '') { return true; }
-
-					// Save original name attr to element's data
 					jQuery(this).data('name', jQuery(this).attr('name') );
-
-					// Rewrite the name attr
-					jQuery(this).attr('name', 'layerslider-slides[layers]['+layer+'][sublayers]['+sublayer+']['+jQuery(this).attr('name')+']');
+					jQuery(this).attr('name', 'ls_data[layers]['+layer+'][sublayers]['+sublayer+']['+jQuery(this).attr('name')+']');
 				});
 			});
+
+			slides.push( jQuery('input, textarea, select', this).serialize() );
 		});
 
-		// Iterate over the callback functions
+		// Callbacks
 		jQuery('.ls-callback-page textarea').each(function() {
-
-			// Save original name attr to element's data
 			jQuery(this).data('name', jQuery(this).attr('name') );
-
-			// Rewrite the name attr
-			jQuery(this).attr('name', 'layerslider-slides[properties]['+jQuery(this).attr('name')+']');
+			jQuery(this).attr('name', 'ls_data[properties]['+jQuery(this).attr('name')+']');
 		});
 
-		// Reset layer counter
-		LayerSlider.counter = 0;
+		// Save slider
+		jQuery.ajax({ 
+			type: 'post', url: ajaxurl, dataType: 'text', 
+			data: { 
+				action: 'ls_save_slider', 
+				id: jQuery('#ls-slider-form input[name="slider_id"]').val(),
+				settings: jQuery('.ls-slider-settings, #ls-post-options').find('input:not(.nochange), select, textarea').serialize(),
+				callbacks: jQuery('.ls-callback-page textarea').serialize(),
+				slides: slides
+			},
+			error : function(jqXHR, textStatus, errorThrown) {
+				alert('It seems there is a server issue that prevented LayerSlider from saving your work. Please, try to temporary disable themes/plugins, or contact with your hosting provider. Your HTTP server thrown the following error: \n\n' + errorThrown);
+			},
+			complete : function(data) {
 
-		setTimeout(function() {
+				// Button feedback
+				jQuery('.ls-publish').removeClass('saving').addClass('saved').find('button').text('Saved');
+				setTimeout(function() {
+					jQuery('.ls-publish').removeClass('saved').find('button').text('Save changes').attr('disabled', false);
+				}, 2000);
 
-			// Iterate over the layers
-			jQuery('#ls-layers .ls-layer-box').each(function(layer) {
-
-				// Reindex layerkey
-				jQuery(this).find('input[name="layerkey"]').val(layer);
-
-				// Data to send
-				$data = jQuery('#ls-layers .ls-layer-box').eq(layer).find('input, textarea, select');
-				$data = $data.add( jQuery('#ls-slider-form > input')  );
-				$data = $data.add( jQuery('.ls-settings').find('input, textarea, select') );
-				$data = $data.add( jQuery('#ls-post-options').find('input, select') );
-				$data = $data.add( jQuery('.ls-callback-page textarea') );
-
-				// Post layer
-				jQuery.ajax({
-					type: 'post',
-					url: ajaxurl,
-					dataType: 'text',
-					data : $data.serialize(),
-					async : false,
-					error : function(jqXHR, textStatus, errorThrown) {
-						alert('It seems there is a server issue that prevented LayerSlider from saving your work. Please, try to temporary disable themes/plugins, or contact with your hosting provider. Your HTTP server thrown the following error: \n\n' + errorThrown);
-					},
-					success : function(id) {
-
-						LayerSlider.counter += 1;
-
-						if(jQuery('#ls-layers .ls-layer-box').length == LayerSlider.counter) {
-
-							// Give feedback
-							jQuery('.ls-publish').removeClass('saving').addClass('saved').find('button').text('Saved');
-							jQuery('.ls-saving-warning').text('');
-
-							// Re-enable the button
-							setTimeout(function() {
-								jQuery('.ls-publish').removeClass('saved').find('button').text('Save changes').attr('disabled', false);
-							}, 2000);
-
-							// Rewrote original name attr
-
-								// Global settings
-								jQuery('.ls-slider-settings input, .ls-slider-settings select').each(function() {
-									jQuery(this).attr('name', jQuery(this).data('name'));
-								});
-
-								jQuery('#ls-post-options input, #ls-post-options select').each(function() {
-									jQuery(this).attr('name', jQuery(this).data('name'));
-								});
-
-								// Layers
-								jQuery('#ls-layers .ls-layer-box').each(function(layer) {
-
-									// Layer settings
-									jQuery(this).find('.ls-slide-options').find('input, select').each(function() {
-										jQuery(this).attr('name', jQuery(this).data('name'));
-									});
-
-									// Sublayers
-									jQuery(this).find('.ls-sublayers > tr').each(function(sublayer) {
-										jQuery(this).find('input, select, textarea').each(function() {
-											jQuery(this).attr('name', jQuery(this).data('name'));
-										});
-									});
-								});
-
-								// Iterate over the callback functions
-								jQuery('.ls-callback-page textarea').each(function() {
-									jQuery(this).attr('name', jQuery(this).data('name'));
-								});
-
-							// Redirect the edit page when adding new slider
-							if(document.location.href.indexOf('layerslider_add_new') != -1) {
-								document.location.href = 'admin.php?page=layerslider&action=edit&id='+id+'';
-							}
-						}
+				// Store fields name attrs
+				jQuery('#ls-slider-form').find('input, select, textarea').each(function() {
+					if(!! jQuery(this).data('name')) {
+						jQuery(this).attr('name', jQuery(this).data('name'));
 					}
 				});
-			});
-		}, 500);
+			}
+		});
 	},
 
 	cloneFix : function() {
@@ -1861,7 +1827,7 @@ var LayerSlider = {
 		});
 
 		// Select clone fix
-		jQuery('select').each(function() {
+		jQuery('select:not([multiple])').each(function() {
 
 			// Get selected index
 			var index = jQuery(this).find('option:selected').index();
@@ -1890,7 +1856,7 @@ var LS_GoogleFontsAPI = {
 		});
 
 		// Search
-		jQuery('.ls-font-search .right button').click(function(e) {
+		jQuery('.ls-font-search button').click(function(e) {
 			e.preventDefault();
 			var input = jQuery(this).prev()[0];
 			LS_GoogleFontsAPI.timeout = setTimeout(function() {
@@ -1898,7 +1864,7 @@ var LS_GoogleFontsAPI = {
 			}, 500);
 		});
 
-		jQuery('.ls-font-search .right input').keydown(function(e) {
+		jQuery('.ls-font-search input').keydown(function(e) {
 			if(e.which === 13) {
 				e.preventDefault();
 				var input = this;
@@ -1927,6 +1893,11 @@ var LS_GoogleFontsAPI = {
 
 		// Close event
 		jQuery(document).on('click', '.ls-overlay', function() {
+
+			if(jQuery(this).data('manualclose')) {
+				return false;
+			}
+
 			if(jQuery('.ls-pointer').length) {
 				jQuery(this).remove();
 				jQuery('.ls-pointer').children('div.fonts').show().next().hide();
@@ -1950,6 +1921,48 @@ var LS_GoogleFontsAPI = {
 
 				jQuery(this).remove();
 			});
+		});
+
+		// Add script
+		jQuery('.ls-google-fonts .footer select').change(function() {
+
+			// Prevent adding the placeholder option tag
+			if(jQuery('option:selected', this).index() !== 0) {
+
+				// Selected item
+				var item = jQuery('option:selected', this);
+				var hasDuplicate = false;
+
+				// Prevent adding duplicates
+				jQuery('.ls-google-font-scripts input').each(function() {
+					if(jQuery(this).val() === item.val()) {
+						hasDuplicate = true;
+						return false;
+					}
+				});
+
+				// Add item
+				if(!hasDuplicate) {
+					var clone = jQuery('.ls-google-font-scripts li:first').clone();
+						clone.find('span').text( item.text() );
+						clone.find('input').val( item.val() );
+						clone.removeClass('ls-hidden').appendTo('.ls-google-font-scripts');
+				}
+
+				// Show the placeholder option tag
+				jQuery('option:first', this).prop('selected', true);
+			}
+		});
+
+		// Remove script
+		jQuery('.ls-google-font-scripts').on('click', 'li a', function(event) {
+			event.preventDefault();
+
+			if(jQuery('.ls-google-font-scripts li').length > 2) {
+				jQuery(this).closest('li').remove();
+			} else {
+				alert('You need to have at least one character set added. Please select another item before removing this one.');
+			}
 		});
 	},
 
@@ -2070,12 +2083,12 @@ var LS_GoogleFontsAPI = {
 
 		// Append list item
 		var item = jQuery('ul.ls-font-list li.ls-hidden').clone();
-			item.children('input:text').val(url).attr('name', 'urlParams['+index+']');
-			item.children('input:checkbox').attr('name', 'onlyOnAdmin['+index+']');
+			item.children('input:text').val(url).attr('name', 'urlParams[]');
+			item.children('input:checkbox').attr('name', 'onlyOnAdmin[]');
 			item.appendTo('ul.ls-font-list').attr('class', '');
 
 		// Reset search field
-		jQuery('.ls-font-search .right input').val('');
+		jQuery('.ls-font-search input').val('');
 
 		// Close pointer
 		jQuery('.ls-overlay').click();
@@ -2270,7 +2283,10 @@ var LS_CodeMirror = {
 		}
 
 		jQuery('.ls-codemirror').each(function() {
-			CodeMirror.fromTextArea(this, defaults);
+			var cm = CodeMirror.fromTextArea(this, defaults);
+			cm.on("change", function(instance) {
+				instance.getTextArea().value = instance.getValue();
+			});
 		});
 	}
 };
@@ -2357,10 +2373,11 @@ var LS_PostOptions = {
 
 		jQuery.post(ajaxurl, jQuery.param({ action: 'ls_get_post_details', params : items }), function(data) {
 
-
+			// Handle data
 			var parsed = jQuery.parseJSON(data);
 			jQuery('#ls-posts-json').val(data);
 
+			// Update preview
 			LayerSlider.willGeneratePreview( jQuery('.ls-layer-box.active').index() );
 			LS_PostOptions.update(el, parsed );
 		});
@@ -2380,8 +2397,8 @@ var LS_PostOptions = {
 				preview.append( jQuery('<li>')
 					.append( jQuery('<span>', { 'class' : 'counter', 'text' : ''+(c+1)+'. ' }))
 					.append( jQuery('<img>', { 'src' : data[c]['thumbnail'] } ))
-					.append( jQuery('<h3>', { 'text' : data[c]['title'] } ))
-					.append( jQuery('<p>', { 'text' : data[c]['content'] } ))
+					.append( jQuery('<h3>', { 'html' : data[c]['title'] } ))
+					.append( jQuery('<p>', { 'html' : data[c]['content'] } ))
 					.append( jQuery('<span>', { 'class' : 'author', 'text' : data[c]['date-published']+' by '+data[c]['author'] } ))
 				);
 			}
@@ -2466,6 +2483,20 @@ jQuery(document).ready(function() {
 			jQuery(document).trigger( jQuery.Event('click', { target : el } ) );
 		});
 
+		// Share sheet
+		jQuery('#ls-share-template .inner a').click(function(e) {
+			e.preventDefault();
+
+			var newWindow = window.open('', '_blank', 'width=700,height=400');
+				newWindow.location.href = jQuery(this).attr('href');
+				newWindow.focus();
+		});
+
+		jQuery('#ls-share-template h3 a').click(function(e) {
+			e.preventDefault();
+			jQuery('#ls-share-template, .ls-overlay').remove();
+		});
+
 
 	// List view
 	if(
@@ -2527,35 +2558,71 @@ jQuery(document).ready(function() {
 
 		// Close add slider window
 		jQuery(document).on('click', '.ls-overlay', function() {
+
+			if(jQuery(this).data('manualclose')) {
+				return false;
+			}
+
 			if(jQuery('.ls-pointer').length) {
 				jQuery('.ls-overlay').remove();
 				jQuery('.ls-pointer').animate({ marginTop : 40, opacity : 0 }, 150);
 			}
 		});
 
-		// Auto-update
+		// Auto-update authorization
 		jQuery('.ls-auto-update').submit(function(e) {
 
 			// Prevent browser default submission
 			e.preventDefault();
 
-			// Set progress text
-			jQuery('.ls-auto-update tfoot span').text('Validating ...').css('color', '#333');
+			// Send request and provide feedback message
+			jQuery('.ls-auto-update span.status').text('Validating ...').css('color', '#333');
 
 			// Post it
 			jQuery.post( ajaxurl, jQuery(this).serialize(), function(data) {
 
-				// Parse data
-				data = jQuery.parseJSON(data);
+				// Parse response and set message
+				var data = jQuery.parseJSON(data);
+				var success = (typeof data.errCode === "undefined") ? true : false;
+				var color = success ? '#4b982f' : '#c33219';
+				var status = success ? 'Successfully set up automatic updates.' : 'Failed to set up automatic updates.';
+					status = (typeof data.status === "undefined") ? status : data.status;
 
-				// Check success
-				jQuery('.ls-auto-update .footer span').html(data['message']);
+				// Status message
+				jQuery('.ls-auto-update span.status').html(status).css('color', color);
 
-				// Check success
-				if(data['success'] == true) {
-					jQuery('.ls-auto-update .footer span').css('color', '#4b982f');
+				// Show or hide 'Check for updates' button
+				if(success) {
+					jQuery('.ls-auto-update .footer a').removeClass('ls-hidden');
 				} else {
-					jQuery('.ls-auto-update .footer span').css('color', '#c33219');
+					jQuery('.ls-auto-update .footer a').addClass('ls-hidden');
+				}
+
+				// Alert message (if any)
+				if(typeof data.message !== "undefined") {
+					alert(data.message);
+				}
+			});
+		});
+
+
+		// Auto-update deauthorization
+		jQuery('.ls-auto-update a.ls-deauthorize').click(function(event) {
+			event.preventDefault();
+			jQuery.get( ajaxurl, jQuery.param({ action: 'layerslider_deauthorize_site'}), function(data) {
+				
+				// Parse response and set message
+				var data = jQuery.parseJSON(data);
+
+				if(typeof data.errCode === "undefined") {
+					jQuery('.ls-auto-update span.status').html(data.status).css('color', '#c33219');
+					jQuery('.ls-auto-update .footer a').addClass('ls-hidden');
+					jQuery('.ls-auto-update input[name="purchase_code"]').val('');
+				}
+
+				// Alert message (if any)
+				if(typeof data.message !== "undefined") {
+					alert(data.message);
 				}
 			});
 		});
@@ -2599,6 +2666,7 @@ jQuery(document).ready(function() {
 		jQuery('#ls-import-samples-template li').click(function() {
 			jQuery('#ls-import-samples-button').addClass('saving').text('Importing, please wait');
 		});
+
 
 	// Skin editor
 	} else if(
@@ -2714,7 +2782,7 @@ jQuery(document).ready(function() {
 		});
 
 		// Duplicate layer
-		jQuery('#ls-layers').on('click', '.ls-layer-options-thead a.duplicate', function(e){
+		jQuery('#ls-layers').on('click', 'button.ls-layer-duplicate', function(e){
 			e.preventDefault();
 			LayerSlider.duplicateLayer(this);
 		});
@@ -2748,7 +2816,7 @@ jQuery(document).ready(function() {
 		});
 
 		// Close transition gallery
-		jQuery(document).on('click', '#ls-transition-window h1 a', function(e) {
+		jQuery(document).on('click', '#ls-transition-window header b', function(e) {
 			e.preventDefault();
 			LayerSlider.closeTransitionGallery();
 		});
@@ -2760,9 +2828,44 @@ jQuery(document).ready(function() {
 		});
 
 		// Add/Remove layer transitions
-		jQuery(document).on('click', '#ls-transition-window .ls-checkbox', function(e) {
-			e.preventDefault();
-			LayerSlider.selectAllTransition( jQuery(this).closest('tbody').index() );
+		jQuery(document).on('click', '#ls-transition-window header i:last', function(e) {
+			var check = jQuery(this).hasClass('off') ? true : false;
+			jQuery('#ls-transition-window tbody.active').each(function() {
+				LayerSlider.selectAllTransition( jQuery(this).index(), check );
+			});
+		});
+
+		// Apply on others
+		jQuery(document).on('click', '#ls-transition-window header i:not(:last)', function(e) {
+			
+			// Confirmation
+			if(!confirm('Are you sure you want to apply the currently selected transitions on the other slides?')) {
+				return false;
+			}
+
+			// Dim color briefly
+			var button = jQuery(this);
+			button.css('color', '#bbb');
+			setTimeout(function() {
+				button.css('color', '#444');
+			}, 2000);
+
+			// Apply to other slides
+			jQuery('.ls-layer-box:not(.active) input[name="3d_transitions"]').val(
+				jQuery('.ls-layer-box.active input[name="3d_transitions"]').val()
+			);
+
+			jQuery('.ls-layer-box:not(.active) input[name="2d_transitions"]').val(
+				jQuery('.ls-layer-box.active input[name="2d_transitions"]').val()
+			);
+
+			jQuery('.ls-layer-box:not(.active) input[name="custom_3d_transitions"]').val(
+				jQuery('.ls-layer-box.active input[name="custom_3d_transitions"]').val()
+			);
+
+			jQuery('.ls-layer-box:not(.active) input[name="custom_2d_transitions"]').val(
+				jQuery('.ls-layer-box.active input[name="custom_2d_transitions"]').val()
+			);
 		});
 
 		// Show transition
@@ -2936,6 +3039,50 @@ jQuery(document).ready(function() {
 		lsTimeLine.init();
 		LS_PostOptions.init();
 		LayerSlider.addPreviewSlider( jQuery('#ls-layers .ls-editor-slider') );
+
+		// Transitions gallery
+		jQuery('#ls-transition-window .filters li').click(function() {
+			
+			// Update navigation
+			jQuery(this).siblings().removeClass('active');
+			jQuery(this).addClass('active');
+
+			// Update view
+			jQuery('#ls-transition-window tbody').removeClass('active');
+			jQuery('#ls-transition-window tbody').eq( jQuery(this).index() ).addClass('active');
+
+			// Custom transitions
+			if(jQuery(this).index() == 2) {
+				jQuery('#ls-transition-window tbody').eq(3).addClass('active');
+			}
+
+			// Update 'Select all' button
+			var trs = jQuery('#ls-transition-window tbody.active td');
+			if(trs.filter('.c.added').length == trs.filter('.c').length) {
+				jQuery('#ls-transition-window header i:last').attr('class', 'on').text('Deselect all');
+			} else {
+				jQuery('#ls-transition-window header i:last').attr('class', 'off').text('Select all');
+			}
+		});
+
+		// Link slide to post url
+		jQuery('#ls-layers').on('click', '.ls-slide-link a', function(e) {
+			e.preventDefault();
+			jQuery(this).closest('.ls-slide-link').children('input').val('[post-url]');
+		});
+
+
+		// Use post image as slide background
+		jQuery('#ls-layers').on('click', '.slide-image .ls-post-image', function(e) {
+			e.preventDefault();
+			jQuery(this).closest('.slide-image').children('input[name="backgroundId"]').val('');
+			jQuery(this).closest('.slide-image').children('input[name="background"]').val('[image-url]');
+
+			jQuery(this).closest('.slide-image').children('input[name="imageId"]').val('');
+			jQuery(this).closest('.slide-image').children('input[name="image"]').val('[image-url]');
+
+			LayerSlider.generatePreview( jQuery(this).closest('.ls-layer-box').index() );
+		});
 	}
 
 });

@@ -3,7 +3,7 @@
 function lsGetInput($default, $current, $attrs = array()) {
 
 	// Markup
-	$el = phpQuery::newDocument('<input>')->children();
+	$el = phpQuery::newDocumentHTML('<input>')->children();
 	$type = is_string($default['value']) ? 'text' : 'number';
 	$name = is_string($default['keys']) ? $default['keys'] : $default['keys'][0];
 	$el->attr('type', $type);
@@ -34,7 +34,7 @@ function lsGetInput($default, $current, $attrs = array()) {
 function lsGetCheckbox($default, $current, $attrs = array()) {
 
 	// Markup
-	$el = phpQuery::newDocument('<input>')->children();
+	$el = phpQuery::newDocumentHTML('<input>')->children();
 	$name = is_string($default['keys']) ? $default['keys'] : $default['keys'][0];
 	$el->attr('type', 'checkbox');
 	$el->attr('name', $name);
@@ -60,7 +60,7 @@ function lsGetCheckbox($default, $current, $attrs = array()) {
 function lsGetSelect($default, $current, $attrs = array()) {
 
 	// Var to hold data to print
-	$el = phpQuery::newDocument('<select>')->children();
+	$el = phpQuery::newDocumentHTML('<select>')->children();
 	$name = is_string($default['keys']) ? $default['keys'] : $default['keys'][0];
 	$el->attr('name', $name);
 	$value = $default['value'];

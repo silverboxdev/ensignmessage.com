@@ -116,6 +116,7 @@ class LS_ExportUtil {
 
 		// Remove temporary file
 		unlink($this->file);
+		die();
 	}
 
 
@@ -162,10 +163,10 @@ class LS_ExportUtil {
 		if(!empty($urls) && is_array($urls)) {
 
 			$paths = array();
-			$root = rtrim(get_home_path(), '/');
 
 			foreach($urls as $url) {
-				$path = $root . parse_url($url, PHP_URL_PATH);
+				
+				$path = $_SERVER['DOCUMENT_ROOT'] . parse_url($url, PHP_URL_PATH);
 				if(file_exists($path)) { 
 					$paths[] = $path;
 				}

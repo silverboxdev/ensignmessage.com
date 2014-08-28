@@ -16,13 +16,13 @@
 
 	.inner p {
 		margin: 5px 0px;
+		line-height: 28px;
 	}
 
 	p.inner {
 		padding: 5px 10px;
 		margin: 0;
-		background-color: #F3F3F3;
-		background-image: url(../img/cm-noise.png);
+		background: #f7f7f7;
 		border-bottom: 1px solid #ddd;
 		color: #555;
 	}

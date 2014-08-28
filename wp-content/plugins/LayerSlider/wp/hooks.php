@@ -19,7 +19,9 @@ function ls_filter_get_perview_for_slider( $sliderObj = array() ) {
 	// Find an image
 	if(isset($sliderObj['data']['layers'])) {
 		foreach($sliderObj['data']['layers'] as $layer) {
-			if(!empty($layer['properties']['background'])) {
+			if(!empty($layer['properties']['background']) && 
+				$layer['properties']['background'] != '[image-url]'
+			) {
 				$image = $layer['properties']['background'];
 				break;
 			}

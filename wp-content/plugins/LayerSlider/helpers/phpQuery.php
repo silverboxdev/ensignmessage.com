@@ -1417,9 +1417,7 @@ class phpQueryObject
 	 * @access private
 	 */
 	protected function isChar($char) {
-		return extension_loaded('mbstring') && phpQuery::$mbstringSupport
-			? mb_eregi('\w', $char)
-			: preg_match('@\w@', $char);
+		return function_exists('mb_eregi') ? mb_eregi('\w', $char) : preg_match('@\w@u', $char);
 	}
 	/**
 	 * @access private

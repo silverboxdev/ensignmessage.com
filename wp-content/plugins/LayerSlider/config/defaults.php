@@ -13,7 +13,7 @@ $lsDefaults = array(
 			'value' => 600,
 			'name' => __('Slider width', 'LayerSlider'),
 			'keys' => 'width',
-			'desc' => __('The width of the slider in pixels. Accepts percents, but is only recommended for full-width layout.', 'LayerSlider', 'LayerSlider'),
+			'desc' => __('The width of the slider in pixels. Accepts percents, but is only recommended for full-width layout.', 'LayerSlider'),
 			'attrs' => array(
 				'type' => 'text'
 			),
@@ -97,6 +97,41 @@ $lsDefaults = array(
 			)
 		),
 
+
+		// Hides the slider on mobile devices.
+		// Defaults to: false
+		'hideOnMobile' => array(
+			'value' => false,
+			'name' => __('Hide on mobile', 'LayerSlider'),
+			'keys' => array('hideonmobile', 'hideOnMobile'),
+			'desc' => __('Hides the slider on mobile devices.', 'LayerSlider')
+		),
+
+
+		// Hides the slider under the given value of browser width in pixels.
+		// Defaults to: 0
+		'hideUnder' => array(
+			'value' => 0,
+			'name' => __('Hide under', 'LayerSlider'),
+			'keys' => array('hideunder', 'hideUnder'),
+			'desc' => __('Hides the slider under the given value of browser width in pixels.', 'LayerSlider'),
+			'attrs' => array(
+				'min' => 0
+			)
+		),
+
+		// Hides the slider over the given value of browser width in pixel.
+		// Defaults to: 100000
+		'hideOver' => array(
+			'value' => 100000,
+			'name' => __('Hide over', 'LayerSlider'),
+			'keys' => array('hideover', 'hideOver'),
+			'desc' => __('Hides the slider over the given value of browser width in pixel.', 'LayerSlider'),
+			'attrs' => array(
+				'min' => 0
+			)
+		),
+
 		// ================ //
 		// |   Slideshow  | //
 		// ================ //
@@ -107,6 +142,14 @@ $lsDefaults = array(
 			'name' => __('Start slideshow', 'LayerSlider'),
 			'keys' => array('autostart', 'autoStart'),
 			'desc' => __('Slideshow will automatically start after pages have loaded.', 'LayerSlider')
+		),
+
+		// The slider will start only if it enters in the viewport.
+		'startInViewport' => array(
+			'value' => true,
+			'name' => __('Start in viewport', 'LayerSlider'),
+			'keys' => array('startinviewport', 'startInViewport'),
+			'desc' => __('The slider will start only if it enters into the viewport.', 'LayerSlider')
 		),
 
 		// Temporarily pauses the slideshow while you are hovering over the slider.
@@ -150,7 +193,7 @@ $lsDefaults = array(
 			'value' => false,
 			'name' => __('Two way slideshow', 'LayerSlider'),
 			'keys' => array('twowayslideshow', 'twoWaySlideshow'),
-			'desc' => __('Slideshow can go backwards if someone switch to a previous slide.', 'LayerSlider')
+			'desc' => __('Slideshow can go backwards if someone switches to a previous slide.', 'LayerSlider')
 		),
 
 		// Number of loops taking by the slideshow.
@@ -185,7 +228,7 @@ $lsDefaults = array(
 			'value' => true,
 			'name' => __('Touch navigation', 'LayerSlider'),
 			'keys' => array('touchnav', 'touchNav'),
-			'desc' => __('Gesture-based navigation with swiping on touch-enabled devices.', 'LayerSlider')
+			'desc' => __('Gesture-based navigation when swiping on touch-enabled devices.', 'LayerSlider')
 		),
 
 
@@ -198,7 +241,7 @@ $lsDefaults = array(
 			'value' => 'v5',
 			'name' => __('Skin', 'LayerSlider'),
 			'keys' => 'skin',
-			'desc' => __("Used skin for this slider. The 'noskin' skin is a border- and buttonless skin. Your custom skins will appear in the list when you create their folders as well.", "LayerSlider")
+			'desc' => __("The skin used for this slider. The 'noskin' skin is a border- and buttonless skin. Your custom skins will appear in the list when you create their folders.", "LayerSlider")
 		),
 
 
@@ -215,20 +258,31 @@ $lsDefaults = array(
 			'value' => '',
 			'name' => __('Background image', 'LayerSlider'),
 			'keys' => array('backgroundimage', 'globalBGImage'),
-			'desc' => __('Global background image of the slider. Slides with non-transparent background will cover this one.', 'LayerSlider')
+			'desc' => __('Global background image of the slider. Slides with non-transparent backgrounds will cover it. This image will not scale in responsive mode.', 'LayerSlider')
+		),
+
+		'sliderFadeInDuration' => array(
+			'value' => 350,
+			'name' => __('Initial fade duration', 'LayerSlider'),
+			'keys' => array('sliderfadeinduration', 'sliderFadeInDuration'),
+			'desc' => __('Change the duration of the initial fade animation when the page loads. Enter 0 to disable fading.', 'LayerSlider'),
+			'attrs' => array(
+				'min' => 0
+			)
 		),
 
 		// Some CSS values you can append on each slide individually
 		// to make some adjustments if needed.
 		'sliderStyle' => array(
 			'value' => 'margin-bottom: 0px;',
-			'name' => __('Slider style', 'LayerSlider'),
+			'name' => __('Slider CSS', 'LayerSlider'),
 			'keys' => array('sliderstyle', 'sliderStyle'),
 			'desc' => __('You can enter custom CSS to change some style properties on the slider wrapper element. More complex CSS should be applied with the Custom Styles Editor.', 'LayerSlider'),
 			'props' => array(
 				'meta' => true
 			)
 		),
+
 
 		// ================= //
 		// |   Navigation  | //
@@ -306,9 +360,9 @@ $lsDefaults = array(
 			'keys' => array('thumb_nav', 'thumbnailNavigation'),
 			'desc' => __('Use thumbnail navigation instead of slide bullet buttons.', 'LayerSlider'),
 			'options' => array(
-				'disabled' => __('Disabled', 'LayerSlider', 'LayerSlider'),
-				'hover' => __('Hover', 'LayerSlider', 'LayerSlider'),
-				'always' => __('Always', 'LayerSlider', 'LayerSlider')
+				'disabled' => __('Disabled', 'LayerSlider'),
+				'hover' => __('Hover', 'LayerSlider'),
+				'always' => __('Always', 'LayerSlider')
 			)
 		),
 
@@ -348,7 +402,7 @@ $lsDefaults = array(
 			'value' => 35,
 			'name' => __('Active thumbnail opacity', 'LayerSlider'),
 			'keys' => array('thumb_active_opacity', 'tnActiveOpacity'),
-			'desc' => __("Opacity in percents of the active slide's tumbnail.", "LayerSlider"),
+			'desc' => __("Opacity in percentage of the active slide's thumbnail.", "LayerSlider"),
 			'attrs' => array(
 				'min' => 0,
 				'max' => 100
@@ -360,7 +414,7 @@ $lsDefaults = array(
 			'value' => 100,
 			'name' => __('Inactive thumbnail opacity', 'LayerSlider'),
 			'keys' => array('thumb_inactive_opacity', 'tnInactiveOpacity'),
-			'desc' => __('Opacity in percents of inactive slide thumbnails.', 'LayerSlider'),
+			'desc' => __('Opacity in percentage of inactive slide thumbnails.', 'LayerSlider'),
 			'attrs' => array(
 				'min' => 0,
 				'max' => 100
@@ -386,7 +440,7 @@ $lsDefaults = array(
 			'value' => 'auto',
 			'name' => __('Pause slideshow', 'LayerSlider'),
 			'keys' => array('autopauseslideshow', 'autoPauseSlideshow'),
-			'desc' => __('The slideshow can temporally paused while videos are plaing. You can choose to permanently stop the pause until manual restarting.', 'LayerSlider'),
+			'desc' => __('The slideshow can temporally be paused while videos are playing. You can choose to permanently stop the pause until manual restarting.', 'LayerSlider'),
 			'options' => array(
 				'auto' => __('While playing', 'LayerSlider'),
 				'enabled' => __('Permanently', 'LayerSlider'),
@@ -406,7 +460,7 @@ $lsDefaults = array(
 			'value' => 'maxresdefault.jpg',
 			'name' => __('Youtube preview', 'LayerSlider'),
 			'keys' => array('youtubepreview', 'youtubePreview'),
-			'desc' => __('The preview image quaility for YouTube videos. Note, some videos do not have HD previews, and you may need to choose a lower quaility.', 'LayerSlider'),
+			'desc' => __('The preview image quaility for YouTube videos. Please note, some videos do not have HD previews, and you may need to choose a lower quaility.', 'LayerSlider'),
 			'options' => array(
 				'maxresdefault.jpg' => __('Maximum quality', 'LayerSlider'),
 				'hqdefault.jpg' => __('High quality', 'LayerSlider'),
@@ -447,6 +501,7 @@ $lsDefaults = array(
 			)
 		),
 
+
 		// ============== //
 		// |  YourLogo  | //
 		// ============== //
@@ -481,9 +536,9 @@ $lsDefaults = array(
 		// Depends on: yourLogoLink
 		'yourLogoTarget' => array(
 			'value' => '_self',
-			'name' => __('Open link in new page', 'LayerSlider'),
+			'name' => __('Link target', 'LayerSlider'),
 			'keys' => array('yourlogotarget', 'yourLogoTarget'),
-			'desc' => __('Disabling this option will open the link in the current page.', 'LayerSlider'),
+			'desc' => '',
 			'options' => array(
 				'_self' => 'Open on the same page',
 				'_blank' => 'Open on new page',
@@ -626,9 +681,7 @@ $lsDefaults = array(
 			'name' => __('Set a slide thumbnail', 'LayerSlider'),
 			'keys' => 'thumbnail',
 			'tooltip' => __('The thumbnail image of this slide. Click on the image to open the WordPress Media Library to choose or upload an image. If you leave this field empty, the slide image will be used.', 'LayerSlider'),
-			'props' => array(
-				'meta' => true
-			)
+			'props' => array( 'meta' => true )
 		),
 
 		'thumbnailId' => array (
@@ -682,7 +735,7 @@ $lsDefaults = array(
 
 		'linkUrl' => array (
 			'value' => '',
-			'name' => __('URL', 'LayerSlider'),
+			'name' => __('Enter URL', 'LayerSlider'),
 			'keys' => array('layer_link', 'linkUrl'),
 			'tooltip' => __('If you want to link the whole slide, enter the URL of your link here.', 'LayerSlider'),
 			'props' => array(
@@ -695,7 +748,6 @@ $lsDefaults = array(
 			'value' => '_self',
 			'name' => __('Link Target', 'LayerSlider'),
 			'keys' => array('layer_link_target', 'linkTarget'),
-			'tooltip' => __('You can control here the link behaviour: _self means the linked page will open in the current tab/window, _blank will create a new tab/window.', 'LayerSlider'),
 			'options' => array(
 				'_self' => 'Open on the same page',
 				'_blank' => 'Open on new page',
@@ -832,7 +884,7 @@ $lsDefaults = array(
 			'value' => 1000,
 			'name' => __('Duration', 'LayerSlider'),
 			'keys' => 'durationin',
-			'tooltip' => __('The transition duration in milliseconds when the layer entering into the slide. A second is equal to 1000 milliseconds.', 'LayerSlider'),
+			'tooltip' => __('The transition duration in milliseconds when the layer enters into the slide. A second equals to 1000 milliseconds.', 'LayerSlider'),
 			'attrs' => array( 'min' => 0, 'step' => 50 )
 		),
 
@@ -843,7 +895,7 @@ $lsDefaults = array(
 			'value' => 0,
 			'name' => __('Delay', 'LayerSlider'),
 			'keys' => 'delayin',
-			'tooltip' => __('Delays the transition with the given amount of milliseconds before the layer entering into the slide. A second is equal to 1000 milliseconds.', 'LayerSlider'),
+			'tooltip' => __('Delays the transition with the given amount of milliseconds before the layer enters into the slide. A second equals to 1000 milliseconds.', 'LayerSlider'),
 			'attrs' => array( 'min' => 0, 'step' => 50 )
 		),
 
@@ -854,7 +906,7 @@ $lsDefaults = array(
 			'value' => 'easeInOutQuint',
 			'name' => __('Easing', 'LayerSlider'),
 			'keys' => 'easingin',
-			'tooltip' => __("The timing function of the animation to manipualte the layer's movement. Click on the link next to this field to open easings.net for examples and more information", "LayerSlider")
+			'tooltip' => __("The timing function of the animation. With this function you can manipulate the movement of the animated object. Please click on the link next to this select field to open easings.net for more information and real-time examples.", "LayerSlider")
 		),
 
 		'transitionInFade' => array(
@@ -871,7 +923,7 @@ $lsDefaults = array(
 			'value' => 0,
 			'name' => __('Rotate', 'LayerSlider'),
 			'keys' => 'rotatein',
-			'tooltip' => __('Rotates the layer clockwise from the given angle to zero degree. Negative values are allowed for anticlockwise rotation.', 'LayerSlider')
+			'tooltip' => __('Rotates the layer clockwise from the given angle to zero degree. Negative values are allowed for counterclockwise rotation.', 'LayerSlider')
 		),
 
 		'transitionInRotateX' => array(
@@ -948,7 +1000,7 @@ $lsDefaults = array(
 			'value' => 400,
 			'name' => __('Duration', 'LayerSlider'),
 			'keys' => 'durationout',
-			'tooltip' => __('The transition duration in milliseconds when the layer leaving the slide. A second is equal to 1000 milliseconds.', 'LayerSlider'),
+			'tooltip' => __('The transition duration in milliseconds when the layer leaves the slide. A second equals to 1000 milliseconds.', 'LayerSlider'),
 			'attrs' => array( 'min' => 0, 'step' => 50 )
 		),
 
@@ -970,7 +1022,7 @@ $lsDefaults = array(
 			'value' => 'easeInOutQuint',
 			'name' => __('Easing', 'LayerSlider'),
 			'keys' => 'easingout',
-			'tooltip' => __("The timing function of the animation to manipualte the layer's movement. Click on the link next to this field to open easings.net for examples and more information", "LayerSlider")
+			'tooltip' => __("The timing function of the animation. With this function you can manipulate the movement of the animated object. Please click on the link next to this select field to open easings.net for more information and real-time examples.", "LayerSlider")
 		),
 
 		'transitionOutFade' => array(
@@ -988,7 +1040,7 @@ $lsDefaults = array(
 			'value' => 0,
 			'name' => __('Rotate', 'LayerSlider'),
 			'keys' => 'rotateout',
-			'tooltip' => __('Rotates the layer clockwise by the given angle from its original position. Negative values are allowed for anticlockwise rotation.', 'LayerSlider')
+			'tooltip' => __('Rotates the layer clockwise by the given angle from its original position. Negative values are allowed for counterclockwise rotation.', 'LayerSlider')
 		),
 
 		'transitionOutRotateX' => array(
@@ -1046,7 +1098,7 @@ $lsDefaults = array(
 			'value' => 0,
 			'name' => __('Parallax Level', 'LayerSlider'),
 			'keys' => 'parallaxlevel',
-			'tooltip' => __('Applies a parallax effect on layers when you move your mouse over the slider. Higher values makes the layer more sensitive to mouse move. Negative values are allowed.', 'LayerSlider')
+			'tooltip' => __('Applies a parallax effect on layers when you move your mouse over the slider. Higher values make the layer more sensitive to mouse move. Negative values are allowed.', 'LayerSlider')
 		),
 
 
@@ -1138,7 +1190,6 @@ $lsDefaults = array(
 			'value' => '_self',
 			'name' => __('URL target', 'LayerSlider'),
 			'keys' => 'target',
-			'tooltip' => __('You can control here the link behaviour: _self means the linked page will open in the current tab/window, _blank will open it in a new tab/window.', 'LayerSlider'),
 			'options' => array(
 				'_self' => 'Open on the same page',
 				'_blank' => 'Open on new page',
@@ -1156,7 +1207,7 @@ $lsDefaults = array(
 			'value' => '',
 			'name' => __('Width', 'LayerSlider'),
 			'keys' => 'width',
-			'tooltip' => __("You can set the width of your layer. You can use pixels, percents, or the default value 'auto'. Examples: 100px, 50% or auto", "LayerSlider"),
+			'tooltip' => __("You can set the width of your layer. You can use pixels, percentage, or the default value 'auto'. Examples: 100px, 50% or auto.", "LayerSlider"),
 			'props' => array(
 				'meta' => true
 			)
@@ -1166,7 +1217,7 @@ $lsDefaults = array(
 			'value' => '',
 			'name' => __('Height', 'LayerSlider'),
 			'keys' => 'height',
-			'tooltip' => __("You can set the height of your layer. You can use pixels, percents, or the default value 'auto'. Examples: 100px, 50% or auto", "LayerSlider"),
+			'tooltip' => __("You can set the height of your layer. You can use pixels, percentage, or the default value 'auto'. Examples: 100px, 50% or auto", "LayerSlider"),
 			'props' => array(
 				'meta' => true
 			)
@@ -1176,7 +1227,7 @@ $lsDefaults = array(
 			'value' => '0px',
 			'name' => __('Top', 'LayerSlider'),
 			'keys' => 'top',
-			'tooltip' => __("The layer position from the top of the slide. You can use pixels and percents. Examples: 100px or 50%. You can move your layers in the preview above with a drag n' drop, or set the exact values here.", "LayerSlider"),
+			'tooltip' => __("The layer position from the top of the slide. You can use pixels and percentage. Examples: 100px or 50%. You can move your layers in the preview above with a drag n' drop, or set the exact values here.", "LayerSlider"),
 			'props' => array(
 				'meta' => true
 			)
@@ -1186,7 +1237,7 @@ $lsDefaults = array(
 			'value' => '0px',
 			'name' => __('Left', 'LayerSlider'),
 			'keys' => 'left',
-			'tooltip' => __("The layer position from the left side of the slide. You can use pixels and percents. Examples: 100px or 50%. You can move your layers in the preview above with a drag n' drop, or set the exact values here.", "LayerSlider"),
+			'tooltip' => __("The layer position from the left side of the slide. You can use pixels and percentage. Examples: 100px or 50%. You can move your layers in the preview above with a drag n' drop, or set the exact values here.", "LayerSlider"),
 			'props' => array(
 				'meta' => true
 			)
@@ -1326,7 +1377,7 @@ $lsDefaults = array(
 			'value' => '',
 			'name' => __('Rounded corners', 'LayerSlider'),
 			'keys' => 'border-radius',
-			'tooltip' => __('If you want rounded corners, you can set here its radius. Example: 5px', 'LayerSlider'),
+			'tooltip' => __('If you want rounded corners, you can set its radius here. Example: 5px', 'LayerSlider'),
 			'props' => array(
 				'meta' => true
 			)

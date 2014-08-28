@@ -40,15 +40,16 @@ function layerslider_settings_menu() {
 		$capability, 'ls-skin-editor', 'layerslider_router'
 	);
 
+	// Add "CSS Editor submenu"
+	add_submenu_page(
+		'layerslider', 'LayerSlider WP CSS Editor', __('CSS Editor', 'LayerSlider'),
+		$capability, 'ls-style-editor', 'layerslider_router');
+
 	// Add "Transition Builder" submenu
 	add_submenu_page(
 		'layerslider', 'LayerSlider WP Transition Builder', __('Transition Builder', 'LayerSlider'),
 		$capability, 'ls-transition-builder', 'layerslider_router');
 
-	// Add "Custom Styles Editor submenu"
-	add_submenu_page(
-		'layerslider', 'LayerSlider WP Custom Styles Editor', __('Custom Styles Editor', 'LayerSlider'),
-		$capability, 'ls-style-editor', 'layerslider_router');
 }
 
 function layerslider_router() {

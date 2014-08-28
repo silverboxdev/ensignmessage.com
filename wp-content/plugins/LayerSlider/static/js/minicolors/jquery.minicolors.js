@@ -158,6 +158,7 @@ if(jQuery) (function($) {
 						'<div class="minicolors-grid-inner"></div>' +
 						'<div class="minicolors-picker"><div></div></div>' +
 					'</div>' +
+					'<ul class="minicolors-recent-colors"><span></span></ul>' +
 				'</div>'
 			);
 
@@ -204,6 +205,19 @@ if(jQuery) (function($) {
 
 	}
 
+
+	// Test localStorage
+	function lsTest(){
+		var test = 'lsTest';
+		try {
+			localStorage.setItem(test, test);
+			localStorage.removeItem(test);
+			return true;
+		} catch(e) {
+			return false;
+		}
+	}
+
 	// Shows the specified dropdown panel
 	function show(input) {
 
@@ -220,6 +234,23 @@ if(jQuery) (function($) {
 
 		hide();
 
+		// Add recent colors
+		if( lsTest() ) {
+
+			// Get recent colors
+			var items = localStorage.getItem('layerslider.minicolors.recent');
+				items = (!items || items == '') ? [] : items.split(';');
+
+			// Add recent colors
+			if(items.length > 0) {
+				minicolors.find('ul').empty();
+
+				for(var c = 0; c < items.length; c++) {
+					minicolors.find('ul').append('<li data-color="'+items[c]+'"><span style="background:'+items[c]+';"></span></li>')
+				}
+			}
+		}
+
 		minicolors.addClass('minicolors-focus');
 		panel
 			.stop(true, true)
@@ -230,7 +261,30 @@ if(jQuery) (function($) {
 	}
 
 	// Hides all dropdown panels
-	function hide() {
+	function hide(savecolor) {
+
+		// Store recent color
+		if(typeof savecolor !== "undefined" && savecolor === true) {
+			var currInput = $('.minicolors-focus > input')
+			if(currInput.length > 0 && currInput.val() !== '' && lsTest()) {
+
+				// Get items
+				var items = localStorage.getItem('layerslider.minicolors.recent');
+					items = (!items || items == '') ? [] : items.split(';');
+
+				// Add new if it changed 
+				if(items.length < 1 || items[0] !== currInput.val()) {
+					items.unshift(currInput.val());
+					console.log('save');
+				}
+
+				// Manage the maximum number of recent colors
+				if(items.length > 8) { items.pop(); }
+
+				// Save
+				localStorage.setItem('layerslider.minicolors.recent', items.join(';'));
+			}
+		}
 
 		$('.minicolors-input').each( function() {
 
@@ -243,7 +297,7 @@ if(jQuery) (function($) {
 
 			minicolors.find('.minicolors-panel').fadeOut(settings.hideSpeed, function() {
 				if(minicolors.hasClass('minicolors-focus')) {
-					if( settings.hide ) settings.hide.call(input.get(0));
+					// if( settings.hide ) settings.hide.call(input.get(0));
 				}
 				minicolors.removeClass('minicolors-focus');
 			});
@@ -507,7 +561,7 @@ if(jQuery) (function($) {
 				alphaVal = 0;
 			} else {
 				hexStr = input.val();
-				alphaVal = input.attr('data-opacity');
+				alphaVal = 1;
 			}
 		}
 
@@ -794,7 +848,7 @@ if(jQuery) (function($) {
 		// Hide on clicks outside of the control
 		.on('mousedown.minicolors touchstart.minicolors', function(event) {
 			if( !$(event.target).parents().add(event.target).hasClass('minicolors') ) {
-				hide();
+				hide(true);
 			}
 		})
 		// Start moving
@@ -847,11 +901,11 @@ if(jQuery) (function($) {
 			if( !input.data('minicolors-initialized') ) return;
 			switch(event.keyCode) {
 				case 9: // tab
-					hide();
+					hide(true);
 					break;
 				case 13: // enter
 				case 27: // esc
-					hide();
+					hide(true);
 					input.blur();
 					break;
 			}
@@ -869,6 +923,12 @@ if(jQuery) (function($) {
 			setTimeout( function() {
 				updateFromInput(input, true);
 			}, 1);
+		})
+
+		.on('click', '.minicolors-recent-colors li', function() {
+			var input = jQuery(this).closest('.minicolors').find('input:first');
+			input.val( jQuery(this).data('color') );
+			updateFromInput(input, true);
 		});
 
 })(jQuery);

@@ -156,7 +156,7 @@ var lsTrBuilder = {
 		var name = tr.find('input[name="name"]').val();
 
 		// Stop current preview
-		lsTrBuilder.stopPreview(parent);
+		lsTrBuilder.stopPreview( parent.children('.active') );
 
 		// Append tr to list and select it
 		select.children().prop('selected', false);
@@ -240,7 +240,7 @@ var lsTrBuilder = {
 			// Add notification
 			parent.append( jQuery('<div>', { 'class' : 'ls-no-transitions-notification' })
 				.append( jQuery('<h1>', { 'text' : textNotification }))
-				.append( jQuery('<p>', { 'text' : 'To create a new transition, click to the "Add new" button above this text.' }))
+				.append( jQuery('<p>', { 'text' : 'To create a new transition, click to the \"Add new\" button above.' }))
 
 			);
 
@@ -460,8 +460,8 @@ var lsTrBuilder = {
 		lsTrBuilder.storeNameAttrs();
 
 		// Temporary disable submit button
-		jQuery('.ls-publish button').text('Saving ...').addClass('saving').attr('disabled', true);
-		jQuery('.ls-saving-warning').text('Please do not navigate away from this page while LayerSlider WP saving your transitions!');
+		jQuery('.ls-publish').addClass('saving').find('button').text('Saving ...').attr('disabled', true);
+		jQuery('.ls-saving-warning').text('Please don\'t navigate away while saving');
 
 		// Serialize
 		lsTrBuilder.serializeTransitions();
@@ -470,12 +470,12 @@ var lsTrBuilder = {
 		jQuery.post( jQuery(el).attr('action'), jQuery(el).serialize(), function() {
 
 			// Give feedback
-			jQuery('.ls-publish button').text('Saved').removeClass('saving').addClass('saved');
+			jQuery('.ls-publish').removeClass('saving').addClass('saved').find('button').text('Saved')
 			jQuery('.ls-saving-warning').text('');
 
 			// Re-enable the button
 			setTimeout(function() {
-				jQuery('.ls-publish button').text('Save changes').attr('disabled', false).removeClass('saved');
+				jQuery('.ls-publish').removeClass('saved').find('button').attr('disabled', false).text('Save changes');
 			}, 2000);
 
 			// Restore name attrs

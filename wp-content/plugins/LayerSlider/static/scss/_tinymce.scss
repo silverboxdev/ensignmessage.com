@@ -11,8 +11,21 @@ $boxHeaderGradientBlue: #2a95c5 #21759b;
 @import "interface";
 
 // Editor button
-.wp_themeSkin span.mce_layerslider_button {
-	background: url(../img/icon_16x16.png) 2px 2px no-repeat;
+.mce_layerslider_button, 
+.mce-i-layerslider_button {
+	font: 400 20px/1 dashicons !important;
+	padding: 0;
+	vertical-align: top;
+	speak: none;
+	-webkit-font-smoothing: antialiased;
+	-moz-osx-font-smoothing: grayscale;
+	margin-left: -2px;
+	padding-right: 2px;
+}
+
+span.mce_layerslider_button:before,
+.mce-i-layerslider_button:before {
+	content: "\f233";
 }
 
 // Popup
@@ -21,7 +34,7 @@ $boxHeaderGradientBlue: #2a95c5 #21759b;
 	min-height: 100px;
 	position: absolute !important;
 	margin: 40px 0 0 0;
-	z-index: 2001;
+	z-index: 9999992;
 	background: rgba(white, 0.95);
 	box-shadow: 0px 0px 5px black;
 	opacity: 0;

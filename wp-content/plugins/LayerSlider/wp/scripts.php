@@ -30,7 +30,7 @@ function layerslider_enqueue_content_res() {
 	}
 
 	if(file_exists($uploads['basedir'].'/layerslider.custom.css')) {
-		wp_enqueue_style('ls-user-css', $uploads['baseurl'].'/layerslider.custom.css', false, LS_PLUGIN_VERSION );
+		wp_enqueue_style('ls-user', $uploads['baseurl'].'/layerslider.custom.css', false, LS_PLUGIN_VERSION );
 	}
 
 	if(get_option('ls_conditional_script_loading', false) == false) {
@@ -112,7 +112,7 @@ function layerslider_enqueue_admin_res() {
 		}
 
 		if(file_exists($uploads['basedir'].'/layerslider.custom.css')) {
-			wp_enqueue_style('ls-user-css', $uploads['baseurl'].'/layerslider.custom.css', false, LS_PLUGIN_VERSION );
+			wp_enqueue_style('ls-user', $uploads['baseurl'].'/layerslider.custom.css', false, LS_PLUGIN_VERSION );
 		}
 	}
 
@@ -133,6 +133,7 @@ function ls_load_google_fonts() {
 
 	// Get font list
 	$fonts = get_option('ls-google-fonts', array());
+	$scripts = get_option('ls-google-font-scripts', array('latin'));
 
 	// Check fonts if any
 	if(!empty($fonts) && is_array($fonts)) {
@@ -144,11 +145,11 @@ function ls_load_google_fonts() {
 				$lsFonts[] = $item['param'];
 			}
 		}
-		$lsFonts = implode('|', $lsFonts);
+		$lsFonts = implode('%7C', $lsFonts);
 		$protocol = is_ssl() ? 'https' : 'http';
 		$query_args = array(
 			'family' => $lsFonts,
-			'subset' => 'latin,latin-ext',
+			'subset' => implode('%2C', $scripts),
 		);
 
 		wp_enqueue_style('ls-google-fonts',

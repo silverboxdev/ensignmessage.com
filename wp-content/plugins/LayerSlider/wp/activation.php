@@ -71,6 +71,11 @@ function layerslider_install_scripts() {
 			do_action('layerslider_installed');
 		}
 	}
+
+	// Install date
+	if(!get_option('ls-date-installed', 0)) {
+		update_option('ls-date-installed', time());
+	}
 }
 
 function layerslider_update_scripts() {
@@ -99,11 +104,18 @@ function layerslider_new_site($blog_id) {
 
 function layerslider_create_db_table() {
 
-	// Get WPDB Object
 	global $wpdb;
-
-	// Table name
+	$charset_collate = '';
 	$table_name = $wpdb->prefix . "layerslider";
+
+	// Get DB collate
+	if(!empty($wpdb->charset)) {
+		$charset_collate = "DEFAULT CHARACTER SET $wpdb->charset";
+	}
+
+	if(!empty($wpdb->collate)) {
+		$charset_collate .= " COLLATE $wpdb->collate";
+	}
 
 	// Building the query
 	$sql = "CREATE TABLE $table_name (
@@ -117,7 +129,7 @@ function layerslider_create_db_table() {
 			  flag_hidden tinyint(1) NOT NULL DEFAULT 0,
 			  flag_deleted tinyint(1) NOT NULL DEFAULT 0,
 			  PRIMARY KEY  (id)
-			);";
+			) $charset_collate;";
 
 	// Executing the query
 	require_once(ABSPATH . 'wp-admin/includes/upgrade.php');

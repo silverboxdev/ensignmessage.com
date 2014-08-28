@@ -1,5 +1,10 @@
 <?php
 
+	if(!defined('LS_ROOT_FILE')) { 
+		header('HTTP/1.0 403 Forbidden');
+		exit;
+	}
+
 	// Custom transitions file
 	$upload_dir = wp_upload_dir();
 	$custom_trs = $upload_dir['basedir'] . '/layerslider.custom.transitions.js';
@@ -82,13 +87,13 @@
 			<tbody class="basic">
 				<tr>
 					<td class="right"><?php _e('Transition name', 'LayerSlider') ?></td>
-					<td colspan="3"><input type="text" name="name" value="Turn top" data-help="<?php _e('The name of your custom transition. When you will edit a slider, it will appear with this name, so you can easily identify the individual transitions.', 'LayerSlider') ?>"></td>
+					<td colspan="3"><input type="text" name="name" value="Turn top" data-help="<?php _e('The name of your custom transition. When you edit a slider, it will appear with this name, so you can easily identify the individual transitions.', 'LayerSlider') ?>"></td>
 				</tr>
 				<tr>
 					<td class="right"><?php _e('Rows', 'LayerSlider') ?></td>
-					<td><input type="text" name="rows" value="1" data-help="<?php _e('<number> or <min_number>,<max_number> If you specify a value greater than 1, LayerSlider will cut your slide into tiles. You can specify here how many rows of your transition should have. If you specify two numbers separated with a comma, LayerSlider will use that as a range and pick a random number between your values.', 'LayerSlider') ?>"></td>
+					<td><input type="text" name="rows" value="1" data-help="<?php _e('<i>number</i> or <i>min,max</i> If you specify a value greater than 1, LayerSlider will cut your slide into tiles. You can specify here how many rows of your transition should have. If you specify two numbers separated with a comma, LayerSlider will use that as a range and pick a random number between your values.', 'LayerSlider') ?>"></td>
 					<td class="right"><?php _e('Cols', 'LayerSlider') ?></td>
-					<td><input type="text" name="cols" value="1" data-help="<?php _e('<number> or <min_number>,<max_number> If you specify a value greater than 1, LayerSlider will cut your slide into tiles. You can specify here how many columns of your transition should have. If you specify two numbers separated with a comma, LayerSlider will use that as a range and pick a random number between your values.', 'LayerSlider') ?>"></td>
+					<td><input type="text" name="cols" value="1" data-help="<?php _e('<i>number</i> or <i>min,max</i> If you specify a value greater than 1, LayerSlider will cut your slide into tiles. You can specify here how many columns of your transition should have. If you specify two numbers separated with a comma, LayerSlider will use that as a range and pick a random number between your values.', 'LayerSlider') ?>"></td>
 				</tr>
 			</tbody>
 			<thead>
@@ -116,7 +121,7 @@
 					<td></td>
 					<td class="right"><?php _e('Depth', 'LayerSlider') ?></td>
 					<td>
-						<label data-help="<?php _e('The script will try to identify the optimal depth for your rotated objects (tiles). With this option, you can force your objects to have large depth when performing 180 degree (and its multiplies) rotation.', 'LayerSlider') ?>">
+						<label data-help="<?php _e('The script tries to identify the optimal depth for your rotated objects (tiles). With this option you can force your objects to have a large depth when performing 180 degree (and its multiplies) rotation.', 'LayerSlider') ?>">
 							<input type="checkbox" class="checkbox" name="depth" value="large">
 							<?php _e('Large depth', 'LayerSlider') ?>
 						</label>
@@ -139,7 +144,7 @@
 					<td><input type="text" name="duration" value="1000" data-help="<?php _e('The duration of your animation. This value is in millisecs, so the value 1000 means 1 second.', 'LayerSlider') ?>"></td>
 					<td class="right"><a href="http://easings.net/" target="_blank"><?php _e('Easing', 'LayerSlider') ?></a></td>
 					<td>
-						<select name="easing" data-help="<?php _e('The timing function of the animation, with it you can manipualte the movement of the animated object. Please click on the link next to this select field to open easings.net for more information and real-time examples.', 'LayerSlider') ?>">
+						<select name="easing" data-help="<?php _e('The timing function of the animation. With this function you can manipulate the movement of the animated object. Please click on the link next to this select field to open easings.net for more information and real-time examples.', 'LayerSlider') ?>">
 							<option>linear</option>
 							<option>easeInQuad</option>
 							<option>easeOutQuad</option>
@@ -172,7 +177,7 @@
 					<td colspan="4">
 						<ul class="ls-tr-tags"></ul>
 						<p class="ls-tr-add-property">
-							<a href="#" class="ls-icon-tr-add"><?php _e('Add new', 'LayerSlider') ?></a>
+							<a href="#" class="ls-icon-tr-add"><i class="dashicons dashicons-plus"></i><?php _e('Add new', 'LayerSlider') ?></a>
 							<select>
 								<option value="scale3d,0.8"><?php _e('Scale3D', 'LayerSlider') ?></option>
 								<option value="rotateX,90"><?php _e('RotateX', 'LayerSlider') ?></option>
@@ -196,7 +201,7 @@
 					<td><input type="text" name="duration" value="1000" data-help="<?php _e('The duration of your animation. This value is in millisecs, so the value 1000 means 1 second.', 'LayerSlider') ?>"></td>
 					<td class="right"><a href="http://easings.net/" target="_blank"><?php _e('Easing', 'LayerSlider') ?></a></td>
 					<td>
-						<select name="easing" data-help="<?php _e('The timing function of the animation, with it you can manipualte the movement of the animated object. Please click on the link next to this select field to open easings.net for more information and real-time examples.', 'LayerSlider') ?>">
+						<select name="easing" data-help="<?php _e('The timing function of the animation. With this function you can manipulate the movement of the animated object. Please click on the link next to this select field to open easings.net for more information and real-time examples.', 'LayerSlider') ?>">
 							<option>linear</option>
 							<option>easeInQuad</option>
 							<option>easeOutQuad</option>
@@ -248,7 +253,7 @@
 							</li>
 						</ul>
 						<p class="ls-tr-add-property">
-							<a href="#" class="ls-icon-tr-add"><?php _e('Add new', 'LayerSlider') ?></a>
+							<a href="#" class="ls-icon-tr-add"><i class="dashicons dashicons-plus"></i><?php _e('Add new', 'LayerSlider') ?></a>
 							<select>
 								<option value="scale3d,0.8"><?php _e('Scale3D', 'LayerSlider') ?></option>
 								<option value="rotateX,90"><?php _e('RotateX', 'LayerSlider') ?></option>
@@ -275,7 +280,7 @@
 					<td><input type="text" name="duration" value="1000" data-help="<?php _e('The duration of your animation. This value is in millisecs, so the value 1000 means 1 second.', 'LayerSlider') ?>"></td>
 					<td class="right"><a href="http://easings.net/" target="_blank"><?php _e('Easing', 'LayerSlider') ?></a></td>
 					<td>
-						<select name="easing" data-help="<?php _e('The timing function of the animation, with it you can manipualte the movement of the animated object. Please click on the link next to this select field to open easings.net for more information and real-time examples.', 'LayerSlider') ?>">
+						<select name="easing" data-help="<?php _e('The timing function of the animation. With this function you can manipulate the movement of the animated object. Please click on the link next to this select field to open easings.net for more information and real-time examples.', 'LayerSlider') ?>">
 							<option>linear</option>
 							<option>easeInQuad</option>
 							<option>easeOutQuad</option>
@@ -308,7 +313,7 @@
 					<td colspan="4">
 						<ul class="ls-tr-tags"></ul>
 						<p class="ls-tr-add-property">
-							<a href="#" class="ls-icon-tr-add"><?php _e('Add new', 'LayerSlider') ?></a>
+							<a href="#" class="ls-icon-tr-add"><i class="dashicons dashicons-plus"></i><?php _e('Add new', 'LayerSlider') ?></a>
 							<select>
 								<option value="scale3d,0.8"><?php _e('Scale3D', 'LayerSlider') ?></option>
 								<option value="rotateX,90"><?php _e('RotateX', 'LayerSlider') ?></option>
@@ -364,13 +369,13 @@
 			<tbody class="basic">
 				<tr>
 					<td class="right"><?php _e('Transition name', 'LayerSlider') ?></td>
-					<td colspan="3"><input type="text" name="name" value="Turn top" data-help="<?php _e('The name of your custom transition. When you will edit a slider, it will appear with this name, so you can easily identify the individual transitions.', 'LayerSlider') ?>"></td>
+					<td colspan="3"><input type="text" name="name" value="Turn top" data-help="<?php _e('The name of your custom transition. When you edit a slider, it will appear with this name, so you can easily identify the individual transitions.', 'LayerSlider') ?>"></td>
 				</tr>
 				<tr>
 					<td class="right"><?php _e('Rows', 'LayerSlider') ?></td>
-					<td><input type="text" name="rows" value="1" data-help="<?php _e('<number> or <min_number>,<max_number> If you specify a value greater than 1, LayerSlider will cut your slide into tiles. You can specify here how many rows of your transition should have. If you specify two numbers separated with a comma, LayerSlider will use that as a range and pick a random number between your values.', 'LayerSlider') ?>"></td>
+					<td><input type="text" name="rows" value="1" data-help="<?php _e('<i>number</i> or <i>min,max</i> If you specify a value greater than 1, LayerSlider will cut your slide into tiles. You can specify here how many rows of your transition should have. If you specify two numbers separated with a comma, LayerSlider will use that as a range and pick a random number between your values.', 'LayerSlider') ?>"></td>
 					<td class="right"><?php _e('Cols', 'LayerSlider') ?></td>
-					<td><input type="text" name="cols" value="1" data-help="<?php _e('<number> or <min_number>,<max_number> If you specify a value greater than 1, LayerSlider will cut your slide into tiles. You can specify here how many columns of your transition should have. If you specify two numbers separated with a comma, LayerSlider will use that as a range and pick a random number between your values.', 'LayerSlider') ?>"></td>
+					<td><input type="text" name="cols" value="1" data-help="<?php _e('<i>number</i> or <i>min,max</i> If you specify a value greater than 1, LayerSlider will cut your slide into tiles. You can specify here how many columns of your transition should have. If you specify two numbers separated with a comma, LayerSlider will use that as a range and pick a random number between your values.', 'LayerSlider') ?>"></td>
 				</tr>
 			</tbody>
 			<thead>
@@ -405,7 +410,7 @@
 					<td><input type="text" name="duration" value="1000" data-help="<?php _e('The duration of the animation. This value is in millisecs, so the value 1000 measn 1 second.', 'LayerSlider') ?>"></td>
 					<td class="right"><a href="http://easings.net/" target="_blank"><?php _e('Easing', 'LayerSlider') ?></a></td>
 					<td>
-						<select name="easing" data-help="<?php _e('The timing function of the animation, with it you can manipualte the movement of the animated object. Please click on the link next to this select field to open easings.net for more information and real-time examples.', 'LayerSlider') ?>">
+						<select name="easing" data-help="<?php _e('The timing function of the animation. With this function you can manipulate the movement of the animated object. Please click on the link next to this select field to open easings.net for more information and real-time examples.', 'LayerSlider') ?>">
 							<option>linear</option>
 							<option>swing</option>
 							<option>easeInQuad</option>
@@ -452,7 +457,7 @@
 					</td>
 					<td class="right"><?php _e('Direction', 'LayerSlider') ?></td>
 					<td>
-						<select name="direction" data-help="<?php _e('The direction of the slide or mixed animation if you chose these type in the previous setting.', 'LayerSlider') ?>">
+						<select name="direction" data-help="<?php _e('The direction of the slide or mixed animation if you\'ve chosen this type in the previous settings.', 'LayerSlider') ?>">
 							<option value="top"><?php _e('Top', 'LayerSlider') ?></option>
 							<option value="right"><?php _e('Right', 'LayerSlider') ?></option>
 							<option value="bottom"><?php _e('Bottom', 'LayerSlider') ?></option>
@@ -528,7 +533,7 @@
 								<?php endif; ?>
 							</select>
 							<?php _e('or', 'LayerSlider') ?>
-							<a href="#" class="ls-icon-tr-add ls-tr-builder-add-tr 3d"><?php _e('Add new', 'LayerSlider') ?></a>
+							<a href="#" class="ls-icon-tr-add ls-tr-builder-add-tr 3d"><i class="dashicons dashicons-plus"></i><?php _e('Add new', 'LayerSlider') ?></a>
 						</p>
 					</div>
 				</div>
@@ -547,7 +552,7 @@
 								<?php endif; ?>
 							</select>
 							<?php _e('or', 'LayerSlider') ?>
-							<a href="#" class="ls-icon-tr-add ls-tr-builder-add-tr 2d"><?php _e('Add new', 'LayerSlider') ?></a>
+							<a href="#" class="ls-icon-tr-add ls-tr-builder-add-tr 2d"><i class="dashicons dashicons-plus"></i><?php _e('Add new', 'LayerSlider') ?></a>
 						</p>
 					</div>
 				</div>
@@ -584,15 +589,15 @@
 							<tbody class="basic">
 								<tr>
 									<td class="right"><?php _e('Transition name', 'LayerSlider') ?></td>
-									<td colspan="3"><input type="text" name="name" value="<?php echo $tr['name'] ?>" data-help="<?php _e('The name of your custom transition. When you will edit a slider, it will appear with this name, so you can easily identify the individual transitions.', 'LayerSlider') ?>"></td>
+									<td colspan="3"><input type="text" name="name" value="<?php echo $tr['name'] ?>" data-help="<?php _e('The name of your custom transition. When you edit a slider, it will appear with this name, so you can easily identify the individual transitions.', 'LayerSlider') ?>"></td>
 								</tr>
 								<tr>
 									<?php $tr['rows'] = is_array($tr['rows']) ? implode(',', $tr['rows']) : $tr['rows']; ?>
 									<?php $tr['cols'] = is_array($tr['cols']) ? implode(',', $tr['cols']) : $tr['cols']; ?>
 									<td class="right"><?php _e('Rows', 'LayerSlider') ?></td>
-									<td><input type="text" name="rows" value="<?php echo $tr['rows'] ?>" data-help="<?php _e('<number> or <min_number>,<max_number> If you specify a value greater than 1, LayerSlider will cut your slide into tiles. You can specify here how many rows of your transition should have. If you specify two numbers separated with a comma, LayerSlider will use that as a range and pick a random number between your values.', 'LayerSlider') ?>"></td>
+									<td><input type="text" name="rows" value="<?php echo $tr['rows'] ?>" data-help="<?php _e('<i>number</i> or <i>min,max</i> If you specify a value greater than 1, LayerSlider will cut your slide into tiles. You can specify here how many rows of your transition should have. If you specify two numbers separated with a comma, LayerSlider will use that as a range and pick a random number between your values.', 'LayerSlider') ?>"></td>
 									<td class="right"><?php _e('Cols', 'LayerSlider') ?></td>
-									<td><input type="text" name="cols" value="<?php echo $tr['cols'] ?>" data-help="<?php _e('<number> or <min_number>,<max_number> If you specify a value greater than 1, LayerSlider will cut your slide into tiles. You can specify here how many columns of your transition should have. If you specify two numbers separated with a comma, LayerSlider will use that as a range and pick a random number between your values.', 'LayerSlider') ?>"></td>
+									<td><input type="text" name="cols" value="<?php echo $tr['cols'] ?>" data-help="<?php _e('<i>number</i> or <i>min,max</i> If you specify a value greater than 1, LayerSlider will cut your slide into tiles. You can specify here how many columns of your transition should have. If you specify two numbers separated with a comma, LayerSlider will use that as a range and pick a random number between your values.', 'LayerSlider') ?>"></td>
 								</tr>
 							</tbody>
 							<thead>
@@ -620,7 +625,7 @@
 									<td></td>
 									<td class="right"><?php _e('Depth', 'LayerSlider') ?></td>
 									<td>
-										<label data-help="<?php _e('The script will try to identify the optimal depth for your rotated objects (tiles). With this option, you can force your objects to have large depth when performing 180 degree (and its multiplies) rotation.', 'LayerSlider') ?>">
+										<label data-help="<?php _e('The script tries to identify the optimal depth for your rotated objects (tiles). With this option you can force your objects to have a large depth when performing 180 degree (and its multiplies) rotation.', 'LayerSlider') ?>">
 											<input type="checkbox" class="checkbox" name="depth" value="large"<?php echo isset($tr['tile']['depth']) ? ' checked="checked"' : '' ?>>
 											<?php _e('Large depth', 'LayerSlider') ?>
 										</label>
@@ -648,7 +653,7 @@
 									<td class="right"><a href="http://easings.net/" target="_blank"><?php _e('Easing', 'LayerSlider') ?></a></td>
 									<td>
 										<?php $tr['before']['easing'] = isset($tr['before']['easing']) ? $tr['before']['easing'] : 'easeInOutBack' ?>
-										<select name="easing" data-help="<?php _e('The timing function of the animation, with it you can manipualte the movement of the animated object. Please click on the link next to this select field to open easings.net for more information and real-time examples.', 'LayerSlider') ?>">
+										<select name="easing" data-help="<?php _e('The timing function of the animation. With this function you can manipulate the movement of the animated object. Please click on the link next to this select field to open easings.net for more information and real-time examples.', 'LayerSlider') ?>">
 											<option<?php echo ($tr['before']['easing'] == 'linear') ? ' selected="selected"' : '' ?>>linear</option>
 											<option<?php echo ($tr['before']['easing'] == 'easeInQuad') ? ' selected="selected"' : '' ?>>easeInQuad</option>
 											<option<?php echo ($tr['before']['easing'] == 'easeOutQuad') ? ' selected="selected"' : '' ?>>easeOutQuad</option>
@@ -693,7 +698,7 @@
 											<?php endif; ?>
 										</ul>
 										<p class="ls-tr-add-property">
-											<a href="#" class="ls-icon-tr-add"><?php _e('Add new', 'LayerSlider') ?></a>
+											<a href="#" class="ls-icon-tr-add"><i class="dashicons dashicons-plus"></i><?php _e('Add new', 'LayerSlider') ?></a>
 											<select>
 												<option value="scale3d,0.8"><?php _e('Scale3D', 'LayerSlider') ?></option>
 												<option value="rotateX,90"><?php _e('RotateX', 'LayerSlider') ?></option>
@@ -717,7 +722,7 @@
 									<td><input type="text" name="duration" value="<?php echo $tr['animation']['duration'] ?>" data-help="<?php _e('The duration of your animation. This value is in millisecs, so the value 1000 means 1 second.', 'LayerSlider') ?>"></td>
 									<td class="right"><a href="http://easings.net/" target="_blank"><?php _e('Easing', 'LayerSlider') ?></a></td>
 									<td>
-										<select name="easing" data-help="<?php _e('The timing function of the animation, with it you can manipualte the movement of the animated object. Please click on the link next to this select field to open easings.net for more information and real-time examples.', 'LayerSlider') ?>">
+										<select name="easing" data-help="<?php _e('The timing function of the animation. With this function you can manipulate the movement of the animated object. Please click on the link next to this select field to open easings.net for more information and real-time examples.', 'LayerSlider') ?>">
 											<option<?php echo ($tr['animation']['easing'] == 'linear') ? ' selected="selected"' : '' ?>>linear</option>
 											<option<?php echo ($tr['animation']['easing'] == 'easeInQuad') ? ' selected="selected"' : '' ?>>easeInQuad</option>
 											<option<?php echo ($tr['animation']['easing'] == 'easeOutQuad') ? ' selected="selected"' : '' ?>>easeOutQuad</option>
@@ -774,7 +779,7 @@
 											<?php endif; ?>
 										</ul>
 										<p class="ls-tr-add-property">
-											<a href="#" class="ls-icon-tr-add"><?php _e('Add new', 'LayerSlider') ?></a>
+											<a href="#" class="ls-icon-tr-add"><i class="dashicons dashicons-plus"></i><?php _e('Add new', 'LayerSlider') ?></a>
 											<select>
 												<option value="scale3d,0.8"><?php _e('Scale3D', 'LayerSlider') ?></option>
 												<option value="rotateX,90"><?php _e('RotateX', 'LayerSlider') ?></option>
@@ -806,7 +811,7 @@
 									<td class="right"><a href="http://easings.net/" target="_blank"><?php _e('Easing', 'LayerSlider') ?></a></td>
 									<td>
 										<?php $tr['after']['easing'] = isset($tr['after']['easing']) ? $tr['after']['easing'] : 'easeInOutBack' ?>
-										<select name="easing" data-help="<?php _e('The timing function of the animation, with it you can manipualte the movement of the animated object. Please click on the link next to this select field to open easings.net for more information and real-time examples.', 'LayerSlider') ?>">
+										<select name="easing" data-help="<?php _e('The timing function of the animation. With this function you can manipulate the movement of the animated object. Please click on the link next to this select field to open easings.net for more information and real-time examples.', 'LayerSlider') ?>">
 											<option<?php echo ($tr['after']['easing'] == 'linear') ? ' selected="selected"' : '' ?>>linear</option>
 											<option<?php echo ($tr['after']['easing'] == 'easeInQuad') ? ' selected="selected"' : '' ?>>easeInQuad</option>
 											<option<?php echo ($tr['after']['easing'] == 'easeOutQuad') ? ' selected="selected"' : '' ?>>easeOutQuad</option>
@@ -851,7 +856,7 @@
 											<?php endif; ?>
 										</ul>
 										<p class="ls-tr-add-property">
-											<a href="#" class="ls-icon-tr-add"><?php _e('Add new', 'LayerSlider') ?></a>
+											<a href="#" class="ls-icon-tr-add"><i class="dashicons dashicons-plus"></i><?php _e('Add new', 'LayerSlider') ?></a>
 											<select>
 												<option value="scale3d,0.8"><?php _e('Scale3D', 'LayerSlider') ?></option>
 												<option value="rotateX,90"><?php _e('RotateX', 'LayerSlider') ?></option>
@@ -880,7 +885,7 @@
 					<?php else : ?>
 					<div class="ls-no-transitions-notification">
 						<h1><?php _e("You didn't create any 3D transitions yet", "LayerSlider") ?></h1>
-						<p><?php _e('To create a new transition, click to the "Add new" button above this text.', 'LayerSlider') ?></p>
+						<p><?php _e('To create a new transition, click to the \"Add new\" button above.', 'LayerSlider') ?></p>
 					</div>
 					<?php endif; ?>
 				</div>
@@ -916,15 +921,15 @@
 							<tbody class="basic">
 								<tr>
 									<td class="right"><?php _e('Transition name', 'LayerSlider') ?></td>
-									<td colspan="3"><input type="text" name="name" value="<?php echo $tr['name'] ?>" data-help="<?php _e('The name of your custom transition. When you will edit a slider, it will appear with this name, so you can easily identify the individual transitions.', 'LayerSlider') ?>"></td>
+									<td colspan="3"><input type="text" name="name" value="<?php echo $tr['name'] ?>" data-help="<?php _e('The name of your custom transition. When you edit a slider, it will appear with this name, so you can easily identify the individual transitions.', 'LayerSlider') ?>"></td>
 								</tr>
 								<tr>
 									<?php $tr['rows'] = is_array($tr['rows']) ? implode(',', $tr['rows']) : $tr['rows']; ?>
 									<?php $tr['cols'] = is_array($tr['cols']) ? implode(',', $tr['cols']) : $tr['cols']; ?>
 									<td class="right"><?php _e('Rows', 'LayerSlider') ?></td>
-									<td><input type="text" name="rows" value="<?php echo $tr['rows'] ?>" data-help="<?php _e('<number> or <min_number>,<max_number> If you specify a value greater than 1, LayerSlider will cut your slide into tiles. You can specify here how many rows of your transition should have. If you specify two numbers separated with a comma, LayerSlider will use that as a range and pick a random number between your values.', 'LayerSlider') ?>"></td>
+									<td><input type="text" name="rows" value="<?php echo $tr['rows'] ?>" data-help="<?php _e('<i>number</i> or <i>min,max</i> If you specify a value greater than 1, LayerSlider will cut your slide into tiles. You can specify here how many rows of your transition should have. If you specify two numbers separated with a comma, LayerSlider will use that as a range and pick a random number between your values.', 'LayerSlider') ?>"></td>
 									<td class="right"><?php _e('Cols', 'LayerSlider') ?></td>
-									<td><input type="text" name="cols" value="<?php echo $tr['cols'] ?>" data-help="<?php _e('<number> or <min_number>,<max_number> If you specify a value greater than 1, LayerSlider will cut your slide into tiles. You can specify here how many columns of your transition should have. If you specify two numbers separated with a comma, LayerSlider will use that as a range and pick a random number between your values.', 'LayerSlider') ?>"></td>
+									<td><input type="text" name="cols" value="<?php echo $tr['cols'] ?>" data-help="<?php _e('<i>number</i> or <i>min,max</i> If you specify a value greater than 1, LayerSlider will cut your slide into tiles. You can specify here how many columns of your transition should have. If you specify two numbers separated with a comma, LayerSlider will use that as a range and pick a random number between your values.', 'LayerSlider') ?>"></td>
 								</tr>
 							</tbody>
 							<thead>
@@ -959,7 +964,7 @@
 									<td><input type="text" name="duration" value="<?php echo $tr['transition']['duration'] ?>" data-help="<?php _e('The duration of the animation. This value is in millisecs, so the value 1000 measn 1 second.', 'LayerSlider') ?>"></td>
 									<td class="right"><a href="http://easings.net/" target="_blank"><?php _e('Easing', 'LayerSlider') ?></a></td>
 									<td>
-										<select name="easing" data-help="<?php _e('The timing function of the animation, with it you can manipualte the movement of the animated object. Please click on the link next to this select field to open easings.net for more information and real-time examples.', 'LayerSlider') ?>">
+										<select name="easing" data-help="<?php _e('The timing function of the animation. With this function you can manipulate the movement of the animated object. Please click on the link next to this select field to open easings.net for more information and real-time examples.', 'LayerSlider') ?>">
 											<option<?php echo ($tr['transition']['easing'] == 'linear') ? ' selected="selected"' : '' ?>>linear</option>
 											<option<?php echo ($tr['transition']['easing'] == 'swing') ? ' selected="selected"' : '' ?>>swing</option>
 											<option<?php echo ($tr['transition']['easing'] == 'easeInQuad') ? ' selected="selected"' : '' ?>>easeInQuad</option>
@@ -1006,7 +1011,7 @@
 									</td>
 									<td class="right"><?php _e('Direction', 'LayerSlider') ?></td>
 									<td>
-										<select name="direction" data-help="<?php _e('The direction of the slide or mixed animation if you chose these type in the previous setting.', 'LayerSlider') ?>">
+										<select name="direction" data-help="<?php _e('The direction of the slide or mixed animation if you\'ve chosen this type in the previous settings.', 'LayerSlider') ?>">
 											<option value="top"<?php echo ($tr['transition']['direction'] == 'top') ? ' selected="selected"' : '' ?>><?php _e('Top', 'LayerSlider') ?></option>
 											<option value="right"<?php echo ($tr['transition']['direction'] == 'right') ? ' selected="selected"' : '' ?>><?php _e('Right', 'LayerSlider') ?></option>
 											<option value="bottom"<?php echo ($tr['transition']['direction'] == 'bottom') ? ' selected="selected"' : '' ?>><?php _e('Bottom', 'LayerSlider') ?></option>
@@ -1050,24 +1055,20 @@
 					<?php else : ?>
 					<div class="ls-no-transitions-notification">
 						<h1><?php _e("You didn't create any 2D transitions yet", "LayerSlider") ?></h1>
-						<p><?php _e('To create a new transition, click to the "Add new" button above this text.', 'LayerSlider') ?></p>
+						<p><?php _e('To create a new transition, click to the \"Add new\" button above.', 'LayerSlider') ?></p>
 					</div>
 					<?php endif; ?>
 				</div>
 				<div class="clear"></div>
 			</div>
 		</div>
-		<div class="ls-box ls-publish">
-			<h3 class="header"><?php _e('Publish', 'LayerSlider') ?></h3>
-			<div class="inner">
-				<?php if(is_writable($upload_dir['basedir'])) : ?>
-				<button class="button-primary"><?php _e('Save changes', 'LayerSlider') ?></button>
-				<p class="ls-saving-warning"></p>
-				<div class="clear"></div>
-				<?php else : ?>
-				<?php _e('Before you can save your changes, you need to make writeable your "/wp-content/uploads" folder. See the <a href="http://codex.wordpress.org/Changing_File_Permissions" target="_blank">Codex</a>', 'LayerSlider') ?>
-				<?php endif; ?>
-			</div>
+
+		<div class="ls-publish">
+			<?php if(is_writable($upload_dir['basedir'])) : ?>
+			<button class="button button-primary button-hero"><?php _e('Save changes', 'LayerSlider') ?></button>
+			<?php else : ?>
+			<?php _e('Before you can save your changes, you need to make your "/wp-content/uploads" folder writable. See the <a href="http://codex.wordpress.org/Changing_File_Permissions" target="_blank">Codex</a>', 'LayerSlider') ?>
+			<?php endif; ?>
 		</div>
 	</form>
 </div>

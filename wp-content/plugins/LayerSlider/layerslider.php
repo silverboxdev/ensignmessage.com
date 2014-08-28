@@ -4,13 +4,19 @@
 Plugin Name: LayerSlider WP
 Plugin URI: http://codecanyon.net/user/kreatura/
 Description: LayerSlider is the most advanced responsive WordPress slider plugin with the famous Parallax Effect and over 200 2D & 3D transitions.
-Version: 5.1.2
+Version: 5.2.0
 Author: Kreatura Media
 Author URI: http://kreaturamedia.com/
+Text Domain: LayerSlider
 */
 
 if(defined('LS_PLUGIN_VERSION') || isset($GLOBALS['lsPluginPath'])) {
 	die('ERROR: It looks like you already have one instance of LayerSlider installed. WordPress cannot activate and handle two instanced at the same time, you need to remove the old version first.');
+}
+
+if(!defined('ABSPATH')) { 
+	header('HTTP/1.0 403 Forbidden');
+	exit;
 }
 
 /********************************************************/
@@ -24,22 +30,27 @@ if(defined('LS_PLUGIN_VERSION') || isset($GLOBALS['lsPluginPath'])) {
 	define('LS_ROOT_FILE', __FILE__);
 	define('LS_ROOT_PATH', dirname(__FILE__));
 	define('LS_ROOT_URL', plugins_url('', __FILE__));
-	define('LS_PLUGIN_VERSION', '5.1.2');
+	define('LS_PLUGIN_VERSION', '5.2.0');
 	define('LS_PLUGIN_SLUG', basename(dirname(__FILE__)));
 	define('LS_PLUGIN_BASE', plugin_basename(__FILE__));
+	define('LS_MARKETPLACE_ID', '1362246');
 	define('LS_DB_TABLE', 'layerslider');
+	define('LS_TEXTDOMAIN', 'LayerSlider');
+	define('LS_REPO_BASE_URL', 'http://repository.kreaturamedia.com/v3/');
 
 	if(!defined('NL')) { define("NL", "\r\n"); }
 	if(!defined('TAB')) { define("TAB", "\t"); }
 
 	// Shared
 	include LS_ROOT_PATH.'/wp/scripts.php';
-	include LS_ROOT_PATH.'/classes/layerslider.class.php';
 	include LS_ROOT_PATH.'/wp/layerslider.php';
 	include LS_ROOT_PATH.'/wp/menus.php';
 	include LS_ROOT_PATH.'/wp/hooks.php';
 	include LS_ROOT_PATH.'/wp/widgets.php';
 	include LS_ROOT_PATH.'/wp/compatibility.php';
+
+	include LS_ROOT_PATH.'/classes/class.ls.posts.php';
+	include LS_ROOT_PATH.'/classes/class.ls.sliders.php';
 
 	// Back-end only
 	if(is_admin()) {
@@ -54,23 +65,22 @@ if(defined('LS_PLUGIN_VERSION') || isset($GLOBALS['lsPluginPath'])) {
 		include LS_ROOT_PATH.'/wp/shortcodes.php';
 	}
 
-	global $LSC;
-	$LSC = new LayerSlider();
 
 	// Auto update
-	if(!class_exists('KM_PluginUpdates')) {
-		require_once LS_ROOT_PATH.'/classes/class.km.autoupdate.plugins.php';
+	if(!class_exists('KM_PluginUpdatesV3')) { 
+		require_once LS_ROOT_PATH.'/classes/class.km.autoupdate.plugins.v3.php';
 	}
 
-	if(get_option('layerslider-validated', '0')) {
-		new KM_PluginUpdates(array(
+		new KM_PluginUpdatesV3(array(
+			'repoUrl' => LS_REPO_BASE_URL,
 			'root' => LS_ROOT_FILE,
 			'version' => LS_PLUGIN_VERSION,
-			'repo' => 'http://updates.kreaturamedia.com/plugins/',
-			'channel' => get_option('layerslider-release-channel', 'stable'),
-			'license' => get_option('layerslider-purchase-code', '')
+			'itemID' => LS_MARKETPLACE_ID,
+			'codeKey' => 'layerslider-purchase-code',
+			'authKey' => 'layerslider-authorized-site',
+			'channelKey' => 'layerslider-release-channel'
 		));
-	}
+
 
 	// Hook to trigger plugin override functions
 	add_action('after_setup_theme', 'layerslider_loaded');
@@ -80,52 +90,6 @@ if(defined('LS_PLUGIN_VERSION') || isset($GLOBALS['lsPluginPath'])) {
 function layerslider_load_lang() {
 	load_plugin_textdomain('LayerSlider', false, LS_PLUGIN_SLUG . '/locales/' );
 }
-
-/********************************************************/
-/*                 Check purchase code                  */
-/********************************************************/
-add_action('wp_ajax_layerslider_verify_purchase_code', 'layerslider_verify_purchase_code');
-function layerslider_verify_purchase_code() {
-
-	global $wp_version;
-
-	// Get data
-	$pcode = get_option('layerslider-purchase-code', '');
-	$validated = get_option('layerslider-validated', '0');
-	$channel = ($_POST['channel'] === 'beta') ? 'beta' : 'stable';
-
-	// Save sent data
-	update_option('layerslider-release-channel', $channel);
-	update_option('layerslider-purchase-code', $_POST['purchase_code']);
-
-	// Release channel
-	if($validated == 1) {
-		if($pcode == $_POST['purchase_code']) {
-			die(json_encode(array('success' => true, 'message' => __('Your settings were successfully saved.', 'LayerSlider') . '<a href="update-core.php">' . __('Check for update', 'LayerSlider') . '</a>' )));
-		}
-	}
-
-	// Verify license
-	$response = wp_remote_post('http://activate.kreaturamedia.com/', array(
-		'user-agent' => 'WordPress/'.$wp_version.'; '.get_bloginfo('url'),
-		'body' => array(
-			'plugin' => urlencode('LayerSlider WP'),
-			'license' => urlencode($_POST['purchase_code'])
-		)
-	));
-
-
-	if($response['body'] == 'valid') {
-		update_option('layerslider-validated', '1');
-		die(json_encode(array('success' => true, 'message' => __('Thank you for purchasing LayerSlider WP.', 'LayerSlider') . '<a href="update-core.php">' . __('Check for update', 'LayerSlider') . '</a>')));
-
-	// Invalid
-	} else {
-		update_option('layerslider-validated', '0');
-		die(json_encode(array('success' => false, 'message' => __("Your purchase code doesn't appear to be valid.", "LayerSlider"))));
-	}
-}
-
 
 
 /********************************************************/
@@ -187,22 +151,32 @@ function layerslider_check_unit($str) {
 
 function layerslider_convert_urls($arr) {
 
-	// Layer BG
-	if(strpos($arr['properties']['background'], 'http://') !== false) {
-		$arr['properties']['background'] = parse_url($arr['properties']['background'], PHP_URL_PATH);
+	// Global BG
+	if(!empty($arr['properties']['backgroundimage']) && strpos($arr['properties']['backgroundimage'], 'http://') !== false) {
+		$arr['properties']['backgroundimage'] = parse_url($arr['properties']['backgroundimage'], PHP_URL_PATH);
 	}
 
-	// Layer Thumb
-	if(strpos($arr['properties']['thumbnail'], 'http://') !== false) {
-		$arr['properties']['thumbnail'] = parse_url($arr['properties']['thumbnail'], PHP_URL_PATH);
+	// YourLogo img
+	if(!empty($arr['properties']['yourlogo']) && strpos($arr['properties']['yourlogo'], 'http://') !== false) {
+		$arr['properties']['yourlogo'] = parse_url($arr['properties']['yourlogo'], PHP_URL_PATH);
 	}
 
-	// Image sublayers
-	foreach($arr['sublayers'] as $sublayerkey => $sublayer) {
+	foreach($arr['layers'] as $key => $slide) {
 
-		if($sublayer['type'] == 'img') {
-			if(strpos($sublayer['image'], 'http://') !== false) {
-				$arr['sublayers'][$sublayerkey]['image'] = parse_url($sublayer['image'], PHP_URL_PATH);
+		// Layer BG
+		if(strpos($slide['properties']['background'], 'http://') !== false) {
+			$arr['layers'][$key]['properties']['background'] = parse_url($slide['properties']['background'], PHP_URL_PATH);
+		}
+
+		// Layer Thumb
+		if(strpos($slide['properties']['thumbnail'], 'http://') !== false) {
+			$arr['layers'][$key]['properties']['thumbnail'] = parse_url($slide['properties']['thumbnail'], PHP_URL_PATH);
+		}
+
+		// Image sublayers
+		foreach($slide['sublayers'] as $subkey => $layer) {
+			if($layer['media'] == 'img' && strpos($layer['image'], 'http://') !== false) {
+				$arr['layers'][$key]['sublayers'][$subkey]['image'] = parse_url($layer['image'], PHP_URL_PATH);
 			}
 		}
 	}
