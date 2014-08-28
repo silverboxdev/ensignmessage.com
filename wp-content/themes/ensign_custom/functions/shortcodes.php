@@ -91,6 +91,12 @@ function column_build($atts, $content=null) {
 add_shortcode('column', 'column_build');
 
 // Wrappers
+function blue_wrapper_build($atts, $content = null) {
+   extract(shortcode_atts(array('class' => 'blue_wrapper'), $atts));
+   return '<div class="' . $class . '">' . do_shortcode($content) . '</div>';
+}
+add_shortcode('blue_wrapper', 'blue_wrapper_build');
+
 function wrapper_build($atts, $content = null) {
    extract(shortcode_atts(array('class' => 'paypal_wrapper'), $atts));
    return '<div class="' . $class . '">' . do_shortcode($content) . '</div>';
