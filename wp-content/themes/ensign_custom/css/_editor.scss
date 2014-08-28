@@ -5,6 +5,15 @@
 .wp_content {
 	padding: 2em 0;
 	
+	div.paypal_wrapper {
+		margin: 1em 0;
+		border: 1px solid transparent;
+		br {
+			display: none;
+		}
+		
+	}
+	
 	div, p, ol, ul, dl, dd, table {
 		line-height: 1.25em;
 	}

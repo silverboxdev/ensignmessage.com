@@ -615,6 +615,11 @@ footer {
 /***********************************************************************************/
 .wp_content {
   padding: 2em 0; }
+  .wp_content div.paypal_wrapper {
+    margin: 1em 0;
+    border: 1px solid transparent; }
+    .wp_content div.paypal_wrapper br {
+      display: none; }
   .wp_content div, .wp_content p, .wp_content ol, .wp_content ul, .wp_content dl, .wp_content dd, .wp_content table {
     line-height: 1.25em; }
   .wp_content p {
