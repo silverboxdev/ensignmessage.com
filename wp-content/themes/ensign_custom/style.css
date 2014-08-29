@@ -457,7 +457,7 @@ header {
       display: inline-block;
       color: #588ac0;
       text-decoration: none;
-      margin-right: 1.3125em;
+      margin-right: 1.875em;
       -webkit-transition: all 0.2s ease;
       -moz-transition: all 0.2s ease;
       -o-transition: all 0.2s ease;
@@ -506,6 +506,8 @@ header {
   font-family: 'museo-sans', sans-serif;
   font-style: normal;
   font-weight: 700; }
+  .footerNav ul li a {
+    margin-right: 1.3125em; }
 
 /*-------------------------------------- Search DropDown ---------------------------------------*/
 div.searchContain {

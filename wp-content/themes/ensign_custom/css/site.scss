@@ -118,7 +118,7 @@ header {
 				display: inline-block;
 				color: $nav_color;
 				text-decoration: none;
-				margin-right: em(21);
+				margin-right: em(30);
 				@include all-transition;
 				padding: .7em 0;
 				
@@ -175,6 +175,10 @@ header {
 
 .footerNav ul li {
 	@include museo_700;
+	
+	a {
+		margin-right: em(21);
+	}
 }
 
 /*-------------------------------------- Search DropDown ---------------------------------------*/
