@@ -726,7 +726,7 @@ footer {
 /***********************************************************************************/
 /* CSS Buttons */
 /***********************************************************************************/
-body .button, .wp_content .button {
+body .button, .wp_content .button, aside.sidebar .button {
   font-size: 18px;
   display: inline-block;
   padding: .35em 1.25em;
@@ -735,38 +735,38 @@ body .button, .wp_content .button {
   -moz-border-radius: 5px;
   -webkit-border-radius: 5px;
   text-decoration: none; }
-body .red_button, .wp_content .red_button {
+body .red_button, .wp_content .red_button, aside.sidebar .red_button {
   color: #FFF;
   background: #cc0000;
   -webkit-transition: all 0.2s ease;
   -moz-transition: all 0.2s ease;
   -o-transition: all 0.2s ease;
   transition: all 0.2s ease; }
-  body .red_button:hover, .wp_content .red_button:hover {
+  body .red_button:hover, .wp_content .red_button:hover, aside.sidebar .red_button:hover {
     color: #FFF;
     background: #9bb8d9;
     text-decoration: none;
     cursor: pointer; }
-body .blue_button, .wp_content .blue_button {
+body .blue_button, .wp_content .blue_button, aside.sidebar .blue_button {
   color: #dee8f2;
   background: #588ac0;
   -webkit-transition: all 0.2s ease;
   -moz-transition: all 0.2s ease;
   -o-transition: all 0.2s ease;
   transition: all 0.2s ease; }
-  body .blue_button:hover, .wp_content .blue_button:hover {
+  body .blue_button:hover, .wp_content .blue_button:hover, aside.sidebar .blue_button:hover {
     color: #FFF;
     background: #9bb8d9;
     text-decoration: none;
     cursor: pointer; }
-body .dark_blue_button, .wp_content .dark_blue_button {
+body .dark_blue_button, .wp_content .dark_blue_button, aside.sidebar .dark_blue_button {
   color: #588ac0;
   background: #0b2444;
   -webkit-transition: all 0.2s ease;
   -moz-transition: all 0.2s ease;
   -o-transition: all 0.2s ease;
   transition: all 0.2s ease; }
-  body .dark_blue_button:hover, .wp_content .dark_blue_button:hover {
+  body .dark_blue_button:hover, .wp_content .dark_blue_button:hover, aside.sidebar .dark_blue_button:hover {
     color: #FFF;
     background: #588ac0;
     text-decoration: none;

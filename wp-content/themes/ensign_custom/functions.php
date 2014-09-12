@@ -136,40 +136,6 @@ function new_excerpt_more($more) {
 add_filter('excerpt_more', 'new_excerpt_more');
 
 
-function my_excerpt_protected( $excerpt ) {
-    if ( post_password_required() )
-        $excerpt = '<p>This article is password protected. If you are subscriber <a href="/contact">contact</a> the editor to receive your password.  If not, <a href="/subscriptions">subscribe</a> today.</p>';
-    return $excerpt;
-}
-add_filter( 'the_excerpt', 'my_excerpt_protected' );
-
-function my_password_form() {
-    global $post;
-    $label = 'pwbox-'.( empty( $post->ID ) ? rand() : $post->ID );
-    $o = '<form action="' . esc_url( site_url( 'wp-login.php?action=postpass', 'login_post' ) ) . '" method="post">
-    ' . __( 'This article is password protected. To view it please enter your password below. If you are subscriber <a href="/contact">contact</a> the editor to receive your password.  If not, <a href="/subscriptions">subscribe</a> today.</p>') . '
-   <p><label for="' . $label . '">' . __( "Password:" ) . ' </label><input name="post_password" id="' . $label . '" type="password" size="20" maxlength="20" /><input type="submit" name="Submit" value="' . esc_attr__( "Submit" ) . '" class="button blue_button" />
-    </p></form>
-    ';
-    return $o;
-}
-add_filter( 'the_password_form', 'my_password_form' );
-
-function the_title_trim($title) {
-	$title = attribute_escape($title);
-	$findthese = array(
-		'#Protected:#',
-		'#Private:#'
-	);
-	$replacewith = array(
-		'', // What to replace "Protected:" with
-		'' // What to replace "Private:" with
-	);
-	$title = preg_replace($findthese, $replacewith, $title);
-	return $title;
-}
-add_filter('the_title', 'the_title_trim');
-
 /***********************************************************************************/
 /* Enqueue Styles */
 /***********************************************************************************/
@@ -236,9 +202,9 @@ function change_my_wp_login_image() {
 echo "
 <style>
 body.login #login h1 a {
-background: url('http://briandominey.com/images/bdd-wp.png') 0 0 no-repeat transparent;
-height:76px;
-width:325px;
+background: url('" . IMAGES . "/logo_em-admin-1.png') 0 0 no-repeat transparent;
+height:50px;
+width:320px;
 position: relative;
 left: 0px;
  }

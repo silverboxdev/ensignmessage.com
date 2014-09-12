@@ -43,7 +43,7 @@
 		
 	</div>
 	
-	<? } ?>
+	<?php } ?>
 	
 	
 	<!-- Start Main Content -->
@@ -65,7 +65,7 @@
 				<?php endif;?>
 				
 			</aside>
-		<? } ?>
+		<?php } ?>
 						
 		<article class="wp_content <?= $sidebar_class; ?>" id="wp_content_<?php the_ID(); ?>">
 			<?php 
@@ -86,7 +86,7 @@
 					<?php dynamic_sidebar($sidebar_selection); ?>
 				<?php endif;?>
 			</aside>
-		<? } ?>
+		<?php } ?>
 		
 		<!-- Sidebar Bottom -->
 		<?php require_once("include/sidebar-bottom.php"); ?>

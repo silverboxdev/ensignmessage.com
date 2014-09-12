@@ -20,13 +20,13 @@
 		</div>
 	</nav>
 	
-	<? } ?>
+	<?php } ?>
 	
 	<div class="copyright">
 	
 		<div class="inside">
 			<?php if(is_front_page()) {?>
-			<p style="float: right;"><a href="<?= get_page_link('9'); ?>" class="button blue_button" style="text-align: center; margin: 0 auto;">Skip Intro</a></p>
+			<p style="float: right;"><a href="<?= get_page_link('9'); ?>" class="button blue_button" style="text-align: center; margin: 0 auto;">Enter</a></p>
 			<?php } ?>
 			<p class="copyright_text">
 			<?php if (is_active_sidebar('copyright-widget')) : ?>
@@ -45,7 +45,7 @@
 </div>
 
 
-<? wp_footer(); ?>
+<?php wp_footer(); ?>
 
 </body>
 </html>
