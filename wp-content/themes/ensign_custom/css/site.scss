@@ -300,6 +300,23 @@ footer {
 	.footerNav {
 		margin-bottom: 2em;
 	}
+	
+	.footer_privacy {
+		color: $blue;
+		text-decoration: none;
+		display: inline-block;
+		margin-right: 2em;
+		@include color-transition;
+		&:hover {
+			color: $light_blue;
+		}
+	}
+	
+	p.front_page_copyright {
+		position: relative;
+		top: 11px;
+	}
+	
 }
 
 /*-------------------------------------- Imports ---------------------------------------*/

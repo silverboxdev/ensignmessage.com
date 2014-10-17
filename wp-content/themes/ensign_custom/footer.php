@@ -26,9 +26,16 @@
 	
 		<div class="inside">
 			<?php if(is_front_page()) {?>
-			<p style="float: right;"><a href="<?= get_page_link('9'); ?>" class="button blue_button" style="text-align: center; margin: 0 auto;">Enter</a></p>
+			<p style="float: right;"><a href="<?= get_page_link('292'); ?>" class="footer_privacy">Privacy Policy</a><a href="<?= get_page_link('9'); ?>" class="button blue_button" style="text-align: center; margin: 0 auto;">Enter</a></p>
 			<?php } ?>
-			<p class="copyright_text">
+			
+			
+			<?php if(is_front_page()) {?>
+				<p class="copyright_text front_page_copyright">
+			<?php } else { ?>
+				<p class="copyright_text">
+			<?php } ?>
+			
 			<?php if (is_active_sidebar('copyright-widget')) : ?>
 			<?php dynamic_sidebar('copyright-widget'); ?>
 			<?php else: ?>

@@ -619,6 +619,20 @@ footer {
     font-size: 12px; }
   footer .footerNav {
     margin-bottom: 2em; }
+  footer .footer_privacy {
+    color: #588ac0;
+    text-decoration: none;
+    display: inline-block;
+    margin-right: 2em;
+    -webkit-transition: color 0.2s ease;
+    -moz-transition: color 0.2s ease;
+    -o-transition: color 0.2s ease;
+    transition: color 0.2s ease; }
+    footer .footer_privacy:hover {
+      color: #9bb8d9; }
+  footer p.front_page_copyright {
+    position: relative;
+    top: 11px; }
 
 /*-------------------------------------- Imports ---------------------------------------*/
 /***********************************************************************************/
