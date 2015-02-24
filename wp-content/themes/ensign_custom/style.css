@@ -619,20 +619,36 @@ footer {
     font-size: 12px; }
   footer .footerNav {
     margin-bottom: 2em; }
-  footer .footer_privacy {
-    color: #588ac0;
-    text-decoration: none;
-    display: inline-block;
-    margin-right: 2em;
-    -webkit-transition: color 0.2s ease;
-    -moz-transition: color 0.2s ease;
-    -o-transition: color 0.2s ease;
-    transition: color 0.2s ease; }
-    footer .footer_privacy:hover {
-      color: #9bb8d9; }
-  footer p.front_page_copyright {
-    position: relative;
-    top: 11px; }
+  footer .home_footer {
+    zoom: 1;
+    background: #0b2444;
+    font-size: 0.75em; }
+    footer .home_footer:before, footer .home_footer:after {
+      content: "\0020";
+      display: block;
+      height: 0;
+      overflow: hidden; }
+    footer .home_footer:after {
+      clear: both; }
+    footer .home_footer .f_left {
+      position: relative;
+      top: .75em; }
+    footer .home_footer .footer_submenu ul li {
+      display: inline-block;
+      margin-left: .5em; }
+      footer .home_footer .footer_submenu ul li a {
+        display: inline-block;
+        color: #588ac0;
+        text-decoration: none; }
+        footer .home_footer .footer_submenu ul li a:hover {
+          color: #9bb8d9; }
+    footer .home_footer .footer_submenu ul li.blue_button a {
+      display: block;
+      color: #FFF;
+      border: 1px solid transparent;
+      border-radius: 5px;
+      -moz-border-radius: 5px;
+      -webkit-border-radius: 5px; }
 
 /*-------------------------------------- Imports ---------------------------------------*/
 /***********************************************************************************/
@@ -740,7 +756,7 @@ footer {
 /***********************************************************************************/
 /* CSS Buttons */
 /***********************************************************************************/
-body .button, .wp_content .button, aside.sidebar .button {
+body a.button, body li.button a, .wp_content a.button, .wp_content li.button a, aside.sidebar a.button, aside.sidebar li.button a {
   font-size: 18px;
   display: inline-block;
   padding: .35em 1.25em;
@@ -761,14 +777,14 @@ body .red_button, .wp_content .red_button, aside.sidebar .red_button {
     background: #9bb8d9;
     text-decoration: none;
     cursor: pointer; }
-body .blue_button, .wp_content .blue_button, aside.sidebar .blue_button {
+body .blue_button, body li.blue_button a, .wp_content .blue_button, .wp_content li.blue_button a, aside.sidebar .blue_button, aside.sidebar li.blue_button a {
   color: #dee8f2;
   background: #588ac0;
   -webkit-transition: all 0.2s ease;
   -moz-transition: all 0.2s ease;
   -o-transition: all 0.2s ease;
   transition: all 0.2s ease; }
-  body .blue_button:hover, .wp_content .blue_button:hover, aside.sidebar .blue_button:hover {
+  body .blue_button:hover, body li.blue_button a:hover, .wp_content .blue_button:hover, .wp_content li.blue_button a:hover, aside.sidebar .blue_button:hover, aside.sidebar li.blue_button a:hover {
     color: #FFF;
     background: #9bb8d9;
     text-decoration: none;

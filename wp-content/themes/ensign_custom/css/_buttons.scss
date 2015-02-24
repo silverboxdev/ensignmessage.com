@@ -4,7 +4,7 @@
 
 body, .wp_content, aside.sidebar {
 
-	.button {
+	a.button, li.button a {
 		font-size: 18px;
 		display: inline-block;
 		padding: .35em 1.25em;
@@ -25,7 +25,7 @@ body, .wp_content, aside.sidebar {
 		}
 	}
 	
-	.blue_button {
+	.blue_button, li.blue_button a {
 		color: $grey;
 		background: $blue;
 		@include all-transition;

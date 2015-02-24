@@ -300,22 +300,43 @@ footer {
 	.footerNav {
 		margin-bottom: 2em;
 	}
-	
-	.footer_privacy {
-		color: $blue;
-		text-decoration: none;
-		display: inline-block;
-		margin-right: 2em;
-		@include color-transition;
-		&:hover {
-			color: $light_blue;
+
+	// Homepage Footer 
+
+	.home_footer {
+		@include clearfix;
+		background: $dark_blue;
+		font-size: em(12);
+
+		.f_left {
+			position: relative;
+			top: .75em;
+		}
+
+		.footer_submenu {
+			ul li {
+				display: inline-block;
+				margin-left: .5em;
+
+				a {
+					display: inline-block;
+					color: $blue;
+					text-decoration: none;
+					&:hover {
+						color: $light_blue;
+					}
+				}
+			}
+			
+			ul li.blue_button a {
+				display: block;
+				color: #FFF;
+				border: 1px solid transparent;
+				@include round-corners(5px);
+			}
 		}
 	}
-	
-	p.front_page_copyright {
-		position: relative;
-		top: 11px;
-	}
+
 	
 }
 

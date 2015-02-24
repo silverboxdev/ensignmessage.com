@@ -21,20 +21,38 @@
 	</nav>
 	
 	<?php } ?>
+
+	<!-- Front Page Footer Data -->
+
+	<?php if(is_front_page()) { ?>
+
+		<div class="home_footer">
+
+			<div class="f_left span_6">
+				<?php dynamic_sidebar('copyright-widget'); ?>
+			</div>
+
+			<div class="f_right span_6 omega">
+				<div class="fr">
+					<nav class="footer_submenu">
+						<?php wp_nav_menu(
+							array(
+							'theme_location' => 'footer-sub-menu',
+							)
+							);
+						?>
+					</nav>
+					
+				</div>
+			</div>
+
+		</div>
+
+	<?php } else { ?>
 	
 	<div class="copyright">
 	
 		<div class="inside">
-			<?php if(is_front_page()) {?>
-			<p style="float: right;"><a href="<?= get_page_link('292'); ?>" class="footer_privacy">Privacy Policy</a><a href="<?= get_page_link('9'); ?>" class="button blue_button" style="text-align: center; margin: 0 auto;">Enter</a></p>
-			<?php } ?>
-			
-			
-			<?php if(is_front_page()) {?>
-				<p class="copyright_text front_page_copyright">
-			<?php } else { ?>
-				<p class="copyright_text">
-			<?php } ?>
 			
 			<?php if (is_active_sidebar('copyright-widget')) : ?>
 			<?php dynamic_sidebar('copyright-widget'); ?>
@@ -46,6 +64,8 @@
 		</div>
 		
 	</div>
+
+	<?php } ?>
 
 </footer>
 

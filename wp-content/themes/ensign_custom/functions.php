@@ -16,7 +16,8 @@ define('FUNC_PATH', $_SERVER['DOCUMENT_ROOT'] . '/wp-content/themes/ensign_custo
 function register_my_menus() {
 	register_nav_menus(array(
 		'top-menu' => __('Top Menu', 'sb'),
-		'footer-menu' => __('Footer Menu', 'sb')
+		'footer-menu' => __('Footer Menu', 'sb'),
+		'footer-sub-menu' => __('Footer Sub Menu', 'sb'),
 	));
 }
 add_action('init', 'register_my_menus'); 
