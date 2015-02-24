@@ -8,7 +8,7 @@
 
 	<?php if(is_front_page()) { ?>
 
-		<div class="home_footer">
+		<div class="sub_footer">
 
 			<div class="f_left span_6">
 				<?php dynamic_sidebar('copyright-widget'); ?>
@@ -47,20 +47,37 @@
 		?>	
 		</div>
 	</nav>
-	
-	<div class="copyright">
-	
+
+	<div class="sub_footer sub_footer_inside">
+
 		<div class="inside">
-			
-			<?php if (is_active_sidebar('copyright-widget')) : ?>
-			<?php dynamic_sidebar('copyright-widget'); ?>
-			<?php else: ?>
-			Copyright <?= date('Y'); ?>
-			<?php endif; ?>
-			</p>
+	
+			<div class="copyright span_6">
+							
+				<?php if (is_active_sidebar('copyright-widget')) : ?>
+				<?php dynamic_sidebar('copyright-widget'); ?>
+				<?php else: ?>
+				Copyright <?= date('Y'); ?>
+				<?php endif; ?>
+				
+			</div>
+
+			<div class="f_right span_6 omega">
+				<div class="fr">
+					<nav class="footer_submenu">
+						<?php wp_nav_menu(
+							array(
+							'theme_location' => 'footer-sub-menu',
+							)
+							);
+						?>
+					</nav>
+					
+				</div>
+			</div>
 
 		</div>
-		
+
 	</div>
 
 	<?php } ?>

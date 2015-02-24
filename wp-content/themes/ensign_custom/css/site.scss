@@ -303,7 +303,7 @@ footer {
 
 	// Homepage Footer 
 
-	.home_footer {
+	.sub_footer {
 		@include clearfix;
 		background: $dark_blue;
 		font-size: em(12);
@@ -335,6 +335,14 @@ footer {
 				@include round-corners(5px);
 			}
 		}
+	}
+
+	.sub_footer_inside .copyright {
+		margin-top: 0;
+	}
+
+	.sub_footer_inside ul li.blue_button {
+		display: none;
 	}
 
 	

@@ -619,36 +619,40 @@ footer {
     font-size: 12px; }
   footer .footerNav {
     margin-bottom: 2em; }
-  footer .home_footer {
+  footer .sub_footer {
     zoom: 1;
     background: #0b2444;
     font-size: 0.75em; }
-    footer .home_footer:before, footer .home_footer:after {
+    footer .sub_footer:before, footer .sub_footer:after {
       content: "\0020";
       display: block;
       height: 0;
       overflow: hidden; }
-    footer .home_footer:after {
+    footer .sub_footer:after {
       clear: both; }
-    footer .home_footer .f_left {
+    footer .sub_footer .f_left {
       position: relative;
       top: .75em; }
-    footer .home_footer .footer_submenu ul li {
+    footer .sub_footer .footer_submenu ul li {
       display: inline-block;
       margin-left: .5em; }
-      footer .home_footer .footer_submenu ul li a {
+      footer .sub_footer .footer_submenu ul li a {
         display: inline-block;
         color: #588ac0;
         text-decoration: none; }
-        footer .home_footer .footer_submenu ul li a:hover {
+        footer .sub_footer .footer_submenu ul li a:hover {
           color: #9bb8d9; }
-    footer .home_footer .footer_submenu ul li.blue_button a {
+    footer .sub_footer .footer_submenu ul li.blue_button a {
       display: block;
       color: #FFF;
       border: 1px solid transparent;
       border-radius: 5px;
       -moz-border-radius: 5px;
       -webkit-border-radius: 5px; }
+  footer .sub_footer_inside .copyright {
+    margin-top: 0; }
+  footer .sub_footer_inside ul li.blue_button {
+    display: none; }
 
 div.cookie_notice {
   position: fixed;
