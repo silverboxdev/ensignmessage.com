@@ -19,10 +19,11 @@ if ( ! class_exists( 'RWMB_Date_Field' ) )
 			wp_enqueue_style( 'jquery-ui-datepicker', "{$url}/jquery.ui.datepicker.css", array( 'jquery-ui-core', 'jquery-ui-theme' ), '1.8.17' );
 
 			// Load localized scripts
-			$locale = str_replace( '_', '-', get_locale() );
+			$locale     = str_replace( '_', '-', get_locale() );
 			$file_paths = array( 'jqueryui/datepicker-i18n/jquery.ui.datepicker-' . $locale . '.js' );
 			// Also check alternate i18n filename (e.g. jquery.ui.datepicker-de.js instead of jquery.ui.datepicker-de-DE.js)
-			if ( strlen( $locale ) > 2 ) $file_paths[] = 'jqueryui/datepicker-i18n/jquery.ui.datepicker-' . substr( $locale, 0, 2 ) . '.js';
+			if ( strlen( $locale ) > 2 )
+				$file_paths[] = 'jqueryui/datepicker-i18n/jquery.ui.datepicker-' . substr( $locale, 0, 2 ) . '.js';
 			$deps = array( 'jquery-ui-datepicker' );
 			foreach ( $file_paths as $file_path )
 			{
@@ -35,14 +36,13 @@ if ( ! class_exists( 'RWMB_Date_Field' ) )
 			}
 
 			wp_enqueue_script( 'rwmb-date', RWMB_JS_URL . 'date.js', $deps, RWMB_VER, true );
-			wp_localize_script( 'rwmb-date', 'RWMB_Datepicker', array( 'lang' => $locale ) );
 		}
 
 		/**
 		 * Get field HTML
 		 *
-		 * @param mixed  $meta
-		 * @param array  $field
+		 * @param mixed $meta
+		 * @param array $field
 		 *
 		 * @return string
 		 */

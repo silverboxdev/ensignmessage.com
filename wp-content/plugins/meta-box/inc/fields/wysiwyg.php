@@ -8,6 +8,7 @@ if ( ! class_exists( 'RWMB_Wysiwyg_Field' ) )
 	{
 
 		static $cloneable_editors = array();
+
 		/**
 		 * Enqueue scripts and styles
 		 *
@@ -49,8 +50,8 @@ if ( ! class_exists( 'RWMB_Wysiwyg_Field' ) )
 		/**
 		 * Get field HTML
 		 *
-		 * @param mixed  $meta
-		 * @param array  $field
+		 * @param mixed $meta
+		 * @param array $field
 		 *
 		 * @return string
 		 */
@@ -62,7 +63,7 @@ if ( ! class_exists( 'RWMB_Wysiwyg_Field' ) )
 			$field['options']['textarea_name'] = $field['field_name'];
 
 			// Use new wp_editor() since WP 3.3
-			wp_editor( $meta, $field['field_name'], $field['options'] );
+			wp_editor( $meta, $field['id'], $field['options'] );
 
 			$editor = ob_get_clean();
 			if ( $field['clone'] )
@@ -99,7 +100,8 @@ if ( ! class_exists( 'RWMB_Wysiwyg_Field' ) )
 			return $field;
 		}
 
-		static function footer_scripts() {
+		static function footer_scripts()
+		{
 			echo '<script> var rwmb_cloneable_editors = ' . json_encode( self::$cloneable_editors ) . ';</script>';
 		}
 	}

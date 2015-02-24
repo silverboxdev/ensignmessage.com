@@ -16,22 +16,23 @@ if ( ! class_exists( 'RWMB_Text_List_Field' ) )
 		 */
 		static function html( $meta, $field )
 		{
-			$html = '';
+			$html  = '';
 			$input = '<label><input type="text" class="rwmb-text-list" name="%s" id="%s" value="%s" placeholder="%s" /> %s</label>';
 
 			$i = 0;
 			foreach ( $field['options'] as $value => $label )
-			{				
+			{
 				$html .= sprintf(
 					$input,
 					$field['field_name'],
 					$field['id'],
-					$meta[$i],
+					isset( $meta[$i] ) ? esc_attr( $meta[$i] ) : '',
 					$value,
 					$label
 				);
-				$i++;		
+				$i ++;
 			}
+
 			return $html;
 		}
 
@@ -55,8 +56,6 @@ if ( ! class_exists( 'RWMB_Text_List_Field' ) )
 			$single = $field['clone'] || ! $field['multiple'];
 			$meta   = get_post_meta( $post_id, $field['id'], $single );
 			$meta   = ( ! $saved && '' === $meta || array() === $meta ) ? $field['std'] : $meta;
-
-			$meta = array_map( 'esc_attr', (array) $meta );
 
 			return $meta;
 		}

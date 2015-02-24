@@ -28,6 +28,7 @@ if ( ! class_exists( 'RWMB_Helper' ) )
 		 * Shortcode to display meta value
 		 *
 		 * @param $atts Array of shortcode attributes, same as meta() function, but has more "meta_key" parameter
+		 *
 		 * @see meta() function below
 		 *
 		 * @return string
@@ -134,9 +135,8 @@ if ( ! class_exists( 'RWMB_Helper' ) )
 			$post_id = empty( $post_id ) ? get_the_ID() : $post_id;
 
 			$args = wp_parse_args( $args, array(
-					'type' => 'text',
-				)
-			);
+				'type' => 'text',
+			) );
 
 			// Set 'multiple' for fields based on 'type'
 			if ( ! isset( $args['multiple'] ) )
@@ -152,7 +152,11 @@ if ( ! class_exists( 'RWMB_Helper' ) )
 					$files = array();
 					foreach ( $meta as $id )
 					{
-						$files[$id] = self::file_info( $id );
+						// Get only info of existing attachments
+						if ( get_attached_file( $id ) )
+						{
+							$files[$id] = self::file_info( $id );
+						}
 					}
 					$meta = $files;
 				}
@@ -174,7 +178,11 @@ if ( ! class_exists( 'RWMB_Helper' ) )
 					$images = array();
 					foreach ( $meta as $id )
 					{
-						$images[$id] = self::image_info( $id, $args );
+						// Get only info of existing attachments
+						if ( get_attached_file( $id ) )
+						{
+							$images[$id] = self::image_info( $id, $args );
+						}
 					}
 					$meta = $images;
 				}
@@ -226,6 +234,7 @@ if ( ! class_exists( 'RWMB_Helper' ) )
 		static function file_info( $id )
 		{
 			$path = get_attached_file( $id );
+
 			return array(
 				'ID'    => $id,
 				'name'  => basename( $path ),
@@ -254,7 +263,8 @@ if ( ! class_exists( 'RWMB_Helper' ) )
 				return false;
 
 			$attachment = get_post( $id );
-			$path = get_attached_file( $id );
+			$path       = get_attached_file( $id );
+
 			return array(
 				'ID'          => $id,
 				'name'        => basename( $path ),
@@ -293,7 +303,7 @@ if ( ! class_exists( 'RWMB_Helper' ) )
 				$parts[2] = 14;
 
 			// Map parameters
-			$args = wp_parse_args( $args, array(
+			$args               = wp_parse_args( $args, array(
 				'width'        => '640px',
 				'height'       => '480px',
 				'marker'       => true, // Display marker?
@@ -381,7 +391,8 @@ if ( ! class_exists( 'RWMB_Helper' ) )
 			$html .= '} )();
 				</script>';
 
-			$counter++;
+			$counter ++;
+
 			return $html;
 		}
 	}
