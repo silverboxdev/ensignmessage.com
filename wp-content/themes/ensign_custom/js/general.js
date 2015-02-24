@@ -62,6 +62,19 @@ $(document).ready(function() {
 		$('.searchContain').slideToggle('fast');
 		e.preventDefault();
 	});
+
+	// Additional Footer Cookie Junk
+
+	setTimeout(function() {
+		$('.cookie_notice').fadeOut('fast');
+		$.cookie('message', 'viewed', { expires: 7, path: '/' });
+	}, 20000);
+
+	$('a.close_button').click(function(e) {
+		$('div.cookie_notice').slideUp(600);
+		$.cookie('message', 'viewed', { expires: 7, path: '/' });
+		e.preventDefault();
+	});
 	
 	 var $window = $(window);
      

@@ -650,6 +650,23 @@ footer {
       -moz-border-radius: 5px;
       -webkit-border-radius: 5px; }
 
+div.cookie_notice {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  background: #0b2444;
+  color: #9bb8d9;
+  padding: 1em 2em;
+  font-size: 0.9375em; }
+  div.cookie_notice a {
+    color: #9bb8d9;
+    text-decoration: underline; }
+  div.cookie_notice a.close_button {
+    position: absolute;
+    top: 15px;
+    right: 15px; }
+
 /*-------------------------------------- Imports ---------------------------------------*/
 /***********************************************************************************/
 /* Editor Content - Anything that goes into Wordpress */

@@ -171,10 +171,12 @@ function wptuts_scripts_with_jquery()
     wp_register_script( 'html5shiv', get_template_directory_uri() . '/js/html5shiv.js', array( 'jquery' ) );
     
     wp_register_script( 'general', get_template_directory_uri() . '/js/general.js', array( 'jquery' ));
+    wp_register_script( 'cookie', get_template_directory_uri() . '/js/jquery.cookie.js', array( 'jquery' ));
  
     // For either a plugin or a theme, you can then enqueue the script:
     wp_enqueue_script( 'general' );
     wp_enqueue_script( 'html5shiv' );
+    wp_enqueue_script( 'cookie' );
 }
 
 add_action( 'wp_enqueue_scripts', 'wptuts_scripts_with_jquery' );
